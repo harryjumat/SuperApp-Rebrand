@@ -1,0 +1,415 @@
+﻿'repo bayar beli'
+Call RepositoriesCollection.Add(Environment("TestDir") & "\..\..\..\Object Repository\Repository_Ziswaf.tsr")
+
+'object repository Library bayar beli
+Call LoadFunctionLibrary(Environment("TestDir") & "\..\..\..\Function Library\Ziswaf\ObjectRepository_Ziswaf.qfl")
+
+
+Dim vFTMaintrans, vFTInfaq
+
+REM====================================================Created By Adhis==========================================================================
+
+REM==============================================FUNCTION INPUT BAYAR BELI=================================================================
+REM====================================================START HERE==========================================================================
+
+Sub InputZakat(byVal AmilZakat, byVal Nominal_Zakat, byVal Catatan)
+	
+	If label_BayarZakat.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Berhasil Masuk Page Zakat", "Pilih Fitur Bayar Zakat", ReportStatus.Passed)		
+		label_BayarZakat.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Bayar Zakat")
+	End If
+		
+	If field_NominalZakat.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Berhasil Masuk Page Bayar Zakat", "Menampilkan Page Bayar Zakat", ReportStatus.Passed)		
+	Else 
+		Call objNotFound(objSuperApp,"Page Bayar Zakat")
+	End If	
+	
+	AI_UbahAmiTujuan.Click
+	wait 1
+	Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Berhasil Masuk Page Pilih Amil", "Menampilkan Page Pilih Amil Tujuan", ReportStatus.Passed)
+	
+	Select Case AmilZakat
+		
+		Case "BSI Maslahat"
+			AI_field_SearchAmilTujuan.Type AmilZakat
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Berhasil Menampilkan Amil Tujuan yang diinginkan","Memilih Amil Tujuan: "&AmilZakat, ReportStatus.Passed)
+			list_AmilTujuan.Select "0"	
+			
+		Case "Dompet Dhuafa"
+			AI_field_SearchAmilTujuan.Type AmilZakat
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Berhasil Menampilkan Amil Tujuan yang diinginkan","Memilih Amil Tujuan: "&AmilZakat, ReportStatus.Passed)
+			list_AmilTujuan.Select "0"	
+			
+		Case "Baznaz"
+			AI_field_SearchAmilTujuan.Type AmilZakat
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Berhasil Menampilkan Amil Tujuan yang diinginkan","Memilih Amil Tujuan: "&AmilZakat, ReportStatus.Passed)
+			list_AmilTujuan.Select "0"	
+			
+		Case "Rumah Zakat"
+			AI_field_SearchAmilTujuan.Type AmilZakat
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Berhasil Menampilkan Amil Tujuan yang diinginkan","Memilih Amil Tujuan: "&AmilZakat, ReportStatus.Passed)
+			list_AmilTujuan.Select "0"	
+			
+		Case "Lazis NU"
+			AI_field_SearchAmilTujuan.Type AmilZakat
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Berhasil Menampilkan Amil Tujuan yang diinginkan","Memilih Amil Tujuan: "&AmilZakat, ReportStatus.Passed)
+			list_AmilTujuan.Select "0"	
+			
+		Case "Lazis MU"
+			AI_field_SearchAmilTujuan.Type AmilZakat
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Berhasil Menampilkan Amil Tujuan yang diinginkan","Memilih Amil Tujuan: "&AmilZakat, ReportStatus.Passed)
+			list_AmilTujuan.Select "0"	
+			
+	End Select
+	
+	If field_NominalZakat.Exist(5) Then
+		'	
+	Else 
+		Call objNotFound(objSuperApp,"Page Bayar Zakat")
+	End If	
+	
+	field_NominalZakat.Tap
+	wait 1
+	field_NominalZakat.set Nominal_Zakat
+	wait 1
+	Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Berhasil Mengisi Nominal yang diinginkan","Input Nominal Bayar Zakat", ReportStatus.Passed)
+	button_Done.Tap
+	
+	label_TambahCatatan.Tap
+	Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Berhasil Menampilkan Page Tambah Catatan","Menampilkan Page Tambah Catatan", ReportStatus.Passed)
+	wait 1
+	label_MasukkanTeks.Tap
+	AI_field_Input_Catatan.Type Catatan
+	wait 1
+	Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Berhasil Mengisi Field Catatan","Input Field Catatan", ReportStatus.Passed)
+	wait 1
+	button_SimpanCatatan.Tap
+	
+End Sub
+
+REM===========================================FUNCTION CONFIRM TRANSACTION BAYAR BELI============================================================
+REM====================================================START HERE==========================================================================
+Sub LanjutkanTransaksi_BayarZakat()
+	
+	If button_BayarZakat.Exist(3) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Berhasil Mengisi semua field di fitur Bayar Zakat","Klik Button Bayar Zakat untuk melanjutkan transaksi", ReportStatus.Passed)
+		button_BayarZakat.Tap
+	Else
+		Call objNotFound(objSuperApp,"Page Bayar Zakat")
+	End If
+	
+End Sub
+REM===========================================FUNCTION CONFIRM TRANSACTION BAYAR BELI============================================================
+REM====================================================START HERE==========================================================================
+Sub ConfirmTransaction_Zakat()
+''Function untuk case yg hanya muncul drawer dgn button konfirmasi
+
+''Tap Button Konfirmasi
+	If button_Konf_Zakat.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Button Konfirmasi", "", ReportStatus.Passed)
+		button_Konf_Zakat.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Button Konfirmasi")
+	End If
+	
+''Tap Button Lanjutkan
+	If button_Lanj_Zakat.Exist(10) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Button Lanjutkan", "", ReportStatus.Passed)
+		button_Lanj_Zakat.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Button Lanjutkan")
+	End If
+	
+	
+End Sub
+
+REM===========================================FUNCTION SUCCESS TRANSACTION BAYAR BELI============================================================
+REM====================================================START HERE==========================================================================
+Sub SuccessTransaction_Zakat()
+	
+''Tap Detail Transaksi
+	If button_DetailTransaksi.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Detail Transaksi", "Berhasil Melakukan Transaksi, Tap Detail Transaksi", ReportStatus.Passed)
+		button_DetailTransaksi.Tap
+		wait 3
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Detail Transaksi", "", ReportStatus.Passed)
+		button_DetailTransaksi.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Label Detail Transaksi")
+	End If
+		
+	
+''Tap Button Share
+	If button_ShareTransaksi.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Button Share", "", ReportStatus.Passed)
+		button_ShareTransaksi.Tap
+		wait 1
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Page Share", "Berhasil Masuk Page Share, Tap Back", ReportStatus.Passed)
+		AI_button_close.Click
+		wait 1
+	Else 
+		Call objNotFound(objSuperApp,"Button Share")
+	End If
+	
+	
+''Tap Button Download
+	If button_DownloadTransaksi.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Button Download", "", ReportStatus.Passed)
+		button_DownloadTransaksi.Tap
+		wait 1
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Page Download", "Berhasil Masuk Page Download", ReportStatus.Passed)
+		wait 1
+		
+		'Call GetNoFT(label_NoTransaksiFT_Zakat)
+		vFTMaintrans = GetNoFT(label_NoTransaksiFT_Zakat) 'ganti parameter sesuai di objek repositori
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Page Detail Resi", "Berhasil Masuk Page Detail Resi, mendapatkan Resi dengan Nomor Transaksi "&vFTMaintrans, ReportStatus.Passed)
+		wait 1
+		
+		label_NoTransaksiFT_Zakat.Swipe("up") 
+	Else 
+		Call objNotFound(objSuperApp,"Button Download")
+	End If
+	
+	
+''Tap Button Bagikan Resi
+	If button_BagikanResi.Exist(5) Then
+		button_BagikanResi.Highlight
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Button Bagikan Resi", "", ReportStatus.Passed)
+		button_BagikanResi.Tap
+		wait 1
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Muncul Pop-Up Bagikan Resi", "Berhasil Tap Bagikan Resi, Tap Back", ReportStatus.Passed)
+		AI_button_close.Click
+		wait 1
+		AI_button_Back.Click
+	Else 
+		Call objNotFound(objSuperApp,"Button Bagikan Resi")
+	End If
+	
+End Sub
+
+Sub SuccessTransaction_Infaq()
+	
+''Tap Detail Transaksi
+	If button_DetailTransaksi.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Detail Transaksi", "Berhasil Melakukan Transaksi, Tap Detail Transaksi", ReportStatus.Passed)
+		button_DetailTransaksi.Tap
+		wait 3
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Detail Transaksi", "", ReportStatus.Passed)
+		button_DetailTransaksi.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Label Detail Transaksi")
+	End If
+		
+	
+''Tap Button Share
+	If button_ShareTransaksi.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Button Share", "", ReportStatus.Passed)
+		button_ShareTransaksi.Tap
+		wait 1
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Page Share", "Berhasil Masuk Page Share, Tap Back", ReportStatus.Passed)
+		AI_button_close.Click
+	Else 
+		Call objNotFound(objSuperApp,"Button Share")
+	End If
+	
+	'Tap Button Download
+	If button_DownloadTransaksi.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Button Download", "", ReportStatus.Passed)
+		button_DownloadTransaksi.Tap
+		wait 1
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Page Download", "Berhasil Masuk Page Download, Tap Back", ReportStatus.Passed)
+		wait 1
+		
+		'Call GetNoFT(label_NoTransaksiFT_Zakat)
+		vFTInfaq	   = GetNoFTInfaq()
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Page Detail Resi", "Berhasil Masuk Page Detail Resi. Berhasil mendapatkan Resi dengan Nomor Transaksi: "&vFTInfaq, ReportStatus.Passed)
+		wait 1
+		
+		label_NoTransaksiFT_Zakat.Swipe("up")
+	Else 
+		Call objNotFound(objSuperApp,"Button Download")
+	End If
+	
+	
+''Tap Button Bagikan Resi
+	If button_BagikanResi.Exist(5) Then
+		button_BagikanResi.Highlight
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Button Bagikan Resi", "", ReportStatus.Passed)
+		button_BagikanResi.Tap
+		wait 1
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Muncul Pop-Up Bagikan Resi", "Berhasil Tap Bagikan Resi, Tap Back", ReportStatus.Passed)
+		AI_button_close.Click
+		wait 1
+		AI_button_Back.Click
+	Else 
+		Call objNotFound(objSuperApp,"Button Bagikan Resi")
+	End If
+	
+End Sub
+
+
+REM===========================================FUNCTION VALIDATE TRANSACTION BAYAR BELI============================================================
+REM====================================================START HERE==========================================================================
+Sub ValidasiTransaksi_BayarBeli(byVal ValidatePopUp)
+''BELUM SELESAI
+	''Muncul Pop-Up Error 
+	Select Case ValidatePopUp
+		
+		Case "PAID"
+			label_ValidateTransaction.SetTOProperty "text", "Tagihanmu sudah lunas!"
+			If label_ValidateTransaction.Exist(5) Then
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pop-Up Validasi Pembayaran", "", ReportStatus.Passed)
+				label_ValidateTransaction.Highlight
+				wait 1
+				button_KembaliTagihanLunas_PBB.Tap
+			Else 
+				Call objNotFound(objSuperApp,"Validasi Pop-Up Lunas")
+			End If
+			
+		
+		Case "SALAH"
+			label_ValidateTransaction.SetTOProperty "text", "Nomor NOP/NPWPD yang kamu masukkan salah"
+			If label_ValidateTransaction.Exist(5) Then
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pop-Up Validasi Pembayaran", "", ReportStatus.Passed)
+				label_ValidateTransaction.Highlight
+				wait 1
+				button_CobaLagi_PBB.Tap
+			Else 
+				Call objNotFound(objSuperApp,"Validasi Pop-Up No Salah")
+			End If
+			
+			
+		Case "LIMIT_TRANSAKSI"
+			label_ValidateTransaction.SetTOProperty "text", "Transaksi gagal karena melebihi limit"
+			If label_ValidateTransaction.Exist(5) Then
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pop-Up Validasi Pembayaran", "", ReportStatus.Passed)
+				label_ValidateTransaction.Highlight
+				wait 1
+				button_Kembali_LimitTransaksi.Tap
+			Else 
+				Call objNotFound(objSuperApp,"Validasi Pop-Up Limit Transaksi")
+			End If
+			
+			
+		Case "LIMIT_HARIAN"
+			label_ValidateTransaction.SetTOProperty "text", "Transaksi gagal karena melebihi limit harian"
+			If label_ValidateTransaction.Exist(5) Then
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pop-Up Validasi Pembayaran", "", ReportStatus.Passed)
+				label_ValidateTransaction.Highlight
+				wait 1
+				button_Kembali_LimitTransaksi.Tap
+			Else 
+				Call objNotFound(objSuperApp,"Validasi Pop-Up Limit Transaksi")
+			End If
+			
+			
+		Case "SOF_KURANG"
+			label_ValidateTransaction.SetTOProperty "text", "Saldo kamu tidak mencukupi"
+			If label_ValidateTransaction.Exist(5) Then
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pop-Up Validasi Pembayaran", "", ReportStatus.Passed)
+				label_ValidateTransaction.Highlight
+				wait 1
+				button_Kembali_LimitTransaksi.Tap
+			Else 
+				Call objNotFound(objSuperApp,"Validasi Pop-Up Limit Transaksi")
+			End If
+			
+			
+		Case ""
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pop-Up Validasi Pembayaran", "", ReportStatus.Passed)
+		
+	End Select
+	
+	
+	
+End Sub
+
+
+
+REM=============================================OTHER FUNCTION  BAYAR BELI================================================================
+REM====================================================START HERE==========================================================================
+Sub SelectNominalPLN(byVal NominalPLN)
+
+	''Tap Nominal PLN
+	label_NominalPLN.SetTOProperty "text", NominalPLN
+	If label_NominalPLN.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih Nominal PLN", "Berhasil Masuk Page Memilih Nominal PLN", ReportStatus.Passed)
+		label_NominalPLN.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Label Nominal PLN")
+	End If
+	
+	''Tap Lanjutkan
+	If button_LanjutkanNominalPLN.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Button Lanjutkan", "Berhasil Memilih Nominal PLN, Nominal PLN:  "&NominalPLN&"Tap Lanjutkan", ReportStatus.Passed)
+		button_LanjutkanNominalPLN.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Button Lanjutkan")
+	End If
+	
+End Sub
+
+Sub SelectNominalPulsa(byVal NominalPulsa)
+
+'''CEK APAKAH NOMINAL PLN DAN PULSA SAMA
+
+	''Tap Nominal PLN
+	label_NominalPLN.SetTOProperty "text", NominalPulsa
+	If label_NominalPLN.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih Nominal PLN", "Berhasil Masuk Page Memilih Nominal PLN", ReportStatus.Passed)
+		label_NominalPLN.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Label Nominal PLN")
+	End If
+	
+	''Tap Lanjutkan
+	If button_LanjutkanNominalPLN.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Button Lanjutkan", "Berhasil Memilih Nominal PLN, Nominal PLN:  "&NominalPLN&"Tap Lanjutkan", ReportStatus.Passed)
+		button_LanjutkanNominalPLN.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Button Lanjutkan")
+	End If
+	
+End Sub
+
+Sub SelectPaketData(byVal Provider, byVal NominalPulsa)
+
+	''Tap Paket Data
+	label_NominalPLN.SetTOProperty "text", NominalPulsa
+	If label_NominalPLN.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih Nominal PLN", "Berhasil Masuk Page Memilih Nominal PLN", ReportStatus.Passed)
+		label_NominalPLN.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Label Nominal PLN")
+	End If
+	
+	''Tap Pilihan Paket Data
+	label_NominalPLN.SetTOProperty "text", NominalPulsa
+	If label_NominalPLN.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih Nominal PLN", "Berhasil Masuk Page Memilih Nominal PLN", ReportStatus.Passed)
+		label_NominalPLN.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Label Nominal PLN")
+	End If
+	
+	''Tap Lanjutkan
+	If button_LanjutkanNominalPLN.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Button Lanjutkan", "Berhasil Memilih Nominal PLN, Nominal PLN:  "&NominalPLN&"Tap Lanjutkan", ReportStatus.Passed)
+		button_LanjutkanNominalPLN.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Button Lanjutkan")
+	End If
+	
+End Sub
+
+
+

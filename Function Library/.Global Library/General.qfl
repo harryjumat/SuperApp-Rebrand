@@ -1,0 +1,142 @@
+﻿''General Function For SuperApp-Rebrand
+'Created by Oryza
+' Last Update 05/04/2023
+
+'Update Function For SuperApp-Rebrand
+'Updated by Stefandi
+' Last Update 01/08/2023
+
+
+Function LocationFile(Folder, subFolder)
+	LocationFile = Environment("TestDir") & "\..\..\..\" & Folder &"\" & subFolder & "\"
+End Function
+
+'Global library
+Call LoadFunctionLibrary(LocationFile("Function Library", ".Global Library") & "GlobalFunction_SuperAPP.qfl")
+Call LoadFunctionLibrary(LocationFile("Function Library", ".Global Library") & "ObjectRepository.qfl")
+Call LoadFunctionLibrary(LocationFile("Function Library", ".Global Library") & "Function-T24.qfl")
+
+'Napalm Library
+Call LoadFunctionLibrary(LocationFile("Function Library", ".Napalm Library") & "GlobalFunction.qfl")
+Call LoadFunctionLibrary(LocationFile("Function Library", ".Napalm Library") & "OpenApp.qfl")
+Call LoadFunctionLibrary(LocationFile("Function Library", ".Napalm Library") & "ReactLib.vbs")
+
+
+
+Function InitiationScenario()
+'This Function will load Excel and Function Library based on Project Name
+'Let's say the Project Name is "BayarBeli_PBB - Negative"
+'Then, we Split the Project Name "BayarBeli_PBB - Negative" into
+'1. BayarBeli
+'2. PBB - Negative
+
+'After that, it will automatically find Excel file example
+'D:\SuperApp-Rebrand\Excel\BayarBeli\PBB - Negative.xlsx
+
+'The first one "BayarBeli", will match the Scenario folder 
+'The second one "PBB - Negative", will match the excel name
+
+'Also, in order to find Function Library name, we will use the second one string which is "PBB - Negative"
+'Then, we split the second one "PBB - Negative" into
+'1. PBB
+'2. -
+'3. Negative
+
+'We only need the first one, so the second, third and so on will be ignored
+
+'After that, it will also automatically find the Function Library, example
+'D:\SuperApp-Rebrand\Function Library\BayarBeli\FnParent_BayarBeli_PBB.qfl
+
+'The first one "PBB", will match the last .qfl name
+'The second one "BayarBeli", will match the Scenario Folder and middle .qfl name
+
+'This Function also works for different Project Name example like BayarBeli_PLN PrepaidCetakUlangToken - Positive, and many more
+'As long as you followed the rules of standarization name, it will works like a charm!!!
+
+Dim SplitName, ScenarioName, TestCaseNameAndType, TestCase, TestCaseName, temp
+SplitName = Split(Environment("TestName"), "_")
+ScenarioName = SplitName(0)
+
+TestCaseNameAndType = SplitName(1)
+temp = Split(SplitName(1), " ")
+
+TestCaseName = temp(0)
+
+'initiaiton data
+	fileGeneral				= LocationFile("Excel", ScenarioName ) & TestCaseNameAndType & ".xlsx"
+	fileReport				= LocationFile("Excel", ".General") & "01. Report.xlsx"
+	fileConfig				= LocationFile("Excel", ".General") & "02. Config.xlsx"
+	
+	Call fileDataCheck(fileGeneral)
+	Call fileDataCheck(fileReport)
+	Call fileDataCheck(fileConfig)
+
+	REM === INITIATE EXCEL FILE
+	On Error Resume Next		''Error Handler
+	Dim tempSheet
+	Set tempSheet = DataTable.GetSheet("GENERAL")
+	
+	If tempSheet Is Nothing Then
+		'test case sheet excel
+		DataTable.AddSheet("SuperApp")
+		
+		'report sheet excel
+		DataTable.AddSheet("Global")
+		
+		'config sheet excel
+		DataTable.AddSheet("Config")
+		DataTable.AddSheet("T24")
+		
+		Call DataTable.ImportSheet(fileGeneral,"SuperApp", dtLocalSheet)
+
+		Call DataTable.ImportSheet(fileReport,"Global",dtGlobalSheet)
+
+		Call DataTable.ImportSheet(fileConfig,"Config","Config")
+		Call DataTable.ImportSheet(fileConfig,"T24","T24")
+	End If
+	
+	On Error GoTo 0				''Error Handler
+	'Initiation Func Lib Epic/Scenario
+	Call LoadFunctionLibrary(LocationFile("Function Library", ScenarioName) & "FnParent_" & ScenarioName  & "_" & TestCaseName & ".qfl")
+End Function
+
+Function InitiationNapalm()
+	CoverTitle				= DataTable.Value ("COVER_TITLE", dtGlobalSheet)
+	ProjectName			= DataTable.Value ("PROJECT_NAME", dtGlobalSheet)
+	authorName			= DataTable.Value ("AUTHOR_NAME", dtGlobalSheet)
+	CompanyLogo 			= LocationFile("Function Library", ".Napalm Library") & DataTable.Value ("COMPANY_LOGO", dtGlobalSheet)
+	ScreenShoot			= DataTable.Value ("SCREEN_SHOOT", dtGlobalSheet)
+	
+	CoverSubTitle			= DataTable.Value ("COVER_SUBTITLE", dtLocalSheet)
+	TCType					= DataTable.Value ("TITLE", dtLocalSheet)
+
+	Call Path_Folder()
+	Call InitiateReact_V2_1(CoverTitle, CoverSubTitle, CompanyLogo, projectName, authorName, TCType)
+End Function
+
+Function fnRunningIterator()
+	If CInt(Environment("ActionIteration")) = CInt(DataTable.LocalSheet.GetRowCount()) Then '== 4
+		If Trim(DataTable.Value("RUN", dtLocalSheet)) = "" Then 'Statenya ga run
+			spReportForceSave()
+			ExitActionIteration()
+			Exit Function	
+		End If
+	End If
+	
+	If Trim(DataTable.Value("RUN", dtLocalSheet)) = "" Then 'Statenya ga run
+		ExitActionIteration()
+		Exit Function	
+	End If
+End Function
+
+
+Sub fileDataCheck(byval fileData)
+	Set fso = CreateObject("Scripting.FileSystemObject")
+		If fso.FileExists(fileData) = false Then	
+			Reporter.ReportEvent micWarning, "Source Data is not exists", fileData
+'			Call endTest()
+			print fileData& " is not exist"
+			exitTest			
+		End If
+	Set fso = nothing
+End Sub

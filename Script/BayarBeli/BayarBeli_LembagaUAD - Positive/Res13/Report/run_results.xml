@@ -1,0 +1,198 @@
+<?xml version="1.0"?>
+<Results version="1.0">
+<ReportNode type="testrun">
+<ReportNode type="Iteration">
+<ReportNode type="Action">
+<ReportNode type="Iteration">
+<ReportNode type="Step">
+<Data>
+    <Name>LoadFunctionLibrary</Name>
+    <Description>LoadFunctionLibrary function passed</Description>
+    <StartTime>2023-08-07 10:28:57</StartTime>
+    <Result>Passed</Result>
+    <Extension>
+      <IconKey>d843a3544e7141eebcb5ddd93456e74b</IconKey>
+      <IsPlainTextNodeName>True</IsPlainTextNodeName>
+    </Extension>
+    <DeviceInfo />
+  </Data>
+</ReportNode>
+<ReportNode type="Step">
+<Data>
+    <Name>LoadFunctionLibrary</Name>
+    <Description>LoadFunctionLibrary function passed</Description>
+    <StartTime>2023-08-07 10:28:57</StartTime>
+    <Result>Passed</Result>
+    <Extension>
+      <IconKey>d843a3544e7141eebcb5ddd93456e74b</IconKey>
+      <IsPlainTextNodeName>True</IsPlainTextNodeName>
+    </Extension>
+    <DeviceInfo />
+  </Data>
+</ReportNode>
+<ReportNode type="Step">
+<Data>
+    <Name>LoadFunctionLibrary</Name>
+    <Description>LoadFunctionLibrary function passed</Description>
+    <StartTime>2023-08-07 10:28:58</StartTime>
+    <Result>Passed</Result>
+    <Extension>
+      <IconKey>d843a3544e7141eebcb5ddd93456e74b</IconKey>
+      <IsPlainTextNodeName>True</IsPlainTextNodeName>
+    </Extension>
+    <DeviceInfo />
+  </Data>
+</ReportNode>
+<ReportNode type="Step">
+<Data>
+    <Name>LoadFunctionLibrary</Name>
+    <Description>LoadFunctionLibrary function passed</Description>
+    <StartTime>2023-08-07 10:28:58</StartTime>
+    <Result>Passed</Result>
+    <Extension>
+      <IconKey>d843a3544e7141eebcb5ddd93456e74b</IconKey>
+      <IsPlainTextNodeName>True</IsPlainTextNodeName>
+    </Extension>
+    <DeviceInfo />
+  </Data>
+</ReportNode>
+<ReportNode type="Step">
+<Data>
+    <Name>Wrong number of arguments or invalid property assignment: 'LocationFile'</Name>
+    <ErrorText>Wrong number of arguments or invalid property assignment: 'LocationFile'</ErrorText>
+    <Description>&lt;BR/&gt;Function file: D:\SuperApp-Rebrand\Script\BayarBeli\BayarBeli_PBB - Negative\..\..\..\Function Library\.Global Library\General.qfl&lt;BR/&gt;Line (21): &amp;quot;Call LoadFunctionLibrary(LocationFile(&amp;quot;Napalm Library&amp;quot;) &amp;amp; &amp;quot;OpenApp.qfl&amp;quot;)&amp;quot;.</Description>
+    <StartTime>2023-08-07 10:28:58</StartTime>
+    <Result>Failed</Result>
+    <Extension>
+      <StackTrace>
+        <StackFrame>
+          <ModuleName><![CDATA[FuncLibExecutableUnitName]]></ModuleName>
+          <FileName><![CDATA[D:\SuperApp-Rebrand\Script\BayarBeli\BayarBeli_PBB - Negative\..\..\..\Function Library\.Global Library\General.qfl]]></FileName>
+          <Language><![CDATA[VBScript - script block]]></Language>
+          <FunctionName><![CDATA[VBScript global code]]></FunctionName>
+          <Scripts><![CDATA[Call LoadFunctionLibrary(LocationFile("Napalm Library") & "OpenApp.qfl")]]></Scripts>
+          <LineNo><![CDATA[21]]></LineNo>
+        </StackFrame>
+        <StackFrame>
+          <ModuleName><![CDATA[SuperApp]]></ModuleName>
+          <FileName><![CDATA[SuperApp]]></FileName>
+          <Language><![CDATA[VBScript global code]]></Language>
+          <FunctionName><![CDATA[VBScript global code]]></FunctionName>
+          <Scripts><![CDATA[VBScript global code]]></Scripts>
+          <LineNo><![CDATA[2]]></LineNo>
+        </StackFrame>
+      </StackTrace>
+      <IconKey>a41c78e4eaab48cd80de8c777735e071</IconKey>
+      <IsPlainTextNodeName>True</IsPlainTextNodeName>
+      <MergeIsErrorIcon>True</MergeIsErrorIcon>
+    </Extension>
+    <Snapshot reference="Resources\Snapshots\fe86c93d-7d4f-4db0-92f8-5176e6c5a625.jpeg" />
+    <DeviceInfo />
+  </Data>
+</ReportNode>
+<ReportNode type="Step">
+<Data>
+    <Name>LoadFunctionLibrary</Name>
+    <Description>UFT could not load the following function libraries because they contain syntax errors: D:\SuperApp-Rebrand\Script\BayarBeli\BayarBeli_PBB - Negative\..\..\..\Function Library\.Global Library\General.qfl</Description>
+    <StartTime>2023-08-07 10:29:09</StartTime>
+    <Result>Failed</Result>
+    <Extension>
+      <IconKey>d843a3544e7141eebcb5ddd93456e74b</IconKey>
+      <IsPlainTextNodeName>True</IsPlainTextNodeName>
+    </Extension>
+    <Snapshot reference="Resources\Snapshots\3b12cb57-20e4-4090-a278-9d2b37cd036d.jpeg" />
+    <DeviceInfo />
+  </Data>
+</ReportNode>
+<ReportNode type="Step">
+<Data>
+    <Name>Stop Run</Name>
+    <Description>Run stopped by user.</Description>
+    <StartTime>2023-08-07 10:29:10</StartTime>
+    <Result>Information</Result>
+    <Extension>
+      <IconKey>5f2e90971c3b4bc692cd3b11b2e64986</IconKey>
+      <IsPlainTextNodeName>True</IsPlainTextNodeName>
+    </Extension>
+  </Data>
+</ReportNode>
+<Data>
+    <Name>SuperApp</Name>
+    <Description />
+    <StartTime>2023-08-07 10:28:57</StartTime>
+    <Duration>13</Duration>
+    <Result>Failed</Result>
+    <Extension>
+      <IconKey>0669a6ff49cf49f8ae76761529f0dd50</IconKey>
+      <IsPlainTextNodeName>True</IsPlainTextNodeName>
+    </Extension>
+    <Index>1</Index>
+    <TestedApplications />
+  </Data>
+</ReportNode>
+<Data>
+    <Name>SuperApp</Name>
+    <Description />
+    <StartTime>2023-08-07 10:28:57</StartTime>
+    <Duration>13</Duration>
+    <Result>Failed</Result>
+    <InputParameters />
+    <Extension>
+      <IconKey>2e7d4e07dd514452a41a874a59f28448</IconKey>
+      <IsPlainTextNodeName>True</IsPlainTextNodeName>
+    </Extension>
+  </Data>
+</ReportNode>
+<Data>
+    <Name>Action0</Name>
+    <Description />
+    <StartTime>2023-08-07 10:28:56</StartTime>
+    <Duration>14</Duration>
+    <Result>Failed</Result>
+    <Extension>
+      <IconKey>0669a6ff49cf49f8ae76761529f0dd50</IconKey>
+      <IsPlainTextNodeName>True</IsPlainTextNodeName>
+    </Extension>
+    <Index>1</Index>
+    <TestedApplications />
+  </Data>
+</ReportNode>
+<Data>
+    <Name>BayarBeli_PBB - Negative</Name>
+    <ToolName>Micro Focus UFT One</ToolName>
+    <ToolVersion>2021</ToolVersion>
+    <ToolVersionStringLiteral>2021</ToolVersionStringLiteral>
+    <Description />
+    <StartTime>2023-08-07 10:28:55</StartTime>
+    <Duration>15</Duration>
+    <Result>Failed</Result>
+    <InputParameters />
+    <Extension>
+      <IconKey>583f5f97fef242c6a8a1c14e8d29f699</IconKey>
+      <IsPlainTextNodeName>True</IsPlainTextNodeName>
+    </Extension>
+    <Environment>
+      <Timezone>+07:00:00</Timezone>
+      <Locale>English (United States)</Locale>
+      <User>BANKBSI\oryza.rahman</User>
+      <CpuInfo>11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz</CpuInfo>
+      <NumberOfCores>8</NumberOfCores>
+      <TotalMemory>7991</TotalMemory>
+      <HostName>bankbsi.co.id\NB-IDG-ORYAZA</HostName>
+      <OSInfo>Windows 11 22H2 (x64)</OSInfo>
+    </Environment>
+    <TestedApplications />
+    <Links>
+      <Link type="DataTable" reference="Default.xlsx" displayname="Default Data Table" />
+    </Links>
+  </Data>
+</ReportNode>
+<GeneralInfo>
+    <ResultName>Res13</ResultName>
+    <RunStartTime>2023-08-07 10:28:55</RunStartTime>
+    <Timezone>+07:00:00</Timezone>
+    <OrchestrationToolName>Micro Focus UFT One</OrchestrationToolName>
+    <OrchestrationToolVersion>2021</OrchestrationToolVersion>
+    <OrchestrationToolVersionStringLiteral>2021</OrchestrationToolVersionStringLiteral>
+  </GeneralInfo>
+</Results>

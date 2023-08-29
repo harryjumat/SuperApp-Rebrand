@@ -1,0 +1,45 @@
+﻿'Author Harry Setiawan
+
+'Profile
+Set Obj_MobileView 	= Device("Device").App("Profile").MobileObject("Obj_MobileView")
+Set Btn_PusatBantuan	= Device("Device").App("Profile").MobileButton("Btn_PusatBantuan")
+Set Lbl_HS				= Device("Device").App("Profile").MobileLabel("HS")
+
+'Social Media 
+Set Obj_MobileView	= Device("Device").App("Profile_SocialMedia").MobileView("Obj_MobileView")
+Set Icon_Facebook		= Device("Device").App("Profile_SocialMedia").MobileButton("Icon_Facebook")
+Set Icon_Instagram		= Device("Device").App("Profile_SocialMedia").MobileButton("Icon_Instagram")
+Set Icon_Twitter		= Device("Device").App("Profile_SocialMedia").MobileButton("Icon_Twitter")
+Set Icon_Youtube		= Device("Device").App("Profile_SocialMedia").MobileButton("Icon_Youtube")
+
+'Change Profile Pic
+Set Icon_Camera		= Device("Device").App("Profile_ChangeProfilePic").MobileButton("Icon_Camera")
+Set Lbl_Ambilfoto		= Device("Device").App("Profile_ChangeProfilePic").MobileLabel("Lbl_AmbilFoto")
+Set BtnAmbilGambar	= Device("Device").App("Profile_ChangeProfilePic").MobileButton("Btn_AmbilGambar")
+Set Btn_GunakanFoto	= Device("Device").App("Profile_ChangeProfilePic").MobileButton("Btn_GunakanFoto")
+Set Btn_Simpan			= Device("Device").App("Profile_ChangeProfilePic").MobileButton("Btn_Simpan")
+Set Lbl_PilihDariGaleri	= Device("Device").App("Profile_ChangeProfilePic").MobileLabel("Lbl_PilihDariGaleri")
+Set AI_Album			= AIUtil("button", "Album")
+Set AI_Favorit			= AIUtil.FindTextBlock("Favorit")
+Set Btn_FotoTerpilih		= Device("Device").App("Profile_ChangeProfilePic").MobileObject("Btn_FotoTerpilih")
+Set Btn_Pilih				= Device("Device").App("Profile_ChangeProfilePic").MobileButton("Btn_Pilih")
+
+'Delete Profile Pic
+Set Lbl_HapusFoto		= Device("Device").App("Profile_DeleteProfilePic").MobileLabel("Lbl_HapusFoto")
+Set Btn_Hapus			= Device("Device").App("Profile_DeleteProfilePic").MobileButton("Btn_Hapus")
+
+'Change Email
+Set Btn_InformasiAkun	= Device("Device").App("Profile_ChangeEmail").MobileButton("Btn_InformasiAkun")
+Set Btn_EmailPencil		= Device("Device").App("Profile_ChangeEmail").MobileButton("Btn_EmailPencil")
+Set AI_X					= AIUtil("close")
+Set Field_UbahEmail		= Device("Device").App("Profile_ChangeEmail").MobileEdit("Field_UbahEmail")
+Set Btn_Simpan			= Device("Device").App("Profile_ChangeEmail").MobileButton("Btn_Simpan")
+Set Btn_1				= Device("Device").App("Profile_SocialMedia").MobileObject("1")
+Set Btn_2				= Device("Device").App("Profile_SocialMedia").MobileObject("2")
+Set Btn_3				= Device("Device").App("Profile_SocialMedia").MobileObject("3")
+Set Btn_4				= Device("Device").App("Profile_SocialMedia").MobileObject("4")
+Set Btn_5				= Device("Device").App("Profile_SocialMedia").MobileObject("5")
+Set Btn_6				= Device("Device").App("Profile_SocialMedia").MobileObject("6")
+
+
+

@@ -1,0 +1,214 @@
+﻿'repo bayar beli'
+Call RepositoriesCollection.Add(Environment("TestDir") & "\..\..\..\Object Repository\Repository_Berbagi.tsr")
+
+'object repository bayar beli
+Call LoadFunctionLibrary(Environment("TestDir") & "\..\..\..\Function Library\BayarBeli\ObjectRepository_Berbagi.qfl")
+
+
+Dim vFTMaintrans, vFTInfaq
+
+
+
+REM==============================================FUNCTION INPUT BAYAR BELI=================================================================
+REM====================================================START HERE==========================================================================
+
+'Virtual Account
+Function ChooseBayarVirtualAccount(dtLembaga)
+
+	If Btn_Bayar.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Berhasil Masuk Page Zakat", "Pilih Bayar", ReportStatus.Passed)		
+		Btn_Bayar.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Bayar")
+	End If
+	
+End Function
+
+Function CariLembaga()
+	
+	If Field_CariLembaga.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Berhasil menampilkan List Lembaga", "Cari Lembaga", ReportStatus.Passed)		
+		Field_CariLembaga.Set dtLembaga
+	Else 
+		Call objNotFound(objSuperApp,"Cari Lembaga")
+	End If
+	
+	If Obj_Lembaga.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Berhasil menampilkan lembaga yang di cari", "Klik Lembaga", ReportStatus.Passed)		
+		Obj_Lembaga.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Lembaga")
+	End If
+	
+End Function
+	
+Function InputVirtualAccount(dtVirtualAccount)
+	
+	If Field_VirtualAccount.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Berhasil halaman pembayaran", "Masukkan Nomor Virtual Account", ReportStatus.Passed)		
+		Field_VirtualAccount.Set dtVirtualAccount
+	Else 
+		Call objNotFound(objSuperApp,"Field Virtual Account")
+	End If
+	
+	If Btn_Selesai.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Klik Selesai", "", ReportStatus.Passed)		
+		Btn_Selesai.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Selesai")
+	End If
+	
+End Function
+	
+Function CekTagihan()
+
+	If Btn_CekTagihan.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Berhasil halaman pembayaran", "Pilih cek tagihan", ReportStatus.Passed)		
+		Btn_CekTagihan.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Cek Tagihan")
+	End If
+	
+End Function
+
+Function KonfirmasiTransaksi()
+	
+	If Btn_Konfirmasi.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Berhasil halaman pembayaran", "Pilih konfirmasi", ReportStatus.Passed)		
+		Btn_Konfirmasi.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Konfirmasi")
+	End If
+	
+End Function
+
+Sub SuccessTransaction_VirtualAccount()
+	
+''Tap Detail Transaksi
+	If Btn_Arrow.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Detail Transaksi", "Berhasil Melakukan Transaksi, Tap Detail Transaksi", ReportStatus.Passed)
+		Btn_Arrow.Tap
+		wait 3
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Detail Transaksi", "", ReportStatus.Passed)
+		Btn_Arrow.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Button Arrow Detail Transaksi")
+	End If
+		
+	
+''Tap Button Share
+	If Btn_Share.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Button Share", "", ReportStatus.Passed)
+		Btn_Share.Tap
+		wait 1
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Page Share", "Berhasil Masuk Page Share, Tap Back", ReportStatus.Passed)
+		AI_X.Click
+		wait 1
+	Else 
+		Call objNotFound(objSuperApp,"Button Share")
+	End If
+	
+	
+''Tap Button Download
+	If Btn_Download.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Button Download", "", ReportStatus.Passed)
+		Btn_Download.Tap
+		wait 1
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Page Download", "Berhasil Masuk Page Download", ReportStatus.Passed)
+		wait 1
+		
+		'Call GetNoFT(label_NoTransaksiFT_Zakat)
+		vFTMaintrans = GetNoFT(Lbl_FT) 'ganti parameter sesuai di objek repositori
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Page Detail Resi", "Berhasil Masuk Page Detail Resi, mendapatkan Resi dengan Nomor Transaksi "&vFTMaintrans, ReportStatus.Passed)
+		wait 1
+		
+		List_DetailResi.Swipe("up") 
+	Else 
+		Call objNotFound(objSuperApp,"Button Download")
+	End If
+	
+	
+''Tap Button Bagikan Resi
+	If Btn_BagikanResi.Exist(5) Then
+		Btn_BagikanResi.Highlight
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Button Bagikan Resi", "", ReportStatus.Passed)
+		Btn_BagikanResi.Tap
+		wait 1
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Muncul Pop-Up Bagikan Resi", "Berhasil Tap Bagikan Resi, Tap Back", ReportStatus.Passed)
+		AI_X.Click
+		wait 1
+		Lbl_Back.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Button Bagikan Resi")
+	End If
+	
+End Sub
+	
+	
+
+
+
+
+
+'dompet dhuafa	: 60521234567
+'rzi					: 12304050167
+	
+	If lbl_bayar.Exist Then
+		lbl_bayar.Tap
+	End If
+	Call LoopUntil()
+	Call Capture(lbl_lembagalainnya,"Dev","Lembaga Lainnya","Berhasil menampilkan halaman lembaga lainnya, pilih lembaga")
+	If btn_ubahlembaga.Exist Then
+		btn_ubahlembaga.Tap
+	End If
+	Call LoopUntil()
+	Call Capture(lbl_pilihlembaga,"Dev","Pilih Lembaga","Berhasil menampilkan list lembaga")
+	Select Case param
+'		Case "jadiberkah"			txt_carilembaga.Set "jadiberkah"
+'								wait 1
+'								lbl_jadiberkah.Tap
+'		Case "kitabisa"			txt_carilembaga.Set "kitabisa"
+'								wait 1
+'								lbl_kitabisa.Tap
+'		Case "dompetdhuafa"		txt_carilembaga.Set "dompet"
+'								wait 1
+'								lbl_dompetdhuafa.Tap
+		Case "rumahzakat"		txt_carilembaga.Set "rumah"
+								wait 1
+								lbl_rumahzakat.Tap
+	End Select
+	wait 2
+	Call Capture(lbl_easymudharabah,"Dev","Lembaga","Berhasil memilih lembaga, masukkan nomor virtual account")
+	If txt_nomorva.Exist Then
+		Select Case param
+'		Case "jadiberkah"			txt_nomorva.Set "002402219592543"
+'		Case "kitabisa"			txt_nomorva.Set "123456"
+'		Case "dompetdhuafa"		txt_nomorva.Set "123456"
+		Case "rumahzakat"		txt_nomorva.Set "123456"
+		End Select
+	End If
+	wait 2
+	If btn_selesai.Exist Then
+		btn_selesai.Tap
+		wait 1
+	End If
+	Call Capture(lbl_pilihlembaga,"Dev","Nomor Virtual Account","Berhasil memasukkan nomor virtual account, pilih sumber rekening")
+	Call TabunganSumber("transaksi")
+	Call LoopUntil()
+	Call Capture(lbl_pilihlembaga,"Dev","Sumber Tabungan","Berhasil memilih sumber tabungan, klik cek pembayaran")
+	If lbl_cekpembayaran.Exist Then
+		lbl_cekpembayaran.Tap
+	End If
+	Call LoopUntil()
+	If lbl_konfirmasi.Exist Then
+		Call Capture(lbl_konfirmasi,"Dev","Konfirmasi Transaksi","Berhasil menampilkan konfirmasi transaksi, klik konfirmasi")
+	End If
+	If lbl_konfirmasi.Exist Then
+		lbl_konfirmasi.Tap
+	End If
+	Select Case param
+'		Case "jadiberkah"			Call TransaksiBerhasil("Jadiberkah",nomorFT, "resi lembagalainnya", "Infaq", nomorFTInfaq,"resi pulsa")
+'		Case "kitabisa"			Call TransaksiBerhasil("Kitabisa",nomorFT, "resi lembagalainnya", "Infaq", nomorFTInfaq,"resi pulsa")
+'		Case "dompetdhuafa"		Call TransaksiBerhasil("Dompet Dhuafa",nomorFT, "resi lembagalainnya", "Infaq", nomorFTInfaq,"resi pulsa")
+		Case "rumahzakat"		Call TransaksiBerhasil("Rumah Zakat Indonesia",nomorFT, "resi lembagalainnya", "Infaq", nomorFTInfaq,"resi pulsa")
+	End Select

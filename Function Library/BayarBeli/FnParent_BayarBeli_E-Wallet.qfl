@@ -1,0 +1,554 @@
+﻿''Import Function Library
+Call LoadFunctionLibrary(Environment("TestDir") & "\..\..\Function Library\FunctionLib_BayarBeli.qfl")
+
+
+''Deklarasi Variable
+dtPassword				= DataTable.Value ("PASSWORD", dtGlobalSheet)
+dtPIN					= DataTable.Value ("PIN", dtGlobalSheet)
+dtSOFDefault			= DataTable.Value ("SOF_DEFAULT", dtGlobalSheet)
+dtSOFChanges			= DataTable.Value ("SOF_CHANGES", dtGlobalSheet)
+dtNominalChanges		= DataTable.Value ("NOMINAL_CHANGES", dtGlobalSheet)
+
+dtSOFSaldoKurang		= DataTable.Value ("SOF_SALDOKURANG", dtGlobalSheet)
+dtSOFBlokir				= DataTable.Value ("SOF_BLOKIR", dtGlobalSheet)
+dtSOFDormant			= DataTable.Value ("SOF_DORMANT", dtGlobalSheet)
+dtEmptySOFChanges	= ""
+dtNoRegistrasi			= DataTable.Value ("NO_REGISTRASI", "SuperApp")
+dtNoRegistrasiIDPel		= DataTable.Value ("NO_REGISTRASI_IDPEL", "SuperApp")
+dtNoRegistrasi1M		= DataTable.Value ("NO_REGISTRASI_1M", "SuperApp")
+dtNoRegistrasiRP0		= DataTable.Value ("NO_REGISTRASI_RP0", "SuperApp")
+dtNoRegistrasiAdmin0	= DataTable.Value ("NO_REGISTRASI_ADMIN0", "SuperApp")
+dtNoMeter				= ""
+dtIDPelanggan			= ""
+
+dtNominalInfaq			= DataTable.Value ("NOMINAL_INFAQ", dtGlobalSheet)
+dtNoRegNotFound		= DataTable.Value ("NO_REGISTRASI_NOTFOUND", "SuperApp")
+dtNoRegExpired			= DataTable.Value ("NO_REGISTRASI_EXPIRED", "SuperApp")
+dtNoRegPaid			= DataTable.Value ("NO_REGISTRASI_PAID", "SuperApp")
+
+
+dtMenu						= "BayarBeli"
+dtSubMenu						= "PLN"
+dtNormalNominal				= "100000000"
+dtLimitType1					= "PerTransaksi"
+dtLimitType2					= "Harian"
+dtTransTypeLimit				= "Pembayaran"
+dtValidateNoSalah				= "SALAH"
+dtValidateNoLunas				= "PAID"
+dtValidateLimitTrans			= "LIMIT_TRANSAKSI"
+dtValidateLimitHarian			= "LIMIT_HARIAN"
+dtValidateSofKurang			= "SOF_KURANG"
+dtValidateEmpty				= ""
+
+
+
+Sub Scenario_EWalletDana_Positive(byVal ScenarioNumber)
+	
+	
+	Select Case ScenarioNumber
+	
+		Case "1"
+			Call react.Addtitle("Pembelian Dengan Merubah Rekening Awal")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputEwallet(dtNoPembayaran, dtSOFChanges)
+			Call ConfirmTransaction_BayarBeli_PLNNonTaglis()
+			Call InputPinTransaction()
+			Call SuccessTransaction_BayarBeli_PLN()
+			Call InfaqTransaction(dtNominalInfaq)
+			Call RestartApp()
+			
+		
+	End Select
+	
+End Sub
+
+Sub Scenario_EWalletDana_Negative(byVal ScenarioNumber)
+	
+	
+	Select Case ScenarioNumber
+	
+		Case "1"
+			Call react.Addtitle("Pembayaran PLN Postpaid Dengan Nomor ID Pelanggan Tidak Ditemukan")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputPLNNonTaglis(dtNoRegNotFound, dtEmptySOFChanges)
+			Call ValidasiTransaksi_BayarBeli()
+			Call RestartApp()
+			
+			
+		Case "2"
+			Call react.Addtitle("Pembayaran PLN Postpaid Dengan Taghan Bulan Berjalan Belum Tersedia")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputPLNNonTaglis(dtNoRegExpired, dtEmptySOFChanges)
+			Call ValidasiTransaksi_BayarBeli()
+			Call RestartApp()
+			
+			
+		Case "3"
+			Call react.Addtitle("Pembayaran PLN Postpaid Dengan Tagihan Sudah Terbayar")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputPLNNonTaglis(dtNoRegistrasi, dtEmptySOFChanges)
+			Call ValidasiTransaksi_BayarBeli()
+			Call RestartApp()
+			
+			
+			
+		Case "4"
+			Call react.Addtitle("Pembayaran PLN Postpaid Dengan ID Pelanggan Terblokir")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputPLNNonTaglis(dtNoRegistrasi, dtEmptySOFChanges)
+			Call ValidasiTransaksi_BayarBeli()
+			Call RestartApp()
+			
+		
+		
+		Case "5"
+			Call react.Addtitle("Pembayaran PLN Postpaid Dengan Payment Saldo Pelanggan Tidak Cukup")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputPLNNonTaglis(dtNoRegistrasi, dtSOFSaldoKurang)
+			Call ValidasiTransaksi_BayarBeli()
+			Call RestartApp()
+			
+		
+		
+		Case "6"
+			Call react.Addtitle("Pembayaran PLN Postpaid Dengan Rekening Terblokir")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputPLNNonTaglis(dtNoRegistrasi, dtSOFBlokir)
+			Call ValidasiTransaksi_BayarBeli()
+			Call RestartApp()
+			
+		
+		Case "7"
+			Call react.Addtitle("Pembayaran PLN Postpaid Dengan Rekening Dormant")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputPLNNonTaglis(dtNoRegistrasi, dtSOFDormant)
+			Call ValidasiTransaksi_BayarBeli()
+			Call RestartApp()
+			
+			
+		Case "8"
+			Call react.Addtitle("Pembayaran PLN Postpaid Dengan Melebihi Limit Per-Transaksi")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputPLNNonTaglis(dtNoRegistrasi, dtEmptySOFChanges)
+			Call ValidasiTransaksi_BayarBeli()
+			Call RestartApp()
+			
+			
+		Case "9"
+			Call react.Addtitle("Pembayaran PLN Postpaid Dengan Melebihi Limit Harian")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputPLNNonTaglis(dtNoRegistrasi, dtEmptySOFChanges)
+			Call ValidasiTransaksi_BayarBeli()
+			Call RestartApp()
+			
+		
+'		Case "10"
+'			Call react.Addtitle("Pembayaran PLN Non Taglis Dengan Input Pin Salah 2X")
+'			Call LoginSuperApp(dtPassword)
+'			Call ChooseMenuDashboard(dtMenu)
+'			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+'			Call InputPLNNonTaglis(dtNoRegistrasi, dtEmptySOFChanges)
+'			Call InputFalsePinTransaction(dtPIN)
+'			Call InputFalsePinTransaction(dtPIN)
+'			Call RestartApp()
+			
+		
+	
+	
+		
+	End Select
+	
+End Sub
+
+
+
+
+Sub Scenario_EWalletGopay_Positive(byVal ScenarioNumber)
+	
+	
+	Select Case ScenarioNumber
+	
+		Case "1"
+			Call react.Addtitle("Pembelian Dengan Merubah Rekening Awal")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputEwallet(dtNoPembayaran, dtSOFChanges)
+			Call ConfirmTransaction_BayarBeli_PLNNonTaglis()
+			Call InputPinTransaction()
+			Call SuccessTransaction_BayarBeli_PLN()
+			Call InfaqTransaction(dtNominalInfaq)
+			Call RestartApp()
+			
+		
+	End Select
+	
+End Sub
+
+Sub Scenario_EWalletGopay_Negative(byVal ScenarioNumber)
+	
+	
+	Select Case ScenarioNumber
+	
+		Case "1"
+			Call react.Addtitle("Pembayaran PLN Postpaid Dengan Nomor ID Pelanggan Tidak Ditemukan")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputPLNNonTaglis(dtNoRegNotFound, dtEmptySOFChanges)
+			Call ValidasiTransaksi_BayarBeli()
+			Call RestartApp()
+			
+			
+		Case "2"
+			Call react.Addtitle("Pembayaran PLN Postpaid Dengan Taghan Bulan Berjalan Belum Tersedia")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputPLNNonTaglis(dtNoRegExpired, dtEmptySOFChanges)
+			Call ValidasiTransaksi_BayarBeli()
+			Call RestartApp()
+			
+			
+		Case "3"
+			Call react.Addtitle("Pembayaran PLN Postpaid Dengan Tagihan Sudah Terbayar")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputPLNNonTaglis(dtNoRegistrasi, dtEmptySOFChanges)
+			Call ValidasiTransaksi_BayarBeli()
+			Call RestartApp()
+			
+			
+			
+		Case "4"
+			Call react.Addtitle("Pembayaran PLN Postpaid Dengan ID Pelanggan Terblokir")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputPLNNonTaglis(dtNoRegistrasi, dtEmptySOFChanges)
+			Call ValidasiTransaksi_BayarBeli()
+			Call RestartApp()
+			
+		
+		
+		Case "5"
+			Call react.Addtitle("Pembayaran PLN Postpaid Dengan Payment Saldo Pelanggan Tidak Cukup")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputPLNNonTaglis(dtNoRegistrasi, dtSOFSaldoKurang)
+			Call ValidasiTransaksi_BayarBeli()
+			Call RestartApp()
+			
+		
+		
+		Case "6"
+			Call react.Addtitle("Pembayaran PLN Postpaid Dengan Rekening Terblokir")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputPLNNonTaglis(dtNoRegistrasi, dtSOFBlokir)
+			Call ValidasiTransaksi_BayarBeli()
+			Call RestartApp()
+			
+		
+		Case "7"
+			Call react.Addtitle("Pembayaran PLN Postpaid Dengan Rekening Dormant")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputPLNNonTaglis(dtNoRegistrasi, dtSOFDormant)
+			Call ValidasiTransaksi_BayarBeli()
+			Call RestartApp()
+			
+			
+		Case "8"
+			Call react.Addtitle("Pembayaran PLN Postpaid Dengan Melebihi Limit Per-Transaksi")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputPLNNonTaglis(dtNoRegistrasi, dtEmptySOFChanges)
+			Call ValidasiTransaksi_BayarBeli()
+			Call RestartApp()
+			
+			
+		Case "9"
+			Call react.Addtitle("Pembayaran PLN Postpaid Dengan Melebihi Limit Harian")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputPLNNonTaglis(dtNoRegistrasi, dtEmptySOFChanges)
+			Call ValidasiTransaksi_BayarBeli()
+			Call RestartApp()
+			
+		
+'		Case "10"
+'			Call react.Addtitle("Pembayaran PLN Non Taglis Dengan Input Pin Salah 2X")
+'			Call LoginSuperApp(dtPassword)
+'			Call ChooseMenuDashboard(dtMenu)
+'			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+'			Call InputPLNNonTaglis(dtNoRegistrasi, dtEmptySOFChanges)
+'			Call InputFalsePinTransaction(dtPIN)
+'			Call InputFalsePinTransaction(dtPIN)
+'			Call RestartApp()
+			
+		
+	
+	
+		
+	End Select
+	
+End Sub
+
+
+
+
+Sub Scenario_EWalletLinkAja_Positive(byVal ScenarioNumber)
+	
+	
+	Select Case ScenarioNumber
+	
+		Case "1"
+			Call react.Addtitle("Pembelian Dengan Merubah Rekening Awal")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputEwallet(dtNoPembayaran, dtSOFChanges)
+			Call ConfirmTransaction_BayarBeli_PLNNonTaglis()
+			Call InputPinTransaction()
+			Call SuccessTransaction_BayarBeli_PLN()
+			Call InfaqTransaction(dtNominalInfaq)
+			Call RestartApp()
+			
+		
+	End Select
+	
+End Sub
+
+Sub Scenario_EWalletLinkAja_Negative(byVal ScenarioNumber)
+	
+	
+	Select Case ScenarioNumber
+	
+		Case "1"
+			Call react.Addtitle("Pembelian Dengan Merubah Rekening Awal")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputEwallet(dtNoPembayaran, dtSOFChanges)
+			Call ConfirmTransaction_BayarBeli_PLNNonTaglis()
+			Call InputPinTransaction()
+			Call SuccessTransaction_BayarBeli_PLN()
+			Call InfaqTransaction(dtNominalInfaq)
+			Call RestartApp()
+			
+		
+	End Select
+	
+End Sub
+
+
+
+Sub Scenario_EWalletLinkAjaSyariah_Positive(byVal ScenarioNumber)
+	
+	
+	Select Case ScenarioNumber
+	
+		Case "1"
+			Call react.Addtitle("Pembelian Dengan Merubah Rekening Awal")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputEwallet(dtNoPembayaran, dtSOFChanges)
+			Call ConfirmTransaction_BayarBeli_PLNNonTaglis()
+			Call InputPinTransaction()
+			Call SuccessTransaction_BayarBeli_PLN()
+			Call InfaqTransaction(dtNominalInfaq)
+			Call RestartApp()
+			
+		
+	End Select
+	
+End Sub
+
+Sub Scenario_EWalletLinkAjaSyariah_Negative(byVal ScenarioNumber)
+	
+	
+	Select Case ScenarioNumber
+	
+		Case "1"
+			Call react.Addtitle("Pembelian Dengan Merubah Rekening Awal")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputEwallet(dtNoPembayaran, dtSOFChanges)
+			Call ConfirmTransaction_BayarBeli_PLNNonTaglis()
+			Call InputPinTransaction()
+			Call SuccessTransaction_BayarBeli_PLN()
+			Call InfaqTransaction(dtNominalInfaq)
+			Call RestartApp()
+			
+		
+	End Select
+	
+End Sub
+
+
+
+Sub Scenario_EWalletOVO_Positive(byVal ScenarioNumber)
+	
+	
+	Select Case ScenarioNumber
+	
+		Case "1"
+			Call react.Addtitle("Pembelian Dengan Merubah Rekening Awal")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputEwallet(dtNoPembayaran, dtSOFChanges)
+			Call ConfirmTransaction_BayarBeli_PLNNonTaglis()
+			Call InputPinTransaction()
+			Call SuccessTransaction_BayarBeli_PLN()
+			Call InfaqTransaction(dtNominalInfaq)
+			Call RestartApp()
+			
+		
+	End Select
+	
+End Sub
+
+Sub Scenario_EWalletOVO_Negative(byVal ScenarioNumber)
+	
+	
+	Select Case ScenarioNumber
+	
+		Case "1"
+			Call react.Addtitle("Pembelian Dengan Merubah Rekening Awal")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputEwallet(dtNoPembayaran, dtSOFChanges)
+			Call ConfirmTransaction_BayarBeli_PLNNonTaglis()
+			Call InputPinTransaction()
+			Call SuccessTransaction_BayarBeli_PLN()
+			Call InfaqTransaction(dtNominalInfaq)
+			Call RestartApp()
+			
+		
+	End Select
+	
+End Sub
+
+
+
+
+Sub Scenario_EWalletPaytren_Positive(byVal ScenarioNumber)
+	
+	
+	Select Case ScenarioNumber
+	
+		Case "1"
+			Call react.Addtitle("Pembelian Dengan Merubah Rekening Awal")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputEwallet(dtNoPembayaran, dtSOFChanges)
+			Call ConfirmTransaction_BayarBeli_PLNNonTaglis()
+			Call InputPinTransaction()
+			Call SuccessTransaction_BayarBeli_PLN()
+			Call InfaqTransaction(dtNominalInfaq)
+			Call RestartApp()
+			
+		
+	End Select
+	
+End Sub
+
+Sub Scenario_EWalletPaytren_Negative(byVal ScenarioNumber)
+	
+	
+	Select Case ScenarioNumber
+	
+		Case "1"
+			Call react.Addtitle("Pembelian Dengan Merubah Rekening Awal")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputEwallet(dtNoPembayaran, dtSOFChanges)
+			Call ConfirmTransaction_BayarBeli_PLNNonTaglis()
+			Call InputPinTransaction()
+			Call SuccessTransaction_BayarBeli_PLN()
+			Call InfaqTransaction(dtNominalInfaq)
+			Call RestartApp()
+			
+		
+	End Select
+	
+End Sub
+
+
+
+Sub Scenario_EWalletShopeepay_Positive(byVal ScenarioNumber)
+	
+	
+	Select Case ScenarioNumber
+	
+		Case "1"
+			Call react.Addtitle("Pembelian Dengan Merubah Rekening Awal")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputEwallet(dtNoPembayaran, dtSOFChanges)
+			Call ConfirmTransaction_BayarBeli_PLNNonTaglis()
+			Call InputPinTransaction()
+			Call SuccessTransaction_BayarBeli_PLN()
+			Call InfaqTransaction(dtNominalInfaq)
+			Call RestartApp()
+			
+		
+	End Select
+	
+End Sub
+
+Sub Scenario_EWalletShopeepay_Negative(byVal ScenarioNumber)
+	
+	
+	Select Case ScenarioNumber
+	
+		Case "1"
+			Call react.Addtitle("Pembelian Dengan Merubah Rekening Awal")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu_BayarBeli(dtSubMenu)
+			Call InputEwallet(dtNoPembayaran, dtSOFChanges)
+			Call ConfirmTransaction_BayarBeli_PLNNonTaglis()
+			Call InputPinTransaction()
+			Call SuccessTransaction_BayarBeli_PLN()
+			Call InfaqTransaction(dtNominalInfaq)
+			Call RestartApp()
+			
+		
+	End Select
+	
+End Sub

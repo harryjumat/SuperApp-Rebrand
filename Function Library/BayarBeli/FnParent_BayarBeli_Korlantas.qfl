@@ -1,0 +1,136 @@
+﻿''Import Function Library
+Call LoadFunctionLibrary(Environment("TestDir") & "\..\..\Function Library\FunctionLib_BayarBeli.qfl")
+
+
+''Deklarasi Variable
+dtPassword				= DataTable.Value ("PASSWORD", dtGlobalSheet)
+dtPIN					= DataTable.Value ("PIN", dtGlobalSheet)
+dtSOFChanges			= DataTable.Value ("SOF_CHANGES", dtGlobalSheet)
+dtNominalInfaq			= DataTable.Value ("NOMINAL_INFAQ", dtGlobalSheet)
+dtNoPembayaran		= DataTable.Value ("NO_PEMBAYARAN", "SuperApp")
+dtNoPembayaranSalah	= DataTable.Value ("NO_PEMBAYARAN_SALAH", "SuperApp")
+dtNoPembayaranLunas	= DataTable.Value ("NO_PEMBAYARAN_LUNAS", "SuperApp")
+
+
+
+dtMenu					= "BayarBeli"
+dtSubMenu					= "Korlantas"
+dtNormalNominal			= "100000000"
+dtLimitType1				= "PerTransaksi"
+dtLimitType2				= "Harian"
+dtTransTypeLimit			= "Pembayaran"
+dtValidateNoSalah			= "SALAH"
+dtValidateNoLunas			= "PAID"
+dtValidateLimitTrans		= "LIMIT_TRANSAKSI"
+dtValidateLimitHarian		= "LIMIT_HARIAN"
+dtValidateSofKurang		= "SOF_KURANG"
+
+
+
+Sub Scenario_Positive(byVal ScenarioNumber)
+	
+	
+	Select Case ScenarioNumber
+	
+		Case "1"
+		Call react.Addtitle("Pembayaran KORLANTAS")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu(dtSubMenu)
+			Call InputKorlantas(dtNoPembayaran)
+			Call ChangeSourceAccount(dtSOFChanges)
+			Call ConfirmTransaction_BayarBeli()
+			Call InputPinTransaction(dtPIN)
+			Call SuccessTransaction_BayarBeli()
+			Call InfaqTransaction(dtNominalInfaq)
+			Call cekMutasi(dtSubMenu, vFTMaintrans)
+			Call cekJurnal(dtSubMenu, vFTMaintrans)
+			Call cekMutasi("Infaq", vFTInfaq)
+			Call cekJurnal("Infaq", vFTInfaq)
+			
+	
+		
+	End Select
+	
+End Sub
+
+
+Sub Scenario_Negative(byVal ScenarioNumber)
+	
+	
+	Select Case ScenarioNumber
+	
+		Case "1"
+			Call react.Addtitle("Input Pembayaran Korlantas dengan Nomor yang Salah")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu(dtSubMenu)
+			Call InputKorlantas(dtNoPembayaranSalah)
+			Call ValidasiTransaksi_BayarBeli(dtValidateNoSalah)
+			Call RestartApp()
+			
+		
+		Case "2"
+			Call react.Addtitle("Input Pembayaran Korlantas dengan Nomor yang Sudah Lunas")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu(dtSubMenu)
+			Call InputKorlantas(dtNoPembayaranLunas)
+			Call ValidasiTransaksi_BayarBeli(dtValidateNoLunas)
+			Call RestartApp()
+			
+		Case "3"
+			Call react.Addtitle("Transaksi Terkena 'Limit Transaksi' ")
+			Call LoginSuperApp(dtPassword)
+			Call ChangeLimitTransaction(dtLimitType1,dtTransTypeLimit,dtNominalChanges,dtPIN)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu(dtSubMenu)
+			Call InputKorlantas(dtNoPembayaran)
+			Call ValidasiTransaksi_BayarBeli(dtValidateLimitTrans)
+			Call RestartApp()
+			
+			
+		Case "4"
+			Call react.Addtitle("Transaksi Terkena 'Limit Harian' ")
+			Call LoginSuperApp(dtPassword)
+			''Rollback Limit
+			Call RollBackLimit(dtLimitType1,dtTransTypeLimit,dtNormalNominal,dtPIN)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu(dtSubMenu)
+			Call InputKorlantas(dtNoPembayaran)
+			Call ValidasiTransaksi_BayarBeli(dtValidateLimitHarian)
+			Call RestartApp()
+			
+			
+		Case "5"
+			Call react.Addtitle("Transaksi Terkena 'Saldo Tidak Cukup' ")
+			Call LoginSuperApp(dtPassword)
+			''Rollback Limit
+			Call RollBackLimit(dtLimitType2,dtTransTypeLimit,dtNormalNominal,dtPIN)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu(dtSubMenu)
+			Call InputKorlantas(dtNoPembayaran)
+			Call ValidasiTransaksi_BayarBeli(dtValidateSofKurang)
+			Call RestartApp()
+			
+		Case "6"
+			Call react.Addtitle("Transaksi Input Pin Salah")
+			Call LoginSuperApp(dtPassword)
+			Call ChooseMenuDashboard(dtMenu)
+			Call ChooseSubMenu(dtSubMenu)
+			Call InputKorlantas(dtNoPembayaran)
+			Call ConfirmTransaction_BayarBeli()
+			Call InputFalsePinTransaction(dtPIN)
+			Call InputFalsePinTransaction(dtPIN)
+			''Reset chance wrong password
+			Call BackDevice()
+			Call InputPinTransactionNoSS(dtPIN)
+			Call RestartApp()
+			
+		
+	
+	
+		
+	End Select
+	
+End Sub

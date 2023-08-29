@@ -1,0 +1,68 @@
+﻿''Import Function Library
+Call LoadFunctionLibrary(Environment("TestDir") & "\..\..\..\Function Library\BayarBeli\FnLibrary_BayarBeli.qfl")
+
+Dim UsernameT24, PasswordT24, URLT24
+
+''Deklarasi Variable
+''Config SuperApp Account
+dtPassword					= DataTable.Value ("PASSWORD", "Config")
+dtPIN						= DataTable.Value ("PIN", "Config")
+dtNominalInfaq				= DataTable.Value ("NOMINAL_INFAQ", "Config")
+
+'Config T24
+UsernameT24				= DataTable.Value ("T24_USERNAME", "T24")
+PasswordT24				= DataTable.Value ("T24_PASSWORD", "T24")
+URLT24						= DataTable.Value ("T24_URL", "T24")
+
+
+dtScenarioName			= DataTable.Value ("SCENARIO_NAME", "SuperApp")
+dtTitle						= DataTable.Value ("TITLE", "SuperApp")
+
+
+dtMenu					= "Transfer"
+
+Sub ScenarioTestCase()
+	dt_TCID = DataTable.Value ("TC_ID", "SuperApp")
+	print dt_TCID
+	If dtScenarioName = "View List Recent Transaction (History) - Transfer - Positive" Then
+	
+		'positive case
+		Call react.Addtitle(dtTitle)
+		Call LoginSuperApp(dtPassword)
+		Call ChooseMenuDashboard(dtMenu)
+		Call MenampilkanListRiwayatTransfer()
+		Call RestartApp()
+	
+	ElseIf dtScenarioName = "View List Recent Transaction (History) - Transfer - Positive" Then
+	
+		'positive case
+		Call react.Addtitle(dtTitle)
+		Call LoginSuperApp(dtPassword)
+		Call ChooseMenuDashboard(dtMenu)
+		Call HapusFieldPencarian()
+		Call RestartApp()
+		
+	ElseIf dtScenarioName = "View List Recent Transaction (History) - Transfer - Positive" Then
+	
+		'positive case
+		Call react.Addtitle(dtTitle)
+		Call LoginSuperApp(dtPassword)
+		Call ChooseMenuDashboard(dtMenu)
+		Call MenampilkanListFavoritTransfer()
+		Call RestartApp()
+		
+	ElseIf dtScenarioName = "View List Recent Transaction (History) - Transfer - Positive" Then
+	
+		'positive case
+		Call react.Addtitle(dtTitle)
+		Call LoginSuperApp(dtPassword)
+		Call ChooseMenuDashboard(dtMenu)
+		Call HapusFieldPencarianFavorit()
+		Call RestartApp()
+		
+	Else
+	
+		print "Test Case Not Found"
+		
+	End If
+End Sub

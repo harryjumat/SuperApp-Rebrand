@@ -1,0 +1,199 @@
+﻿'repo cardless withdrawa'
+Call RepositoriesCollection.Add(Environment("TestDir") & "\..\..\..\Object Repository\Repository_CardlessWithdrawal.tsr")
+
+'object repository cardless withdrawal
+Call LoadFunctionLibrary(Environment("TestDir") & "\..\..\..\Function Library\Profile\ObjectRepository_CardlessWithdrawal.qfl")
+
+
+Dim vFTMaintrans, vFTInfaq
+
+
+
+REM==============================================FUNCTION INPUT BAYAR BELI=================================================================
+REM====================================================START HERE==========================================================================
+
+'Author Harry Setiawan
+Function LokasiPenarikan(dtLokasiPenarikan)
+
+	Do 
+	wait 1
+	Loop until Lbl_LokasiPenarikan.Exist
+	Call Capture(lbl_atmbsi,"Dev","Lokasi Penarikan","Berhasil menampilkan list lokasi penarikan, cari lokasi penarikan")
+	Field_Cari.Set dtLokasiPenarikan
+	Call Capture(lbl_atmbsi,"Dev","Pencarian Lokasi Penarikan","Berhasil menampilkan tujuan penarikan, klik lokasi penarikan")
+	Obj_LokasiPenarikan.Tap
+	
+End Function
+
+Function PilihNominal()
+	
+	Do 
+	wait 1
+	Loop until Lbl_NamaRekening.Exist
+	Call Capture(lbl_easymudharabah,"Dev","Tarik Tunai","Berhasil menampilkan menu tarik tunai, pilih nominal")
+	Obj_Nominal100000.Tap
+	wait 1
+	Call Capture(lbl_easymudharabah,"Dev","Nominal","Berhasil memilih nominal, pilih sumber rekening")
+	
+End Function
+	
+Function PilihRekening()
+	
+	Btn_UbahRekening.Tap
+	wait 1
+	Call Capture(lbl_pilihtabungansumber,"Dev","Pilih Tabungan Sumber","Berhasil menampilkan list sumber tabungan, cari sumber tabungan")	
+	Btn_Rekening.Tap
+	wait 1
+	Call Capture(lbl_easymudharabah,"Dev","Sumber Rekening","Berhasil memilih sumber rekening, klik lanjutkan")
+	Lbl_Lanjutkan.Tap
+		
+End Function
+	
+Function KonfirmasiTransaksi()
+	
+	Do 
+	wait 1
+	Loop until Btn_BuatKode.Exist
+	Call Capture(lbl_konfirmasi,"Dev","Konfirmasi Transaksi","Berhasil menampilkan konfirmasi transaksi, klik buat kode")
+	Btn_BuatKode.Tap
+	
+End Function
+	
+Function SuccessTransaction_TarikTunai()
+	
+	Do 
+	wait 1
+	Loop until Lbl_KodeToken.Exist
+	Call Capture(lbl_kodetoken,"Dev","Kode Siap Digunakan","Berhasil menampilkan halaman kode token, klik download")
+	
+End Function
+
+Function DownloadResi(dtLokasiPenarikan)
+
+	Lbl_Download.Tap
+	Call Capture(lbl_detailresi,"Dev","Detail Resi","Berhasil download resi, klik button bagikan resi")
+	If not Lbl_BagikanResi.Exist Then
+		List_DetailResi.Swipe "up",205,430
+		wait 1
+	End If
+	Lbl_BagikanResi.Tap
+	wait 1
+	Call Capture(lbl_detailresi,"Dev","Bagikan Resi","Berhasil menampilkan menu bagikan resi, klik button x untuk kembali")
+	AI_X.Click
+	Call Capture(lbl_detailresi,"Dev","Detail Resi","Berhasil kembali ke menu detail resi, klik panah kembali")
+	Btn_Back.Tap
+	wait 1	
+	
+	If dtLokasiPenarikan = "ATM BSI" Then
+		Call Capture(lbl_kodetoken,"Dev","Kode Siap Digunakan","Berhasil menampilkan halaman kode token, klik lihat atm terdekat")
+		Btn_LihatATMTerdekat.Tap
+		Do 
+		wait 1
+		Loop until Lbl_LokasiATMCabang.Exist
+		Call Capture(lbl_terdapat5atm,"Dev","Lokasi ATM Cabang","Berhasil menampilkan lokasi atm cabang, klik tab kantor cabang")
+		Lbl_KantorCabang.Tap
+		Call Capture(lbl_terdapat5atm,"Dev","Lokasi Kantor Cabang","Berhasil menampilkan lokasi kantor cabang, klik panah kembali")
+		Btn_Back.Tap
+		wait 1
+	End If
+	
+	Call Capture(lbl_kodetoken,"Dev","Kode Siap Digunakan","Berhasil menampilkan halaman kode token, klik lanjutkan")
+		If not Lbl_Lanjutkan.Exist Then
+			Lbl_KodeToken.Swipe "up",300,300
+		End If
+'	Lbl_Lanjutkan.Tap
+	wait 3
+	
+End Function
+	
+'Function InfaqTransaction()
+'	
+'	Call Capture(lbl_lewatiinfaq,"Dev","Menu Infaq","Berhasil menampilkan halaman infaq, pilih denom infaq")
+'	Lbl_2000.Tap
+'	Do 
+'	wait 1
+'	Loop until Btn_Konfirmasi.Exist
+'	Call Capture(lbl_konfirmasi,"Dev","Konfirmasi Transfer","Berhasil menampilkan konfirmasi transfer infaq, klik konfirmasi")
+'	Btn_Konfirmasi.Tap
+'	
+'End Function
+	
+Sub SuccessTransaction_Infaq()
+	
+''Tap Detail Transaksi
+	If button_DetailTransaksi.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Detail Transaksi", "Berhasil Melakukan Transaksi, Tap Detail Transaksi", ReportStatus.Passed)
+		button_DetailTransaksi.Tap
+		wait 3
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Detail Transaksi", "", ReportStatus.Passed)
+		button_DetailTransaksi.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Label Detail Transaksi")
+	End If
+		
+	
+''Tap Button Share
+	If button_ShareTransaksi.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Button Share", "", ReportStatus.Passed)
+		button_ShareTransaksi.Tap
+		wait 1
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Page Share", "Berhasil Masuk Page Share, Tap Back", ReportStatus.Passed)
+		AI_button_close.Click
+	Else 
+		Call objNotFound(objSuperApp,"Button Share")
+	End If
+	
+	'Tap Button Download
+	If button_DownloadTransaksi.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Button Download", "", ReportStatus.Passed)
+		button_DownloadTransaksi.Tap
+		wait 1
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Page Download", "Berhasil Masuk Page Download, Tap Back", ReportStatus.Passed)
+		wait 1
+		
+		'Call GetNoFT(label_NoTransaksiFT_Zakat)
+		vFTInfaq	   = GetNoFTInfaq()
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Page Detail Resi", "Berhasil Masuk Page Detail Resi. Berhasil mendapatkan Resi dengan Nomor Transaksi: "&vFTInfaq, ReportStatus.Passed)
+		wait 1
+		
+		List_DetailResi.Swipe("up")
+	Else 
+		Call objNotFound(objSuperApp,"Button Download")
+	End If
+	
+	
+''Tap Button Bagikan Resi
+	If button_BagikanResi.Exist(5) Then
+		button_BagikanResi.Highlight
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Button Bagikan Resi", "", ReportStatus.Passed)
+		button_BagikanResi.Tap
+		wait 1
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Muncul Pop-Up Bagikan Resi", "Berhasil Tap Bagikan Resi, Tap Back", ReportStatus.Passed)
+		AI_button_close.Click
+		wait 1
+		AI_button_Back.Click
+	Else 
+		Call objNotFound(objSuperApp,"Button Bagikan Resi")
+	End If
+	
+End Sub
+
+'Flow Notifikasi
+Function Notifikasi()
+	
+	Do 
+	wait 1
+	Loop until Btn_KeDashboard.Exist
+	Call Capture(btn_arrow,"Dev","Detail Transaksi","Berhasil menampilkan halaman resi infaq, klik ke dashbpard")
+	Btn_KeDashboard.Tap
+	wait 3
+	AI_IconNotifikasi.Click
+	wait 3
+	Call Capture(inobj_tariktunaiberhasil,"Dev","Notifikasi","Berhasil menampilkan notifikasi tarik tunai via atm bsi berhasil, klik notifikasi")	
+	Obj_TarikTunai.Tap
+	Do 
+	wait 1
+	Loop until Lbl_KodeToken.Exist
+	Call Capture(lbl_kodetoken,"Dev","Kode Siap Digunakan","Berhasil menampilkan halaman kode token")
+	
+End Function

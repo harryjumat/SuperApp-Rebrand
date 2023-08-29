@@ -1,0 +1,18 @@
+﻿'Virtual Account
+Set Btn_Bayar				= Device("Device").App("Virtual Account").MobileButton("Btn_Bayar")
+Set Field_CariLembaga		= Device("Device").App("Virtual Account").MobileEdit("Field_CariLembaga")
+Set Obj_Lembaga			= Device("Device").App("Virtual Account").MobileObject("Obj_Lembaga")
+Set Field_VirtualAccount		= Device("Device").App("Virtual Account").MobileEdit("Field_CariLembaga")
+Set Btn_Selesai				= Device("Device").App("Virtual Account").MobileButton("Btn_Selesai")
+Set Btn_CekTagihan			= Device("Device").App("Virtual Account").MobileButton("Btn_CekTagihan")
+Set Btn_Konfirmasi			= Device("Device").App("Virtual Account").MobileButton("Btn_Konfirmasi")
+Set Btn_Arrow				= Device("Device").App("Virtual Account").MobileButton("Btn_Arrow")
+Set Btn_Share				= Device("Device").App("Virtual Account").MobileButton("Btn_Share")
+Set AI_X						= AIUtil("close")
+Set Btn_Download			= Device("Device").App("Virtual Account").MobileButton("Btn_Download")
+Set Lbl_FT					= Device("Device").App("Virtual Account").MobileLabel("Lbl_FT")
+Set List_DetailResi			= Device("Device").App("Virtual Account").MobileView("List_DetailResi")
+Set Btn_BagikanResi			= Device("Device").App("Virtual Account").MobileButton("Btn_BagikanResi")
+Set Lbl_Back					= Device("Device").App("Virtual Account").MobileLabel("Lbl_Back")
+
+

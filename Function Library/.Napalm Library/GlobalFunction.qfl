@@ -1,0 +1,1099 @@
+﻿REM Created by		: Dadit
+REM Enhanced by		: Adhy - Dadit
+REM Date Created	: 4 April 2018
+REM	Date Updated	: 17 Januari 2019
+REM =============== Changelog 5.3
+REM == 13 September 2018
+REM == PENAMBAHAN CAPTURE MULTIPLE IMAGE
+REM How to call the function
+REM - Page = Page biasa
+REM - imageTitle = For Capture Screen Title
+REM - imageDesc = Description for a	ll screenshot in one title (ex: 2 SS in 1 Title, content variable: "Full Capture|Full Scroll Capture") 
+REM - varStatus = Report Status
+REM == 17 Januari 2019
+reM - Penambahan Comment untuk dokumentasi
+REM ==========================================================	
+	Dim dtTempTC
+	Dim dtCaptureName, dtProjectName
+	Dim varAddImages 
+	
+	Dim projectFdate, projectF, PathFolder1
+	Dim dtFolder
+	Dim dtFolderUFT
+	Dim objSysInfo
+	Dim PathFolder
+	
+	Dim TransactionID, DateHour
+	Dim objFSO, fso
+	Dim	objFolder
+	Dim objShell
+	Dim oSnag
+	Dim ImageName
+	Dim fileName
+	Dim fullPath
+	Dim oBrowser
+	
+	Dim imageTitle
+	Dim imageDesc
+
+	Dim deviceReplay
+	Dim LEFT_MOUSE_BUTTON
+
+varAddImages = ""
+
+REM ========================= Function untuk create folder =================================
+Function CreateFolder_DynamicPath()
+REM ============== OpenApp() ada di dalam lib file OpenApp
+	Call OpenApp()
+REM ====================================================
+	Call CreateFolder_Project()
+	Call GetDateTime()
+	Set objSysInfo = Createobject("Wscript.Network")	
+	Set objFSO = CreateObject("Scripting.FileSystemObject")
+
+REM ========= get path to My Documents
+	dtFolder = "C:\Users\"& objSysInfo.UserName &"\Documents"
+
+REM ========= Set Folder "Executed Test Cases using ALM"
+	dtFolderUFT = "\Execute MSM Versi 5.9\"
+	On error resume next
+REM ========= get TC_ID di globalsheet, kalo ga ada secara otomatis akan menggunakan Project/Test name sebagai nama folder result
+	dtTempTC = DataTable.Value ("TC_ID", dtGlobalSheet)	
+	If err.Number = -2147220907 Then
+		dtTempTC = Environment("TestName")	
+	End If	
+
+REM ========= projectF itu bentukan dari isi data PROJECT_NAMEE pada globalsheet ada di function CreateFolder_Project()
+	If projectF = "" Then
+		PathFolder = dtFolder&dtFolderUFT&"\"&dtTempTC
+REM === Create the File System Object
+		Call NewFolder(dtFolder&dtFolderUFT)
+REM === Note If..Exists. Then, Else ... End If construction
+		Call DeleteFolder(PathFolder)
+		Set objFolder = objFSO.CreateFolder(PathFolder)
+	else	
+		Call NewFolder(dtFolder&dtFolderUFT)
+		If initiated = false Then
+			Iteration=Environment("TestIteration")
+			tampung=CInt(Iteration)
+			If tampung = 1 Then
+				PathFolder1 = dtFolder&dtFolderUFT&"\"&projectF & "_" & DateHour
+				Call NewFolder(PathFolder1)
+			End If
+		
+		End If	
+		PathFolder = PathFolder1 & "\" & dtTempTC
+		Set objFolder = objFSO.CreateFolder(PathFolder)
+	End If
+
+	Set objFSO = Nothing
+	On error goto 0
+End Function
+
+REM= ========
+Function Path_Folder()
+REM ====================================================
+	Call CreateFolder_Project()
+	Call GetDateTime()
+	Set objSysInfo = Createobject("Wscript.Network")	
+	Set objFSO = CreateObject("Scripting.FileSystemObject")
+
+REM ========= get path to My Documents
+	dtFolder = "C:\Users\"& objSysInfo.UserName &"\Documents"
+
+REM ========= Set Folder "Executed Test Cases using ALM"
+	dtFolderUFT = "\Executed Test Run From Action\"
+	On error resume next
+REM ========= get TC_ID di globalsheet, kalo ga ada secara otomatis akan menggunakan Project/Test name sebagai nama folder result
+	dtTempTC = DataTable.Value ("TC_ID", dtGlobalSheet)	
+	If err.Number = -2147220907 Then
+		dtTempTC = Environment("TestName")	
+	End If	
+
+REM ========= projectF itu bentukan dari isi data PROJECT_NAMEE pada globalsheet ada di function CreateFolder_Project()
+	If projectF = "" Then
+		PathFolder = dtFolder&dtFolderUFT&"\"&dtTempTC
+REM === Create the File System Object
+		Call NewFolder(dtFolder&dtFolderUFT)
+REM === Note If..Exists. Then, Else ... End If construction
+		Call DeleteFolder(PathFolder)
+		Set objFolder = objFSO.CreateFolder(PathFolder)
+	else	
+		Call NewFolder(dtFolder&dtFolderUFT)
+		If initiated = false Then
+			Iteration=Environment("TestIteration")
+			tampung=CInt(Iteration)
+			If tampung = 1 Then
+				PathFolder1 = dtFolder&dtFolderUFT&"\"&projectF & "_" & DateHour
+				Call NewFolder(PathFolder1)
+			End If
+		
+		End If	
+		PathFolder = PathFolder1 & "\" & dtTempTC
+		Set objFolder = objFSO.CreateFolder(PathFolder)
+	End If
+
+	Set objFSO = Nothing
+	On error goto 0
+End Function
+
+REM =================== Create nama folder based on Nama Project dari datatable, globalsheet, column PROJECT_NAME
+Function CreateFolder_Project()
+	On error resume next
+	temp = DataTable.GlobalSheet.GetCurrentRow
+	projectF = DataTable.Value("PROJECT_NAME", dtGlobalSheet)
+		If err.Number = -2147220907 Then
+			projectF = ""
+			else
+			If projectF = "" Then
+				DataTable.GlobalSheet.SetCurrentRow(1)
+				projectF = DataTable.Value("PROJECT_NAME", dtGlobalSheet)
+				DataTable.GlobalSheet.SetCurrentRow(temp)
+			End If
+			On error goto 0
+		End If	
+End Function
+
+REM ===================== Function untuk create New Folder
+Function NewFolder(FolderName)
+	Set objFSO = CreateObject("Scripting.FileSystemObject")
+	on error resume next
+	objFSO.CreateFolder(FolderName)
+End Function
+
+REM ===================== Function untuk Delete Folder
+Function DeleteFolder(Path)
+	If objFSO.FolderExists(Path) Then
+	On error resume next
+		objFSO.DeleteFolder(Path)
+	End If
+End Function
+
+
+REM ===================== Function untuk membuka browser dengan parameter pertama browser (lihat di taskmanager terkait browser apa yg digunakan, cth: internet explorer = iexplore.exe), parameter kedua url tujuan
+Function OpenBrowser(browser, url)
+	oBrowser = LCase(browser)
+	SystemUtil.CloseProcessByName oBrowser &".exe"		
+	SystemUtil.Run oBrowser, url, , , 3
+	
+	wait 2	
+End Function
+
+REM ====================== Function untuk close browser
+REM ====================== Function ini tidak akan berjalan jika tidak ada OpenBrowser di awal action!!!!!!
+Function CloseBrowser()
+	SystemUtil.CloseProcessByName oBrowser &".exe"
+	wait 2	
+End Function
+
+
+REM =============*******=========== Function untuk get DateTime ==================*******==========================
+Function GetDateTime()
+	Dim sYear
+	Dim sMonth
+	Dim sDay
+	Dim sHour
+	Dim sMinute
+	Dim sSecond
+	
+	sYear = Cstr(Year(Now))
+	
+	If Len(CStr(Month(Now))) < 2 Then
+		sMonth = "0" & Month(Now)
+	Else
+		sMonth = Month(Now)
+	End If
+	If Len(CStr(Day(Now))) < 2 Then
+		sDay = "0" & Day(Now)
+	Else
+		sDay = Day(Now)
+	End If
+	If Len(CStr(Hour(Now))) < 2 Then
+		sHour = "0" & Hour(Now)
+	Else
+		sHour = Hour(Now)
+	End If
+	If Len(CStr(Minute(Now))) < 2 Then
+		sMinute = "0" & Minute(Now)
+	Else
+		sMinute = Minute(Now)
+	End If
+	If Len(CStr(Second(Now))) < 2 Then
+		sSecond = "0" & Second(Now)
+	Else
+		sSecond = Second(Now)
+	End If
+	
+	GetDateTime = sYear & "-" & sMonth & "-" & sDay & "_" & sHour & "-" & sMinute & "-" & sSecond
+	DateHour = sYear & sMonth & sDay & "_" & sHour & "." & sMinute
+	Exit Function
+End Function
+
+
+REM =================== Capture Image digunakan untuk capture tanpa scroll menggunakan snagit ============================
+Function CaptureImage(byval page, imageTitle, imageDesc)
+	Set deviceReplay = CreateObject("Mercury.DeviceReplay")
+	Set objShell = CreateObject("WScript.Shell")
+	Set oSnag = CreateObject("SNAGIT.ImageCapture.1")
+	fileName = Environment("ActionName") & "_" & GetDateTime()
+	wait 2
+	oSnag.Input = 1
+	oSnag.Output = 2
+	oSnag.OutputImageFile.FileNamingMethod = 1
+	oSnag.OutputImageFile.Filename = fileName
+	oSnag.OutputImageFile.Quality = 200
+	
+	'Path file buat nyimpen gambar
+	oSnag.OutputImageFile.Directory = objFolder
+	oSnag.EnablePreviewWindow = False
+	oSnag.AutoScrollOptions.AutoScrollMethod = 0
+	oSnag.DelayOptions.DelaySeconds = 0
+	oSnag.DelayOptions.EnableDelayedCapture = False
+	oSnag.ForegroundPreview = False
+	oSnag.AutoScrollOptions.FastestScrollingMethod = True
+	oSnag.Filters.Resolution.UseAutoResolution = True
+	
+	oSnag.OutputImageFile.LoadImageDefaults 5 
+	oSnag.Capture
+	wait 2
+	deviceReplay.MouseClick 300, 300, LEFT_MOUSE_BUTTON
+	wait 1
+	Do Until oSnag.IsCaptureDone
+	Loop
+	fullPath = oSnag.OutputImageFile.Directory & "\" & fileName & ".png"
+	Set oSnag=Nothing
+	Set objShell=Nothing
+	Call react.AddImage (imageTitle, imageDesc, fullPath)
+End Function
+
+REM =================== CaptureImageV2 digunakan untuk capture tanpa scroll menggunakan snagit + status dari hasil capture(passed, warning, failed) ============================
+Function CaptureImageV2(byval page, imageTitle, imageDesc, varStatus)
+	Set deviceReplay = CreateObject("Mercury.DeviceReplay")
+	Set objShell = CreateObject("WScript.Shell")
+	Set oSnag = CreateObject("SNAGIT.ImageCapture.1")
+	fileName = Environment("ActionName") & "_" & GetDateTime()
+	wait 2
+	oSnag.Input = 1
+	oSnag.Output = 2
+	oSnag.OutputImageFile.FileNamingMethod = 1
+	oSnag.OutputImageFile.Filename = fileName
+	oSnag.OutputImageFile.Quality = 200
+	
+	'Path file buat nyimpen gambar
+	oSnag.OutputImageFile.Directory = objFolder
+
+	oSnag.EnablePreviewWindow = False
+	oSnag.AutoScrollOptions.AutoScrollMethod = 0
+	oSnag.DelayOptions.DelaySeconds = 0
+	oSnag.DelayOptions.EnableDelayedCapture = False
+	oSnag.ForegroundPreview = False
+	oSnag.AutoScrollOptions.FastestScrollingMethod = True
+	oSnag.Filters.Resolution.UseAutoResolution = True
+	
+	oSnag.OutputImageFile.LoadImageDefaults 5 
+	oSnag.Capture
+	wait 2
+	deviceReplay.MouseClick 300, 300, LEFT_MOUSE_BUTTON
+	wait 1
+	Do Until oSnag.IsCaptureDone
+	Loop
+	fullPath = oSnag.OutputImageFile.Directory & "\" & fileName & ".png"
+	
+	Set oSnag=Nothing
+	Set objShell=Nothing
+	
+	Call react.AddImage (imageTitle, imageDesc, fullPath, varStatus)
+End Function
+
+REM =================== Capture_Image sama dengan CaptureImage (karena ada beberapa tester yg menggunakan underscore, jadi dibuat function nya) ============================
+Function Capture_Image(byval page, imageTitle, imageDesc)
+Call CaptureImage(page, imageTitle, imageDesc)	
+End Function
+REM =================== Capture_ImageV2 sama dengan CaptureImageV2 (karena ada beberapa tester yg menggunakan underscore, jadi dibuat function nya) ============================
+Function Capture_ImageV2(byval page, imageTitle, imageDesc, varStatus)
+Call CaptureImageV2(page, imageTitle, imageDesc, varStatus)	
+End Function
+
+REM =================== Capture_Full digunakan untuk capture keseluruhan layar (Termasuk taskbar) =================
+Function Capture_Full(byval page, imageTitle, imageDesc)
+	Set deviceReplay = CreateObject("Mercury.DeviceReplay")
+	Set objShell = CreateObject("WScript.Shell")
+	Set oSnag = CreateObject("SNAGIT.ImageCapture.1")
+	fileName = Environment("ActionName") & "_" & GetDateTime()
+	wait 2
+	oSnag.Input = 0
+	oSnag.Output = 2
+	oSnag.OutputImageFile.FileNamingMethod = 1
+	oSnag.OutputImageFile.Filename = fileName
+	oSnag.OutputImageFile.Quality = 200
+	
+	'Path file buat nyimpen gambar
+	oSnag.OutputImageFile.Directory = objFolder
+
+	oSnag.EnablePreviewWindow = False
+	oSnag.AutoScrollOptions.AutoScrollMethod = 0
+	oSnag.DelayOptions.DelaySeconds = 0
+	oSnag.DelayOptions.EnableDelayedCapture = False
+	oSnag.ForegroundPreview = False
+	oSnag.AutoScrollOptions.FastestScrollingMethod = True
+	oSnag.Filters.Resolution.UseAutoResolution = True
+	oSnag.OutputImageFile.LoadImageDefaults 5 
+	oSnag.Capture
+	wait 2
+	deviceReplay.MouseClick 300, 300, LEFT_MOUSE_BUTTON
+	wait 1
+	Do Until oSnag.IsCaptureDone
+	Loop
+	fullPath = oSnag.OutputImageFile.Directory & "\" & fileName & ".png"
+	Set oSnag=Nothing
+	Set objShell=Nothing
+	Call react.AddImage (imageTitle, imageDesc, fullPath)	
+End Function
+
+REM =================== Capture_Full digunakan untuk capture keseluruhan layar (Termasuk taskbar) + status hasil capture (passed, warning, failed) =================
+Function Capture_FullV2(byval page, imageTitle, imageDesc, varStatus)
+	Set deviceReplay = CreateObject("Mercury.DeviceReplay")
+
+	Set objShell = CreateObject("WScript.Shell")
+	Set oSnag = CreateObject("SNAGIT.ImageCapture.1")
+
+	fileName = Environment("ActionName") & "_" & GetDateTime()
+	
+	wait 2
+	
+	oSnag.Input = 0
+	oSnag.Output = 2
+	oSnag.OutputImageFile.FileNamingMethod = 1
+	oSnag.OutputImageFile.Filename = fileName
+	oSnag.OutputImageFile.Quality = 200
+	
+	
+	'Path file buat nyimpen gambar
+	oSnag.OutputImageFile.Directory = objFolder
+
+	oSnag.EnablePreviewWindow = False
+	oSnag.AutoScrollOptions.AutoScrollMethod = 0
+	oSnag.DelayOptions.DelaySeconds = 0
+	oSnag.DelayOptions.EnableDelayedCapture = False
+	oSnag.ForegroundPreview = False
+	oSnag.AutoScrollOptions.FastestScrollingMethod = True
+	oSnag.Filters.Resolution.UseAutoResolution = True
+	
+	oSnag.OutputImageFile.LoadImageDefaults 5 
+	oSnag.Capture
+	wait 2
+	deviceReplay.MouseClick 300, 300, LEFT_MOUSE_BUTTON
+	wait 1
+	
+	Do Until oSnag.IsCaptureDone
+	
+	Loop
+
+	fullPath = oSnag.OutputImageFile.Directory & "\" & fileName & ".png"
+	
+	Set oSnag=Nothing
+	Set objShell=Nothing
+
+	
+	Call react.AddImage (imageTitle, imageDesc, fullPath, varStatus)
+	
+End Function
+
+
+REM ============================= Capture_Scroll_Image digunakan untuk capture image scrolling ========================
+Function Capture_Scroll_Image(byval page, imageTitle, imageDesc)
+	Set deviceReplay = CreateObject("Mercury.DeviceReplay")
+	Set objShell = CreateObject("WScript.Shell")
+	Set oSnag = CreateObject("SNAGIT.ImageCapture.1")
+	fileName = Environment("ActionName") & "_" & GetDateTime()
+	On error resume next
+	page.RunScript "window.scrollTo(0, 0);"	
+	On error goto 0
+	wait 2
+	objShell.SendKeys "{HOME}"
+	oSnag.Input = 1
+	oSnag.Output = 2
+	oSnag.OutputImageFile.FileNamingMethod = 1
+	oSnag.OutputImageFile.Filename = fileName
+	oSnag.OutputImageFile.Quality = 200
+	
+	'Path file buat nyimpen gambar
+	oSnag.OutputImageFile.Directory = objFolder
+
+	oSnag.EnablePreviewWindow = False
+	oSnag.AutoScrollOptions.AutoScrollMethod = 3
+	oSnag.AutoScrollOptions.StartingPosition = 0
+	oSnag.DelayOptions.DelaySeconds = 0
+	oSnag.DelayOptions.EnableDelayedCapture = False
+	oSnag.ForegroundPreview = False
+	oSnag.AutoScrollOptions.FastestScrollingMethod = True
+	oSnag.Filters.Resolution.UseAutoResolution = True
+	oSnag.OutputImageFile.LoadImageDefaults 5 
+	oSnag.Capture
+	wait 2
+	deviceReplay.MouseClick 300, 300, LEFT_MOUSE_BUTTON
+	wait 1
+	Do Until oSnag.IsCaptureDone
+	Loop
+	fullPath = oSnag.OutputImageFile.Directory & "\" & fileName & ".png"
+	Set oSnag=Nothing
+	Set objShell=Nothing
+	Call react.AddImage (imageTitle, imageDesc, fullPath)
+End Function
+
+REM ============================= Capture_Scroll_ImageV2 digunakan untuk capture image scrolling + status hasil capture ========================
+Function Capture_Scroll_ImageV2(byval page, imageTitle, imageDesc, varStatus)
+	Set deviceReplay = CreateObject("Mercury.DeviceReplay")
+	Set objShell = CreateObject("WScript.Shell")
+	Set oSnag = CreateObject("SNAGIT.ImageCapture.1")
+	fileName = Environment("ActionName") & "_" & GetDateTime()
+	On error resume next
+	page.RunScript "window.scrollTo(0, 0);"	
+	On error goto 0
+	wait 2
+	objShell.SendKeys "{HOME}"
+	oSnag.Input = 1
+	oSnag.Output = 2
+	oSnag.OutputImageFile.FileNamingMethod = 1
+	oSnag.OutputImageFile.Filename = fileName
+	oSnag.OutputImageFile.Quality = 200
+	
+	oSnag.OutputImageFile.Directory = objFolder
+
+	oSnag.EnablePreviewWindow = False
+	oSnag.AutoScrollOptions.AutoScrollMethod = 3
+	oSnag.AutoScrollOptions.StartingPosition = 0
+	oSnag.DelayOptions.DelaySeconds = 0
+	oSnag.DelayOptions.EnableDelayedCapture = False
+	oSnag.ForegroundPreview = False
+	oSnag.AutoScrollOptions.FastestScrollingMethod = True
+	oSnag.Filters.Resolution.UseAutoResolution = True
+	
+	oSnag.OutputImageFile.LoadImageDefaults 5 
+	oSnag.Capture
+	wait 2
+'	objShell.SendKeys "{ENTER}"
+	deviceReplay.MouseClick 300, 300, LEFT_MOUSE_BUTTON
+	wait 1
+	Do Until oSnag.IsCaptureDone
+	Loop
+	fullPath = oSnag.OutputImageFile.Directory & "\" & fileName & ".png"
+	Set oSnag=Nothing
+	Set objShell=Nothing
+	Call react.AddImage (imageTitle, imageDesc, fullPath, varStatus)
+End Function
+
+
+REM ======================== Add_ImageUFT digunakan untuk multiple capture dalam satu judul, capture ini menggunakan bawaan dari UFT =========================
+'Function Add_ImageUFT(byval page, imageDesc)
+'	Set fso = CreateObject("Scripting.FileSystemObject")
+'	fileName = Environment("ActionName") & "_" & GetDateTime()
+'	fullPath = objFolder & "\" & fileName & ".png"
+'	page.CaptureBitmap fullPath
+'	Do until fso.FileExists(fullPath)
+'		wait 0, 500
+'	loop
+'	varAddImages = varAddImages & fullPath & "|" & imageDesc & "|"
+'End Function
+
+'variable Global
+dim countImage
+countImage=1
+
+Function Add_ImageUFT(byval page, imageDesc)
+	Set fso = CreateObject("Scripting.FileSystemObject")
+	fileName = Environment("ActionName") & "_" & GetDateTime()
+	fullPath = objFolder & "\" & fileName & ".png"
+	
+	'fullPath.exits
+	if fso.FileExists(fullPath) then
+		fullPath=objFolder & "\" & fileName &"_"& countImage &".png"
+		page.CaptureBitmap fullPath
+		countImage=countImage+1
+	else
+		page.CaptureBitmap fullPath
+	end if
+	
+	
+	Do until fso.FileExists(fullPath)
+		wait 0, 500
+	loop
+	varAddImages = varAddImages & fullPath & "|" & imageDesc & "|"
+'	Set fullPath = nothing
+End Function
+
+
+
+REM ======================== Add_ImageUFT digunakan untuk multiple capture dalam satu judul, capture ini menggunakan snagit tanpa scrolling =========================
+Function Add_Image(byval page, imageDesc)
+	Set deviceReplay = CreateObject("Mercury.DeviceReplay")
+	Set objShell = CreateObject("WScript.Shell")
+	Set oSnag = CreateObject("SNAGIT.ImageCapture.1")
+	fileName = Environment("ActionName") & "_" & GetDateTime()
+	wait 2
+	oSnag.Input = 1
+	oSnag.Output = 2
+	oSnag.OutputImageFile.FileNamingMethod = 1
+	oSnag.OutputImageFile.Filename = fileName
+	oSnag.OutputImageFile.Quality = 200
+	
+	'Path file buat nyimpen gambar
+	oSnag.OutputImageFile.Directory = objFolder
+
+	oSnag.EnablePreviewWindow = False
+	oSnag.AutoScrollOptions.AutoScrollMethod = 0
+	oSnag.DelayOptions.DelaySeconds = 0
+	oSnag.DelayOptions.EnableDelayedCapture = False
+	oSnag.ForegroundPreview = False
+	oSnag.AutoScrollOptions.FastestScrollingMethod = True
+	oSnag.Filters.Resolution.UseAutoResolution = True
+	
+	oSnag.OutputImageFile.LoadImageDefaults 5 
+	oSnag.Capture
+	wait 2
+	deviceReplay.MouseClick 300, 300, LEFT_MOUSE_BUTTON
+	wait 1
+	Do Until oSnag.IsCaptureDone
+	Loop
+	fullPath = oSnag.OutputImageFile.Directory & "\" & fileName & ".png"
+	
+	Set oSnag=Nothing
+	Set objShell=Nothing
+	varAddImages = varAddImages & fullPath & "|" & imageDesc & "|"
+End Function
+
+REM ======================== Add_ImageUFT digunakan untuk multiple capture dalam satu judul, capture ini menggunakan snagit dan scrolling =========================
+Function Add_Scroll_Image(byval page, imageDesc)
+	Set deviceReplay = CreateObject("Mercury.DeviceReplay")
+	Set objShell = CreateObject("WScript.Shell")
+	Set oSnag = CreateObject("SNAGIT.ImageCapture.1")
+	fileName = Environment("ActionName") & "_" & GetDateTime()
+	On error resume next
+	page.RunScript "window.scrollTo(0, 0);"	
+	On error goto 0
+	wait 3
+	objShell.SendKeys "{HOME}"
+	oSnag.Input = 1
+	oSnag.Output = 2
+	oSnag.OutputImageFile.FileNamingMethod = 1
+	oSnag.OutputImageFile.Filename = fileName
+	oSnag.OutputImageFile.Quality = 200
+	
+	'Path file buat nyimpen gambar
+	oSnag.OutputImageFile.Directory = objFolder
+	oSnag.EnablePreviewWindow = False
+	oSnag.AutoScrollOptions.AutoScrollMethod = 3
+	oSnag.AutoScrollOptions.StartingPosition = 0
+	oSnag.DelayOptions.DelaySeconds = 0
+	oSnag.DelayOptions.EnableDelayedCapture = False
+	oSnag.ForegroundPreview = False
+	oSnag.AutoScrollOptions.FastestScrollingMethod = True
+	oSnag.Filters.Resolution.UseAutoResolution = True
+	oSnag.OutputImageFile.LoadImageDefaults 5 
+	oSnag.Capture
+	wait 3
+	deviceReplay.MouseClick 300, 300, LEFT_MOUSE_BUTTON
+	wait 1
+	Do Until oSnag.IsCaptureDone
+	Loop
+	fullPath = oSnag.OutputImageFile.Directory & "\" & fileName & ".png"
+	Set oSnag=Nothing
+	Set objShell=Nothing
+	varAddImages = varAddImages & fullPath & "|" & imageDesc & "|"
+End Function
+
+REM =============== Get_All_Images digunakan untuk menggabungkan image image yang telah dicapture menjadi satu judul =========================================
+Function Get_All_Images(imageTitle, varStatus)
+	varAddImages = Left(varAddImages,Len(varAddImages)-1)
+	Call react.AddImages(imageTitle, varAddImages, varStatus)
+	arrImageDesc = ""
+	varAddImages = "" 
+	Set fso = nothing
+End Function
+
+REM =================== Capture ini bisa digunakan tanpa ada Snagit, 
+REM =================== hasilnya capture image sehalaman yang lagi dibuka, tanpa taskbar
+Function CaptureImageUFTV2(byval page, imageTitle, imageDesc, varStatus)
+	Dim fso    
+	Set fso = CreateObject("Scripting.FileSystemObject")
+	fileName = Environment("ActionName") & "_" & GetDateTime()
+	fullPath = objFolder & "\" & fileName & ".png"
+	
+'	page.CaptureBitmap fullPath
+	
+'	Do until fso.FileExists(fullPath)
+'		wait 0, 500
+'	loop
+'		
+'	Call react.AddImage (imageTitle, imageDesc, fullPath, varStatus)
+	
+	'fullPath.exits
+	if fso.FileExists(fullPath) then
+		fullPath=objFolder & "\" & fileName &"_"& countImage &".png"
+		page.CaptureBitmap fullPath
+		countImage=countImage+1
+	else
+		page.CaptureBitmap fullPath
+	end if
+	
+	
+	Do until fso.FileExists(fullPath)
+		wait 0, 500
+	loop
+	Call react.AddImage (imageTitle, imageDesc, fullPath, varStatus)
+End Function
+
+
+
+
+REM =================== ********** DEA ANDARESTA [BSM] ******=========================================
+Dim capImage
+'capImage = DataTable.Value ("SCREEN_SHOOT", dtGlobalSheet)
+
+
+REM ========================================================== FUNCTION
+Function ParCaptureImageUFTV2(byval page, imageTitle, imageDesc, varStatus, capImage)
+	If capImage = "YA" Then
+		Dim fso
+		Set fso = CreateObject("Scripting.FileSystemObject")
+		fileName = Environment("ActionName") & "_" & GetDateTime()
+		fullPath = objFolder & "\" & fileName & ".png"
+		
+		page.CaptureBitmap fullPath, True
+		
+		Do until fso.FileExists(fullPath)
+			wait 0, 500
+		loop
+			
+		Call react.AddImage (imageTitle, imageDesc, fullPath, varStatus)
+		Set fso=Nothing
+		Set fileName=Nothing
+		Set fullPath=Nothing
+	End If
+End Function
+
+
+Function Par_CaptureImage(byval page, imageTitle, imageDesc,capImage)
+	If capImage = "YA" Then
+		Set deviceReplay = CreateObject("Mercury.DeviceReplay")
+		Set objShell = CreateObject("WScript.Shell")
+		Set oSnag = CreateObject("SNAGIT.ImageCapture.1")
+		fileName = Environment("ActionName") & "_" & GetDateTime()
+		wait 2
+		oSnag.Input = 1
+		oSnag.Output = 2
+		oSnag.OutputImageFile.FileNamingMethod = 1
+		oSnag.OutputImageFile.Filename = fileName
+		oSnag.OutputImageFile.Quality = 200
+		
+		'Path file buat nyimpen gambar
+		oSnag.OutputImageFile.Directory = objFolder
+		oSnag.EnablePreviewWindow = False
+		oSnag.AutoScrollOptions.AutoScrollMethod = 0
+		oSnag.DelayOptions.DelaySeconds = 0
+		oSnag.DelayOptions.EnableDelayedCapture = False
+		oSnag.ForegroundPreview = False
+		oSnag.AutoScrollOptions.FastestScrollingMethod = True
+		oSnag.Filters.Resolution.UseAutoResolution = True
+		
+		oSnag.OutputImageFile.LoadImageDefaults 5 
+		oSnag.Capture
+		wait 2
+		deviceReplay.MouseClick 300, 300, LEFT_MOUSE_BUTTON
+		wait 1
+		Do Until oSnag.IsCaptureDone
+		Loop
+		fullPath = oSnag.OutputImageFile.Directory & "\" & fileName & ".png"
+		Set oSnag=Nothing
+		Set objShell=Nothing
+		Call react.AddImage (imageTitle, imageDesc, fullPath)
+		Set deviceReplay=Nothing
+		Set fileName=Nothing
+		Set fullPath=Nothing
+	End If
+End Function
+
+
+Function Par_CaptureImageV2(byval page, imageTitle, imageDesc, varStatus, capImage)
+	If capImage = "YA" Then
+		Set deviceReplay = CreateObject("Mercury.DeviceReplay")
+		Set objShell = CreateObject("WScript.Shell")
+		Set oSnag = CreateObject("SNAGIT.ImageCapture.1")
+		fileName = Environment("ActionName") & "_" & GetDateTime()
+		wait 2
+		oSnag.Input = 1
+		oSnag.Output = 2
+		oSnag.OutputImageFile.FileNamingMethod = 1
+		oSnag.OutputImageFile.Filename = fileName
+		oSnag.OutputImageFile.Quality = 200
+		
+		'Path file buat nyimpen gambar
+		oSnag.OutputImageFile.Directory = objFolder
+	
+		oSnag.EnablePreviewWindow = False
+		oSnag.AutoScrollOptions.AutoScrollMethod = 0
+		oSnag.DelayOptions.DelaySeconds = 0
+		oSnag.DelayOptions.EnableDelayedCapture = False
+		oSnag.ForegroundPreview = False
+		oSnag.AutoScrollOptions.FastestScrollingMethod = True
+		oSnag.Filters.Resolution.UseAutoResolution = True
+		
+		oSnag.OutputImageFile.LoadImageDefaults 5 
+		oSnag.Capture
+		wait 2
+		deviceReplay.MouseClick 300, 300, LEFT_MOUSE_BUTTON
+		wait 1
+		Do Until oSnag.IsCaptureDone
+		Loop
+		fullPath = oSnag.OutputImageFile.Directory & "\" & fileName & ".png"
+		
+		Set oSnag=Nothing
+		Set objShell=Nothing
+		
+		Call react.AddImage (imageTitle, imageDesc, fullPath, varStatus)
+		
+		Set deviceReplay=Nothing
+		Set fileName=Nothing
+		Set fullPath=Nothing
+	End If
+End Function
+
+
+Function Par_Capture_Image(byval page, imageTitle, imageDesc, capImage)
+	If capImage = "YA" Then
+		Call CaptureImage(page, imageTitle, imageDesc)	
+	End If
+End Function
+
+
+Function Par_Capture_ImageV2(byval page, imageTitle, imageDesc, varStatus, capImage)
+	If capImage = "YA" Then
+		Call CaptureImageV2(page, imageTitle, imageDesc, varStatus)
+	End If
+End Function
+
+
+Function Par_Capture_Full(byval page, imageTitle, imageDesc, capImage)
+	If capImage = "YA" Then
+		Set deviceReplay = CreateObject("Mercury.DeviceReplay")
+		Set objShell = CreateObject("WScript.Shell")
+		Set oSnag = CreateObject("SNAGIT.ImageCapture.1")
+		fileName = Environment("ActionName") & "_" & GetDateTime()
+		wait 2
+		oSnag.Input = 0
+		oSnag.Output = 2
+		oSnag.OutputImageFile.FileNamingMethod = 1
+		oSnag.OutputImageFile.Filename = fileName
+		oSnag.OutputImageFile.Quality = 200
+		
+		'Path file buat nyimpen gambar
+		oSnag.OutputImageFile.Directory = objFolder
+	
+		oSnag.EnablePreviewWindow = False
+		oSnag.AutoScrollOptions.AutoScrollMethod = 0
+		oSnag.DelayOptions.DelaySeconds = 0
+		oSnag.DelayOptions.EnableDelayedCapture = False
+		oSnag.ForegroundPreview = False
+		oSnag.AutoScrollOptions.FastestScrollingMethod = True
+		oSnag.Filters.Resolution.UseAutoResolution = True
+		oSnag.OutputImageFile.LoadImageDefaults 5 
+		oSnag.Capture
+		wait 2
+		deviceReplay.MouseClick 300, 300, LEFT_MOUSE_BUTTON
+		wait 1
+		Do Until oSnag.IsCaptureDone
+		Loop
+		fullPath = oSnag.OutputImageFile.Directory & "\" & fileName & ".png"
+		Set oSnag=Nothing
+		Set objShell=Nothing
+		Call react.AddImage (imageTitle, imageDesc, fullPath)
+	End If	
+End Function
+
+
+Function Par_Capture_FullV2(byval page, imageTitle, imageDesc, varStatus, capImage)
+	If capImage = "YA" Then
+		Set deviceReplay = CreateObject("Mercury.DeviceReplay")
+
+		Set objShell = CreateObject("WScript.Shell")
+		Set oSnag = CreateObject("SNAGIT.ImageCapture.1")
+	
+		fileName = Environment("ActionName") & "_" & GetDateTime()
+
+		wait 2
+		
+		oSnag.Input = 0
+		oSnag.Output = 2
+		oSnag.OutputImageFile.FileNamingMethod = 1
+		oSnag.OutputImageFile.Filename = fileName
+		oSnag.OutputImageFile.Quality = 200
+		
+		'Path file buat nyimpen gambar
+		oSnag.OutputImageFile.Directory = objFolder
+	
+		oSnag.EnablePreviewWindow = False
+		oSnag.AutoScrollOptions.AutoScrollMethod = 0
+		oSnag.DelayOptions.DelaySeconds = 0
+		oSnag.DelayOptions.EnableDelayedCapture = False
+		oSnag.ForegroundPreview = False
+		oSnag.AutoScrollOptions.FastestScrollingMethod = True
+		oSnag.Filters.Resolution.UseAutoResolution = True
+		
+		oSnag.OutputImageFile.LoadImageDefaults 5 
+		oSnag.Capture
+		wait 2
+		deviceReplay.MouseClick 300, 300, LEFT_MOUSE_BUTTON
+		wait 1
+		
+		Do Until oSnag.IsCaptureDone
+		
+		Loop
+	
+		fullPath = oSnag.OutputImageFile.Directory & "\" & fileName & ".png"
+		
+		Set oSnag=Nothing
+		Set objShell=Nothing
+
+		Call react.AddImage (imageTitle, imageDesc, fullPath, varStatus)
+	End If	
+End Function
+
+
+Function Par_Capture_Scroll_Image(byval page, imageTitle, imageDesc, capImage)
+	If capImage = "YA" Then
+		Set deviceReplay = CreateObject("Mercury.DeviceReplay")
+		Set objShell = CreateObject("WScript.Shell")
+		Set oSnag = CreateObject("SNAGIT.ImageCapture.1")
+		fileName = Environment("ActionName") & "_" & GetDateTime()
+		On error resume next
+		page.RunScript "window.scrollTo(0, 0);"	
+		On error goto 0
+		wait 2
+		objShell.SendKeys "{HOME}"
+		oSnag.Input = 1
+		oSnag.Output = 2
+		oSnag.OutputImageFile.FileNamingMethod = 1
+		oSnag.OutputImageFile.Filename = fileName
+		oSnag.OutputImageFile.Quality = 200
+		
+		'Path file buat nyimpen gambar
+		oSnag.OutputImageFile.Directory = objFolder
+	
+		oSnag.EnablePreviewWindow = False
+		oSnag.AutoScrollOptions.AutoScrollMethod = 3
+		oSnag.AutoScrollOptions.StartingPosition = 0
+		oSnag.DelayOptions.DelaySeconds = 0
+		oSnag.DelayOptions.EnableDelayedCapture = False
+		oSnag.ForegroundPreview = False
+		oSnag.AutoScrollOptions.FastestScrollingMethod = True
+		oSnag.Filters.Resolution.UseAutoResolution = True
+		oSnag.OutputImageFile.LoadImageDefaults 5 
+		oSnag.Capture
+		wait 2
+		deviceReplay.MouseClick 300, 300, LEFT_MOUSE_BUTTON
+		wait 1
+		Do Until oSnag.IsCaptureDone
+		Loop
+		fullPath = oSnag.OutputImageFile.Directory & "\" & fileName & ".png"
+		Set oSnag=Nothing
+		Set objShell=Nothing
+		Call react.AddImage (imageTitle, imageDesc, fullPath)
+		
+		Set deviceReplay=Nothing
+		Set fileName=Nothing
+		Set fullPath=Nothing
+	End If
+End Function
+
+
+Function Par_Capture_Scroll_ImageV2(byval page, imageTitle, imageDesc, varStatus, capImage)
+	If capImage = "YA" Then
+		Set deviceReplay = CreateObject("Mercury.DeviceReplay")
+		Set objShell = CreateObject("WScript.Shell")
+		Set oSnag = CreateObject("SNAGIT.ImageCapture.1")
+		fileName = Environment("ActionName") & "_" & GetDateTime()
+		On error resume next
+		page.RunScript "window.scrollTo(0, 0);"	
+		On error goto 0
+		wait 2
+		objShell.SendKeys "{HOME}"
+		oSnag.Input = 1
+		oSnag.Output = 2
+		oSnag.OutputImageFile.FileNamingMethod = 1
+		oSnag.OutputImageFile.Filename = fileName
+		oSnag.OutputImageFile.Quality = 200
+		
+		oSnag.OutputImageFile.Directory = objFolder
+	
+		oSnag.EnablePreviewWindow = False
+		oSnag.AutoScrollOptions.AutoScrollMethod = 3
+		oSnag.AutoScrollOptions.StartingPosition = 0
+		oSnag.DelayOptions.DelaySeconds = 0
+		oSnag.DelayOptions.EnableDelayedCapture = False
+		oSnag.ForegroundPreview = False
+		oSnag.AutoScrollOptions.FastestScrollingMethod = True
+		oSnag.Filters.Resolution.UseAutoResolution = True
+		
+		oSnag.OutputImageFile.LoadImageDefaults 5 
+		oSnag.Capture
+		wait 2
+	'	objShell.SendKeys "{ENTER}"
+		deviceReplay.MouseClick 300, 300, LEFT_MOUSE_BUTTON
+		wait 1
+		Do Until oSnag.IsCaptureDone
+		Loop
+		fullPath = oSnag.OutputImageFile.Directory & "\" & fileName & ".png"
+		Set oSnag=Nothing
+		Set objShell=Nothing
+		Call react.AddImage (imageTitle, imageDesc, fullPath, varStatus)
+		
+		Set deviceReplay=Nothing
+		Set fileName=Nothing
+		Set fullPath=Nothing
+	End If
+End Function
+
+
+
+Function Par_Add_ImageUFT(byval page, imageDesc, capImage)
+	If capImage = "YA" Then
+		Dim fso    
+		Set fso = CreateObject("Scripting.FileSystemObject")
+		fileName = Environment("ActionName") & "_" & GetDateTime()
+		fullPath = objFolder & "\" & fileName & ".png"
+		page.CaptureBitmap fullPath, True
+		Do until fso.FileExists(fullPath)
+			wait 0, 500
+		loop
+		varAddImages = varAddImages & fullPath & "|" & imageDesc & "|"
+		wait 1
+	End If
+End Function
+
+
+Function Par_Add_Image(byval page, imageDesc, capImage)
+	If capImage = "YA" Then
+		Set deviceReplay = CreateObject("Mercury.DeviceReplay")
+		Set objShell = CreateObject("WScript.Shell")
+		Set oSnag = CreateObject("SNAGIT.ImageCapture.1")
+		fileName = Environment("ActionName") & "_" & GetDateTime()
+		wait 2
+		oSnag.Input = 1
+		oSnag.Output = 2
+		oSnag.OutputImageFile.FileNamingMethod = 1
+		oSnag.OutputImageFile.Filename = fileName
+		oSnag.OutputImageFile.Quality = 200
+		
+		'Path file buat nyimpen gambar
+		oSnag.OutputImageFile.Directory = objFolder
+	
+		oSnag.EnablePreviewWindow = False
+		oSnag.AutoScrollOptions.AutoScrollMethod = 0
+		oSnag.DelayOptions.DelaySeconds = 0
+		oSnag.DelayOptions.EnableDelayedCapture = False
+		oSnag.ForegroundPreview = False
+		oSnag.AutoScrollOptions.FastestScrollingMethod = True
+		oSnag.Filters.Resolution.UseAutoResolution = True
+		
+		oSnag.OutputImageFile.LoadImageDefaults 5 
+		oSnag.Capture
+		wait 2
+		deviceReplay.MouseClick 300, 300, LEFT_MOUSE_BUTTON
+		wait 1
+		Do Until oSnag.IsCaptureDone
+		Loop
+		fullPath = oSnag.OutputImageFile.Directory & "\" & fileName & ".png"
+		
+		Set oSnag=Nothing
+		Set objShell=Nothing
+		varAddImages = varAddImages & fullPath & "|" & imageDesc & "|"
+	End If
+		
+End Function
+
+Function Par_Add_Scroll_Image(byval page, imageDesc, capImage)
+	If capImage = "YA" Then
+		Set deviceReplay = CreateObject("Mercury.DeviceReplay")
+		Set objShell = CreateObject("WScript.Shell")
+		Set oSnag = CreateObject("SNAGIT.ImageCapture.1")
+		fileName = Environment("ActionName") & "_" & GetDateTime()
+		On error resume next
+		page.RunScript "window.scrollTo(0, 0);"	
+		On error goto 0
+		wait 3
+		objShell.SendKeys "{HOME}"
+		oSnag.Input = 1
+		oSnag.Output = 2
+		oSnag.OutputImageFile.FileNamingMethod = 1
+		oSnag.OutputImageFile.Filename = fileName
+		oSnag.OutputImageFile.Quality = 200
+		
+		'Path file buat nyimpen gambar
+		oSnag.OutputImageFile.Directory = objFolder
+		oSnag.EnablePreviewWindow = False
+		oSnag.AutoScrollOptions.AutoScrollMethod = 3
+		oSnag.AutoScrollOptions.StartingPosition = 0
+		oSnag.DelayOptions.DelaySeconds = 0
+		oSnag.DelayOptions.EnableDelayedCapture = False
+		oSnag.ForegroundPreview = False
+		oSnag.AutoScrollOptions.FastestScrollingMethod = True
+		oSnag.Filters.Resolution.UseAutoResolution = True
+		oSnag.OutputImageFile.LoadImageDefaults 5 
+		oSnag.Capture
+		wait 3
+		deviceReplay.MouseClick 300, 300, LEFT_MOUSE_BUTTON
+		wait 1
+		Do Until oSnag.IsCaptureDone
+		Loop
+		fullPath = oSnag.OutputImageFile.Directory & "\" & fileName & ".png"
+		Set oSnag=Nothing
+		Set objShell=Nothing
+		varAddImages = varAddImages & fullPath & "|" & imageDesc & "|"
+	End If
+End Function
+
+
+Function Par_Get_All_Images(imageTitle, varStatus, capImage)
+	If capImage = "YA" Then
+		varAddImages = Left(varAddImages,Len(varAddImages)-1)
+		Call react.AddImages(imageTitle, varAddImages, varStatus)
+		arrImageDesc = ""
+		varAddImages = "" 
+	End If
+End Function
+
+
+REM =================== Capture ini bisa digunakan tanpa ada Snagit, 
+REM =================== hasilnya capture image sehalaman yang lagi dibuka, tanpa taskbar
+Function Par_CaptureImageUFTV2(byval page, imageTitle, imageDesc, varStatus, capImage)
+	If capImage = "YA" Then
+		Dim fso    
+		Set fso = CreateObject("Scripting.FileSystemObject")
+		fileName = Environment("ActionName") & "_" & GetDateTime()
+		fullPath = objFolder & "\" & fileName & ".png"
+		
+		page.CaptureBitmap fullPath, True
+		
+		Do until fso.FileExists(fullPath)
+			wait 0, 500
+		loop
+			
+		Call react.AddImage (imageTitle, imageDesc, fullPath, varStatus)
+		Set fso=Nothing
+		Set fileName=Nothing
+		Set fullPath=Nothing
+	End If
+End Function
+
+REM ------------ Capture Add image menggunakan UFT - Napalm Lib v1.9
+Function Add_ImageUFT_V1_9(byval page, imageTitle, imageDesc, varStatus)
+	Set fso = CreateObject("Scripting.FileSystemObject")
+	fileName = Environment("ActionName") & "_" & GetDateTime()
+	fullPath = objFolder & "\" & fileName & ".png"
+	page.CaptureBitmap fullPath
+	Do until fso.FileExists(fullPath)
+		wait 0, 500
+	loop
+
+	Call react.AddImage(imageTitle, imageDesc, fullPath, varStatus)
+End Function

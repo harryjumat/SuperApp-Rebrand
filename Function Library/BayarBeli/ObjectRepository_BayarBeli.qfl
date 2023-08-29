@@ -1,0 +1,99 @@
+﻿
+REM==============Object Bayar&Beli
+
+Set field_SearchMenuBayarBeli	= Device("SuperApp").App("BayarBeli").MobileEdit("Field_SearchMenu_BayarBeli")
+
+Set icon_Akademik				 = Device("SuperApp").App("BayarBeli").MobileObject("Logo_Akademik")
+Set icon_Angsuran				 = Device("SuperApp").App("BayarBeli").MobileObject("Logo_Angsuran")
+Set icon_Aqiqah			 	 = Device("SuperApp").App("BayarBeli").MobileObject("Logo_Aqiqah")
+Set icon_Asuransi				 = Device("SuperApp").App("BayarBeli").MobileObject("Logo_Asuransi")
+Set icon_BPJS					 = Device("SuperApp").App("BayarBeli").MobileObject("Logo_BPJS")
+Set icon_Distributor		 	 = Device("SuperApp").App("BayarBeli").MobileObject("Logo_Distributor")
+Set icon_EMoney				 = Device("SuperApp").App("BayarBeli").MobileObject("Logo_Emoney")
+Set icon_Ewallet				 = Device("SuperApp").App("BayarBeli").MobileObject("Logo_Ewallet")
+Set icon_HasanahCard			 = Device("SuperApp").App("BayarBeli").MobileObject("Logo_HasanahCard")
+Set icon_Hiburan				 = Device("SuperApp").App("BayarBeli").MobileObject("Logo_Hiburan")
+Set icon_InternetTV				 = Device("SuperApp").App("BayarBeli").MobileObject("Logo_InternetTvCable")
+Set icon_IPLProperti			 = Device("SuperApp").App("BayarBeli").MobileObject("Logo_IPLProperti")
+Set icon_Korlantas				 = Device("SuperApp").App("BayarBeli").MobileObject("Logo_Korlantas")
+Set icon_Lembaga				 = Device("SuperApp").App("BayarBeli").MobileObject("Logo_Lembaga")
+Set icon_Multipayment			 = Device("SuperApp").App("BayarBeli").MobileObject("Logo_Multipayment")
+Set icon_MPN					 = Device("SuperApp").App("BayarBeli").MobileObject("Logo_MPN")
+Set icon_PBB					 = Device("SuperApp").App("BayarBeli").MobileObject("Logo_PajakBumiBangunan")
+Set icon_Pascabayar		 	 = Device("SuperApp").App("BayarBeli").MobileObject("Logo_PascaBayar")
+Set icon_PDAM					 = Device("SuperApp").App("BayarBeli").MobileObject("Logo_PDAM")
+Set icon_PelunasanHaji			 = Device("SuperApp").App("BayarBeli").MobileObject("Logo_PelunasanHaji")
+Set icon_PGN					 = Device("SuperApp").App("BayarBeli").MobileObject("Logo_PGN")
+Set icon_PulsaPaketData	 	 = Device("SuperApp").App("BayarBeli").MobileObject("Logo_PulsaPaketData")
+Set icon_PLN					 = Device("SuperApp").App("BayarBeli").MobileObject("Logo_PLN")
+Set icon_Tiket					 = Device("SuperApp").App("BayarBeli").MobileObject("Logo_Tiket")
+Set icon_VA						 = Device("SuperApp").App("BayarBeli").MobileObject("Logo_VA")
+
+'Ewallet
+Set Field_Ewallet				= Device("SuperApp").App("BayarBeli_Ewallet").MobileEdit("Field_CariEwallet")
+Set Obj_JenisEwallet			= Device("SuperApp").App("BayarBeli_Ewallet").MobileObject("Obj_JenisEwallet")
+Set Btn_Selesai				= Device("SuperApp").App("BayarBeli_Ewallet").MobileButton("Btn_Selesai")
+Set Insight_IconKontak		= Device("SuperApp").InsightObject("Insight_IconKontak")
+Set Field_Cari				= Device("SuperApp").App("BayarBeli_Ewallet").MobileEdit("Field_Cari")
+Set Obj_NamaKontak		= Device("SuperApp").App("BayarBeli_Ewallet").MobileObject("Obj_NamaKontak")
+Set Obj_NomorPonsel		= Device("SuperApp").App("BayarBeli_Ewallet").MobileObject("Obj_NomorPonsel")
+Set Btn_Lanjutkan			= Device("SuperApp").App("BayarBeli_Ewallet").MobileButton("Btn_Lanjutkan")
+
+'Aqiqah
+Set Field_Cari				= Device("SuperApp").App("BayarBeli_Aqiqah").MobileEdit("Field_Cari")
+Set Obj_Supplier				= Device("SuperApp").App("BayarBeli_Aqiqah").MobileObject("Obj_Supplier")
+Set Lbl_Kambing				= Device("SuperApp").App("BayarBeli_Aqiqah").MobileLabel("Lbl_Kambing")
+Set Btn_Pilih					= Device("SuperApp").App("BayarBeli_Aqiqah").MobileButton("Btn_Pilih")
+Set Icon_TandaTanya			= Device("SuperApp").App("BayarBeli_Aqiqah").MobileButton("Icon_TandaTanya")
+Set Btn_X					= Device("SuperApp").App("BayarBeli_Aqiqah").MobileButton("Btn_X")
+Set Lbl_Wanita				= Device("SuperApp").App("BayarBeli_Aqiqah").MobileLabel("Lbl_Wanita")
+Set Lbl_Pria					= Device("SuperApp").App("BayarBeli_Aqiqah").MobileLabel("Lbl_Pria")
+Set Field_NamaAnak			= Device("SuperApp").App("BayarBeli_Aqiqah").MobileEdit("Field_NamaAnak")
+Set Btn_Selesai				= Device("SuperApp").App("BayarBeli_Aqiqah").MobileButton("Btn_Selesai")
+Set Field_NomorHandphone	= Device("SuperApp").App("BayarBeli_Aqiqah").MobileEdit("Field_NomorHandphone")
+Set Field_Email				= Device("SuperApp").App("BayarBeli_Aqiqah").MobileEdit("Field_Email")
+Set Btn_Toogle				= Device("SuperApp").App("BayarBeli_Aqiqah").MobileToggle("Btn_Toogle")
+Set Obj_MobileViewAqiqah	= Device("SuperApp").App("BayarBeli_Aqiqah").MobileView("Obj_MobileViewAqiqah")
+Set Btn_Lanjutkan			= Device("SuperApp").App("BayarBeli_Aqiqah").MobileButton("Btn_Lanjutkan")
+Set Btn_Konfirmasi			= Device("SuperApp").App("BayarBeli_Aqiqah").MobileButton("Btn_Konfirmasi")
+Set Lbl_FT					= Device("SuperApp").App("BayarBeli_Aqiqah").MobileLabel("Lbl_FT")
+Set List_DetailResi			= Device("SuperApp").App("BayarBeli_Aqiqah").MobileList("List_DetailResi")
+
+'PULSA
+Set AI_X						= AIUtil("close")
+Set Field_NomorHP			= Device("SuperApp").App("BayarBeli_Pulsa").MobileEdit("Field_NomorHP")
+Set Obj_NamaKontak		= Device("SuperApp").App("BayarBeli_Pulsa").MobileObject("Obj_NamaKontak")
+Set Obj_Ponsel				= Device("SuperApp").App("BayarBeli_Pulsa").MobileObject("Obj_Ponsel")
+Set Lbl_100000				= Device("SuperApp").App("BayarBeli_Pulsa").MobileLabel("Lbl_100000")
+Set List_Denom				= Device("SuperApp").App("BayarBeli_Pulsa").MobileList("List_Denom")
+
+'PAKET DATA
+Set Btn_PaketData			= Device("SuperApp").App("BayarBeli_PaketData").MobileButton("Btn_PaketData")
+Set Btn_PilihPaketData		= Device("SuperApp").App("BayarBeli_PaketData").MobileButton("Btn_PilihPaketData")
+Set Btn_NominalPaket		= Device("SuperApp").App("BayarBeli_PaketData").MobileButton("Btn_NominalPaket")
+
+Set Btn_PilihPaket			= Device("SuperApp").App("BayarBeli_PaketData").MobileButton("Btn_PilihPaket")
+Set ObJ_PulsaPaketData		= Device("SuperApp").App("BayarBeli_PaketData").MobileView("Obj_ViewPulsaPaketData")
+
+'AKADEMIK
+Set Field_Lembaga			= Device("SuperApp").App("BayarBeli_Akademik").MobileEdit("Field_Lembaga")
+Set ObjPilihanLembaga		= Device("SuperApp").App("BayarBeli_Akademik").MobileObject("Obj_PilihanLembaga")
+Set Field_KodeBayarLembaga	= Device("SuperApp").App("BayarBeli_Akademik").MobileEdit("Field_KodeBayarLembaga")
+Set Field_Nominal			= Device("SuperApp").App("BayarBeli_Akademik").MobileEdit("Field_Nominal")
+
+'VIEW LIST RECENT TRANSACTION (HISTORY) - BAYAR & BELI
+Set AI_RiwayatBintang		= AIUtil("favorites", micAnyText, micFromTop, 1)
+Set AI_FavoriteBintang		= AIUtil("favorites")
+Set Btn_Favorit				= Device("SuperApp").App("BayarBeli_ViewListRecentTransactionBayarBeli").MobileButton("Btn_Favorit")
+Set Btn_HapusFavorit		= Device("SuperApp").App("BayarBeli_ViewListRecentTransactionBayarBeli").MobileButton("Btn_HapusFavorit")
+
+'VIEW LIST RECENT TRANSACTION (HISTORY) TRANSFER
+Set Field_CariNamaRekening	= Device("SuperApp").App("BayarBeli_Akademik").MobileEdit("Field_Lembaga")
+Set Btn_FavoritTransfer		= Device("SuperApp").App("BayarBeli_ViewListRecentTransactionTransfer").MobileButton("Btn_FavoritTransfer")
+
+'TRANSAKSI VIA CURRENT TRANSACTION VIA SCREEN UTAMA BAYAR & BELI
+Set Obj_RiwayatTransaksi		= Device("SuperApp").App("BayarBeli_TransaksiViaCurrentTransaction").MobileObject("Obj_RiwayatTransaksi")
+Set Btn_CekTagihan			= Device("SuperApp").App("BayarBeli_TransaksiViaCurrentTransaction").MobileButton("Btn_CekTagihan")
+Set Btn_KeDashboard		= Device("SuperApp").App("BayarBeli_TransaksiViaCurrentTransaction").MobileButton("Btn_KeDashboard")
+
+

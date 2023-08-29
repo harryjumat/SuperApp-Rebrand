@@ -1,0 +1,97 @@
+﻿Call RepositoriesCollection.Add(Environment("TestDir") & "\..\..\..\Object Repository\SuperApp-Rebrand.tsr")
+AIUtil.SetContext Device("SuperApp")
+
+REM==============Object General
+
+Set objSuperApp					= Device("SuperApp").App("App")
+
+'PIN
+Set button_Pin1					= Device("SuperApp").App("General").MobileLabel("Pin_1")
+Set button_Pin2					= Device("SuperApp").App("General").MobileLabel("Pin_2")
+Set button_Pin3					= Device("SuperApp").App("General").MobileLabel("Pin_3")
+Set button_Pin4					= Device("SuperApp").App("General").MobileLabel("Pin_4")
+Set button_Pin5					= Device("SuperApp").App("General").MobileLabel("Pin_5")
+Set button_Pin6					= Device("SuperApp").App("General").MobileLabel("Pin_6")
+Set button_Pin7					= Device("SuperApp").App("General").MobileLabel("Pin_7")
+Set button_Pin8					= Device("SuperApp").App("General").MobileLabel("Pin_8")
+Set button_Pin9					= Device("SuperApp").App("General").MobileLabel("Pin_9")
+Set button_Pin0					= Device("SuperApp").App("General").MobileLabel("Pin_0")
+
+''Success Transaction
+Set button_ShareTransaksi			= Device("SuperApp").App("General").MobileButton("Button_Share")
+Set button_DownloadTransaksi		= Device("SuperApp").App("General").MobileButton("Button_Download")
+Set button_DetailTransaksi			= Device("SuperApp").App("General").MobileButton("Button_DetailTransaksi")
+Set button_BagikanResi				= Device("SuperApp").App("General").MobileButton("Button_BagikanResi")
+
+
+'Infaq after transaksi
+Set button_Lanjutkan_Infaq			= Device("SuperApp").App("General").MobileButton("Button_Lanjutkan_Infaq")
+Set list_NominalInfaq				= Device("SuperApp").App("General").MobileList("List_NominalInfaq")
+Set label_Konfirmasi_Infaq			= Device("SuperApp").App("General").MobileButton("Button_Konfirmasi_Infaq")
+Set label_NoTransaksiFT_Infaq		= Device("SuperApp").App("General").MobileLabel("Resi_Infaq_After_Transaksi")
+
+
+''Ubah No Rekening
+Set field_CariTabungan				= Device("SuperApp").App("Profile").MobileEdit("Field_CariTabunganUbahNorek")
+Set label_ChangeNorek				= Device("SuperApp").App("Profile").MobileLabel("Label_Norek_UbahNorek")
+Set AI_UbahNoRekCf_1Btn			= AIUtil.FindTextBlock("Ubah")
+Set AI_UbahNoRekCf_2Btn			= AIUtil.FindTextBlock("Ubah", micFromBottom, 1)
+
+
+Set AI_button_Back						= AIUtil("left_arrow")
+Set AI_button_close						= AIUtil("close")
+
+
+
+REM==============Object HomePage
+
+Set button_LoginHomePage 		= Device("SuperApp").App("HomePage").MobileLabel("Login_HomePage")
+Set button_LoginField				= Device("SuperApp").App("HomePage").MobileLabel("Login_Field")
+Set field_PasswordLogin			= Device("SuperApp").App("HomePage").MobileEdit("Field_Password")
+
+
+REM==============Object Dashboard
+
+Set icon_MegaMenu			= Device("SuperApp").App("Dashboard").MobileButton("Logo_MegaMenu")
+Set list_Keuangan				= Device("SuperApp").App("Dashboard").MobileList("List_Keuangan")
+Set list_ProdukBYOND			= Device("SuperApp").App("Dashboard").MobileList("List_ProdukBYOND")
+Set list_Islami					= Device("SuperApp").App("Dashboard").MobileList("List_Islami")
+
+Set logo_Profile					= AIUtil.FindTextBlock("HA")
+
+Set field_SearchMenuBayarBeli	= Device("SuperApp").App("Dashboard").MobileEdit("Field_SearchMenu_BayarBeli")
+Set list_BayarBeli 				= Device("SuperApp").App("Dashboard").MobileList("List_BayarBeli")
+
+Set logo_Zakat					= Device("SuperApp").App("Dashboard").MobileLabel("Logo_Zakat")
+Set logo_Infaq					= Device("SuperApp").App("Dashboard").MobileLabel("Logo_Infaq")
+Set logo_Wakaf					= Device("SuperApp").App("Dashboard").MobileLabel("Logo_Wakaf")
+Set logo_Donasi				= Device("SuperApp").App("Dashboard").MobileLabel("Logo_Donasi")
+
+
+REM===============Object Profile
+Set Button_AturLimit							= Device("SuperApp").App("Profile").MobileButton("Label_AturLimit")
+Set label_MenuLimitHarian						= Device("SuperApp").App("Profile").MobileLabel("Label_LimitHarian")
+Set label_MenuLimitPerTransaksi				= Device("SuperApp").App("Profile").MobileLabel("Label_LimitPerTransaksi")
+Set logo_EditLimit_Pembayaran					= Device("SuperApp").App("Profile").MobileButton("EditLimit_Pembayaran")
+Set logo_EditLimit_Pembelian					= Device("SuperApp").App("Profile").MobileButton("EditLimit_Pembelian")
+Set logo_EditLimit_TransferBSI					= Device("SuperApp").App("Profile").MobileButton("EditLimit_TransferBSI")
+Set logo_EditLimit_TransferOnline				= Device("SuperApp").App("Profile").MobileButton("EditLimit_TransferOnline")
+Set logo_EditLimit_TransferSKN					= Device("SuperApp").App("Profile").MobileButton("EditLimit_TransferSKN")
+Set logo_EditLimit_TransferBIFAST				= Device("SuperApp").App("Profile").MobileButton("EditLimit_TransferBIFAST")
+Set logo_EditLimit_TarikTunai_TanpaKartu		= Device("SuperApp").App("Profile").MobileButton("EditLimit_TarikTunai_TanpaKartu")
+Set logo_EditLimit_TopUp_eMoney				= Device("SuperApp").App("Profile").MobileButton("EditLimit_TopUp_eMoney")
+Set logo_EditLimit_QRIS							= Device("SuperApp").App("Profile").MobileButton("EditLimit_QRIS")
+Set field_EditLimit								= Device("SuperApp").App("Profile").MobileEdit("Field_EditLimit")
+Set button_SimpanEditLimit					= Device("SuperApp").App("Profile").MobileLabel("Button_SimpanEditLimit")
+
+
+Set button_Keluar_ByProfile					= Device("SuperApp").App("Profile").MobileButton("Button_Keluar_ByProfile")
+Set button_Konf_Keluar							= Device("SuperApp").App("Profile").MobileButton("Button_Keluar")
+Set AI_Keluar_ByDashboard						= AIUtil("exit")
+
+
+
+
+
+
+

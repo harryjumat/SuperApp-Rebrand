@@ -1,0 +1,66 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+# SharpDevelop 4.1.3.0
+Project("") = "Tumbal", "Script\Profile\Tumbal\Test.tsp", "F7257B9D-891E-455A-95AE-C3D6E01EF471"
+	ProjectSection(ProjectMetadata) = HP.UFT.ProjectSystem.Dynamic.ProjectMetadata
+		PathInformation = D:\SuperApp-Rebrand\Script\Profile\Tumbal\Test.tsp
+		Keyword = QTP
+		OpenAsReadOnly = False
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		F7257B9D-891E-455A-95AE-C3D6E01EF471.Debug|Any CPU.Build.0 = Debug|Any CPU
+		F7257B9D-891E-455A-95AE-C3D6E01EF471.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		F7257B9D-891E-455A-95AE-C3D6E01EF471.Release|Any CPU.Build.0 = Release|Any CPU
+		F7257B9D-891E-455A-95AE-C3D6E01EF471.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(Function Libraries) = postProject
+		FnLibrary_Profile = D:\SuperApp-Rebrand\Function Library\Profile\FnLibrary_Profile.qfl
+		ObjectRepository_Profile = D:\SuperApp-Rebrand\Function Library\Profile\ObjectRepository_Profile.qfl
+		GlobalFunction_SuperAPP = D:\SuperApp-Rebrand\Function Library\.Global Library\GlobalFunction_SuperAPP.qfl
+		FnLibrary_BayarBeli = D:\SuperApp-Rebrand\Function Library\BayarBeli\FnLibrary_BayarBeli.qfl
+		FnParent_Profile_Social = D:\SuperApp-Rebrand\Function Library\Profile\FnParent_Profile_Social.qfl
+		FnLibrary_Ziswaf = D:\SuperApp-Rebrand\Function Library\Ziswaf\FnLibrary_Ziswaf.qfl
+		FnParent_Ziswaf_Zakat = D:\SuperApp-Rebrand\Function Library\Ziswaf\FnParent_Ziswaf_Zakat.qfl
+		ObjectRepository_BayarBeli = D:\SuperApp-Rebrand\Function Library\BayarBeli\ObjectRepository_BayarBeli.qfl
+		ObjectRepository_CardlessWithdrawal = D:\SuperApp-Rebrand\Function Library\CardlessWithdrawal\ObjectRepository_CardlessWithdrawal.qfl
+		FnParent_BayarBeli_Aqiqah = D:\SuperApp-Rebrand\Function Library\BayarBeli\FnParent_BayarBeli_Aqiqah.qfl
+		BSI Mobile - Bayar Beli = D:\BSI SuperApp Rebranding\Function Library\BSI Mobile - Bayar Beli.qfl
+		ObjectRepository = D:\SuperApp-Rebrand\Function Library\.Global Library\ObjectRepository.qfl
+		General = D:\SuperApp-Rebrand\Function Library\.Global Library\General.qfl
+		BSI Mobile - Profile = D:\BSI SuperApp Rebranding\Function Library\BSI Mobile - Profile.qfl
+		FnParent_Profile_ChangeProfilePic = D:\SuperApp-Rebrand\Function Library\Profile\FnParent_Profile_ChangeProfilePic.qfl
+		FnParent_BayarBeli_PBB = D:\SuperApp-Rebrand\Function Library\BayarBeli\FnParent_BayarBeli_PBB.qfl
+		FnParent_Profile_ChangeEmail = D:\SuperApp-Rebrand\Function Library\Profile\FnParent_Profile_ChangeEmail.qfl
+		FnParent_Berbagi_Virtual Account = D:\SuperApp-Rebrand\Function Library\Berbagi\FnParent_Berbagi_Virtual Account.qfl
+		FnLibrary_Berbagi = D:\SuperApp-Rebrand\Function Library\Berbagi\FnLibrary_Berbagi.qfl
+		ObjectRepository_Berbagi = D:\SuperApp-Rebrand\Function Library\Berbagi\ObjectRepository_Berbagi.qfl
+		BSI Mobile - Berbagi = D:\BSI SuperApp Rebranding\Function Library\BSI Mobile - Berbagi.qfl
+		FnParent_BayarBeli_Pulsa = D:\SuperApp-Rebrand\Function Library\BayarBeli\FnParent_BayarBeli_Pulsa.qfl
+		FnParent_Profile_DeleteProfilePic = D:\SuperApp-Rebrand\Function Library\Profile\FnParent_Profile_DeleteProfilePic.qfl
+		FnParent_BayarBeli_Paketdata = D:\SuperApp-Rebrand\Function Library\BayarBeli\FnParent_BayarBeli_Paketdata.qfl
+		FnParent_BayarBeli_AkademikUAD = D:\SuperApp-Rebrand\Function Library\BayarBeli\FnParent_BayarBeli_AkademikUAD.qfl
+		FnParent_BayarBeli_AkademikBayarID = D:\SuperApp-Rebrand\Function Library\BayarBeli\FnParent_BayarBeli_AkademikBayarID.qfl
+		FnParent_BayarBeli_LembagaUAD = D:\SuperApp-Rebrand\Function Library\BayarBeli\FnParent_BayarBeli_LembagaUAD.qfl
+		FnParent_BayarBeli_LembagaBayarID = D:\SuperApp-Rebrand\Function Library\BayarBeli\FnParent_BayarBeli_LembagaBayarID.qfl
+		FnParent_BayarBeli_AsuransiCARPremiReguler = D:\SuperApp-Rebrand\Function Library\BayarBeli\FnParent_BayarBeli_AsuransiCARPremiReguler.qfl
+		FnParent_BayarBeli_AsuransiCARTagihanLainnya = D:\SuperApp-Rebrand\Function Library\BayarBeli\FnParent_BayarBeli_AsuransiCARTagihanLainnya.qfl
+		FnParent_BayarBeli_AsuransiTakaful = D:\SuperApp-Rebrand\Function Library\BayarBeli\FnParent_BayarBeli_AsuransiTakaful.qfl
+		FnLibrary_Homescreen = D:\SuperApp-Rebrand\Function Library\Homescreen\FnLibrary_Homescreen.qfl
+		ObjectRepository_Homescreen = D:\SuperApp-Rebrand\Function Library\Homescreen\ObjectRepository_Homescreen.qfl
+		BSI Mobile - HomeScreen = D:\BSI SuperApp Rebranding\Function Library\BSI Mobile - HomeScreen.qfl
+		FnParent_Homescreen_DownloadMutasiEStatement = D:\SuperApp-Rebrand\Function Library\Homescreen\FnParent_Homescreen_DownloadMutasiEStatement.qfl
+		BSI Mobile - Transfer = D:\BSI SuperApp Rebranding\Function Library\BSI Mobile - Transfer.qfl
+		FnParent_BayarBeli_ViewListRecentTransactionBayarBeli = D:\SuperApp-Rebrand\Function Library\BayarBeli\FnParent_BayarBeli_ViewListRecentTransactionBayarBeli.qfl
+		FnParent_BayarBeli_UpdateListRecentTransactionBayarBeli = D:\SuperApp-Rebrand\Function Library\BayarBeli\FnParent_BayarBeli_UpdateListRecentTransactionBayarBeli.qfl
+		FnParent_BayarBeli_ViewListRecentTransactionTransfer = D:\SuperApp-Rebrand\Function Library\BayarBeli\FnParent_BayarBeli_ViewListRecentTransactionTransfer.qfl
+		FnParent_BayarBeli_UpdateListRecentTransactionTransfer = D:\SuperApp-Rebrand\Function Library\BayarBeli\FnParent_BayarBeli_UpdateListRecentTransactionTransfer.qfl
+		FnParent_BayarBeli_TransaksiViaCurrentTransactionViaScreenUtamaBayarBeli = D:\SuperApp-Rebrand\Function Library\BayarBeli\FnParent_BayarBeli_TransaksiViaCurrentTransactionViaScreenUtamaBayarBeli.qfl
+	EndGlobalSection
+EndGlobal

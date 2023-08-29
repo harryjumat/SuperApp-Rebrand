@@ -1,0 +1,283 @@
+﻿'repo profile'
+Call RepositoriesCollection.Add(Environment("TestDir") & "\..\..\..\Object Repository\Repository_Profile.tsr")
+
+'object repository profile
+Call LoadFunctionLibrary(Environment("TestDir") & "\..\..\..\Function Library\Profile\ObjectRepository_Profile.qfl")
+
+
+Dim vFTMaintrans, vFTInfaq
+
+
+
+REM==============================================FUNCTION INPUT BAYAR BELI=================================================================
+REM====================================================START HERE==========================================================================
+
+'Author Harry Setiawan
+'Masuk Menu Profile
+Function MenuProfile()
+
+	logo_Profile.Click
+'	wait 2
+	Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Profile","Berhasil menampilkan halaman profile", ReportStatus.Passed)
+	
+End Function
+
+'Social Media
+Function SocialMedia(dtParam)
+	Call MenuProfile()
+	If Obj_MobileView.Exist Then
+		Obj_MobileView.Swipe "up",205,430
+	End If
+	wait 3
+	If Btn_PusatBantuan.Exist Then
+		Btn_PusatBantuan.Tap
+	End If
+	Do 
+	wait 1
+	Loop until Obj_MobileView.Exist
+	Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pusat Bantuan","Berhasil menampilkan halaman pusat bantuan", ReportStatus.Passed)
+	If Obj_MobileView.Exist Then
+		Obj_MobileView.Swipe "up",205,430
+		wait 1
+	End If
+	wait 1
+	Select Case dtParam
+		Case "Facebook"	Icon_Facebook.Tap
+		Case "Instagram"	Icon_Instagram.Tap
+		Case "Twitter"		Icon_Twitter.Tap
+		Case "Youtube"		Icon_Youtube.Tap
+	End Select
+	wait 1.5
+	Call CaptureImageUFTV2(Device("SuperApp").App("App"), dtTitle,"Berhasil menampikan "&dtTitle, ReportStatus.Passed)
+End Function
+
+'Change Profile Pic
+Function OpsiPengambilan(dtOpsiPengambilan)
+
+	If dtOpsiPengambilan = "Camera" Then
+		
+		'Mengganti Foto Profil dari Kamera
+		Call MenuProfile()
+		Call Capture(inobj_informasiakun,"Dev","Profile","Berhasil menampilkan halaman profile, klik icon kamera")
+		If Icon_Camera.Exist Then
+			Icon_Camera.Tap
+		End If
+		wait 1
+		Call Capture(lbl_fotoprofil,"Dev","Foto Profil","Berhasil menampilkan drawer foto profil, klik ambil foto")
+		If Lbl_Ambilfoto.Exist Then
+			Lbl_Ambilfoto.Tap
+		End If
+		wait 2
+		Call Capture(btn_ambilgambar,"Dev","Kamera","Berhasil menampilkan kamera, klik tombol ambil gambar")
+		If BtnAmbilGambar.Exist Then
+			BtnAmbilGambar.Tap
+		End If
+		wait 1
+		Call Capture(btn_gunakanfoto,"Dev","Berhasil Mengambil Gambar","Berhasil mengambil gambar, klik gunakan foto")
+		If Btn_GunakanFoto.Exist Then
+			Btn_GunakanFoto.Tap
+		End If
+		wait 2
+		Call Capture(lbl_simpan,"Dev","Edit Foto","Berhasil menampilkan halaman edit foto, klik simpan")
+		If Btn_Simpan.Exist Then
+			Btn_Simpan.Tap
+		End If
+		wait 7
+		Call Capture(inobj_informasiakun,"Dev","Profile","Berhasil mengganti foto profil")
+		
+	ElseIf dtOpsiPengambilan = "Galery" Then
+	
+		'Mengganti Foto Profil dari Galeri
+		Call MenuProfile()
+		Call Capture(inobj_informasiakun,"Dev","Profile","Berhasil menampilkan halaman profile, klik informasi akun")
+		If Icon_Camera.Exist Then
+			Icon_Camera.Tap
+		End If
+		wait 1
+		Call Capture(lbl_fotoprofil,"Dev","Foto Profil","Berhasil menampilkan drawer foto profil, klik pilih dari galeri")
+		If Lbl_PilihDariGaleri.Exist Then
+			Lbl_PilihDariGaleri.Tap
+		End If
+		wait 2
+		If Btn_Album.Exist Then
+			Btn_Album.Click
+			wait 1
+		End If
+		If AI_Favorit.Exist Then
+			AI_Favorit.Click
+			wait 1
+		End If
+		Call Capture(btn_saitama,"Dev","Galeri","Berhasil menampilkan galeri, pilih foto")
+		If Btn_FotoTerpilih.Exist Then
+			Btn_FotoTerpilih.Tap
+		End If
+		wait 1
+		If Btn_Pilih.Exist Then
+			Btn_Pilih.Tap
+		End If
+		wait 2
+		Call Capture(lbl_simpan,"Dev","Edit Foto","Berhasil halaman edit foto, klik simpan")
+		If Btn_Simpan.Exist Then
+			Btn_Simpan.Tap
+		End If
+		Call Capture(inobj_informasiakun,"Dev","Profile","Berhasil mengubah foto profil")
+			
+	End If
+	
+End Function
+
+'Delete Profile Pic
+Function DrawerProfile()
+
+	Call MenuProfile()
+	If Icon_Camera.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Berhasil menampilkan halaman profile", "klik icon kamera", ReportStatus.Passed)		
+		Icon_Camera.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Icon Camera")
+	End If
+		
+End Function
+
+Function DeleteProfile()
+	
+	If Lbl_HapusFoto.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Berhasil menampilkan drawer foto profil", "klik hapus foto", ReportStatus.Passed)		
+		Lbl_HapusFoto.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Hapus Foto")
+	End If
+	
+End Function
+
+Function KonfirmasiHapusFoto()
+	
+	If Btn_Hapus.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Berhasil menampilkan konfirmasi hapus foto", "klik hapus", ReportStatus.Passed)		
+		Btn_Hapus.Tap
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Berhasil hapus foto", "", ReportStatus.Passed)		
+	Else 
+		Call objNotFound(objSuperApp,"Button Hapus")
+	End If
+	
+End Function
+
+'Change Email
+Function InformasiAkun()
+	Call MenuProfile()
+	If Btn_InformasiAkun.Exist Then
+		Btn_InformasiAkun.Tap
+	End If
+	wait 1
+	Call Capture(lbl_informasiakun,"Dev","Informasi Akun","Berhasil menampilkan halaman informasi akun, klik icon pencil pada bagian email")
+	If Btn_EmailPencil.Exist Then
+		Btn_EmailPencil.Tap
+	End If
+	wait 1
+End Function
+
+Function UbahEmail(dtEmail)
+	Call Capture(lbl_ubahemail,"Dev","Ubah Email","Berhasil menampilkan halaman ubah email, ubah email")
+	If AI_X.Exist Then
+		AI_X.Click
+	End If
+	If Field_UbahEmail.Exist Then
+		Field_UbahEmail.Set dtEmail
+		wait 1
+	End If
+	Call Capture(lbl_simpan,"Dev","Simpan","Berhasil mengubah email, klik simpan")
+	If Btn_Simpan.Exist Then
+		Btn_Simpan.Tap
+	End If
+	wait 2
+End Function
+
+Function KodeOTP(dtValidasi)
+
+	If dtValidasi = "BENAR" Then
+		Call Capture(lvl_verifikasiemailkamu,"Dev","Verifikasi Email","Berhasil menampilkan halaman verifikasi email, masukkan kode OTP")
+		If btn_1.Exist Then
+			btn_1.Tap
+		End If
+		If btn_2.Exist Then
+			btn_2.Tap
+		End If
+		If btn_3.Exist Then
+			btn_3.Tap
+		End If
+		If btn_4.Exist Then
+			btn_4.Tap
+		End If
+		If btn_5.Exist Then
+			btn_5.Tap
+		End If
+		If btn_6.Exist Then
+			btn_6.Tap
+		End If
+	ElseIf dtValidasi = "SALAH" Then
+		If btn_1.Exist Then
+			btn_1.Tap
+		End If
+		If btn_1.Exist Then
+			btn_1.Tap
+		End If
+		If btn_1.Exist Then
+			btn_1.Tap
+		End If
+		If btn_1.Exist Then
+			btn_1.Tap
+		End If
+		If btn_1.Exist Then
+			btn_1.Tap
+		End If
+	End If
+	
+End Function
+
+Function BerhasilUbahEmail()
+
+	Call InputPinTransaction(PIN)
+	Call Capture(lbl_informasiakun,"Dev","Berhasil Mengubah Email","Berhasil mengubah email")
+	
+End Function
+
+Function ResetEmail()
+	If Btn_EmailPencil.Exist Then
+		Btn_EmailPencil.Tap
+	End If
+	wait 1
+	If AI_X.Exist Then
+		AI_X.Click
+	End If
+	If Field_UbahEmail.Exist Then
+		Field_UbahEmail.Set dtEmail
+		wait 1
+	End If
+	If Btn_Simpan.Exist Then
+		Btn_Simpan.Tap
+	End If
+	wait 2
+	If btn_1.Exist Then
+		btn_1.Tap
+	End If
+	If btn_2.Exist Then
+		btn_2.Tap
+	End If
+	If btn_3.Exist Then
+		btn_3.Tap
+	End If
+	If btn_4.Exist Then
+		btn_4.Tap
+	End If
+	If btn_5.Exist Then
+		btn_5.Tap
+	End If
+	If btn_6.Exist Then
+		btn_6.Tap
+	End If
+End Function
+	
+	
+
+
+

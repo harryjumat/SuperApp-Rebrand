@@ -1,0 +1,8 @@
+﻿'Mutasi E-Statement
+Set InsightObject_CardRekening		= Device("Device").InsightObject("InsightObject_CardHomescreen")
+Set Obj_Estatement					= Device("Device").App("MutasiEStatement").MobileObject("Obj_Estatement")
+Set Obj_BulanStatement				= Device("Device").App("MutasiEStatement").MobileObject("Obj_BulanStatement")
+Set Obj_ViewShare					= Device("Device").App("MutasiEStatement").MobileView("Obj_ViewShare")
+Set Obj_Simpankefile					= Device("Device").App("MutasiEStatement").MobileObject("Obj_Simpankefile")
+Set Btn_Simpan						= Device("Device").App("MutasiEStatement").MobileButton("Btn_Simpan")
+

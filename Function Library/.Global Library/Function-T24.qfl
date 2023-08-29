@@ -1,0 +1,197 @@
+﻿Function LocationFileT24(Folder)
+	LocationFileT24 = Environment("TestDir") & "\..\..\..\" & Folder & "\"
+End Function
+
+Call RepositoriesCollection.Add(LocationFileT24("Object Repository") & "T24 - Repository.tsr")
+Call RepositoriesCollection.Add(LocationFileT24("Object Repository") & "T24 - RepositoryFT.tsr")
+Call RepositoriesCollection.Add(LocationFileT24("Object Repository") & "T24 - Jurnal.tsr")
+Call RepositoriesCollection.Add(LocationFileT24("Object Repository") & "T24 - Mutasi Rekening.tsr")
+
+Dim UsernameT24, PasswordT24, URLT24
+
+
+Function loginT24(byVal Username, byVal Password)
+	Do
+	Loop Until Browser("T24 Sign in").Page("T24 Sign in").WebButton("Sign in").Exist(0)
+	Browser("T24 Sign in").Page("T24 Sign in").WebEdit("signOnName").Set Username
+	Browser("T24 Sign in").Page("T24 Sign in").WebEdit("password").Set Password
+	Call CaptureImageUFTV2(Browser("T24 Sign in").Page("T24 Sign in"), "Login Screen", "Input Username dan Password T24", ReportStatus.Passed)
+	Browser("T24 Sign in").Page("T24 Sign in").WebButton("Sign in").Click
+End Function
+
+Function logoutT24()
+	Do Until Browser("T24 Sign in").WebElement("Sign Off").Exist(0)
+	Loop 
+	Browser("T24 Sign in").WebElement("Sign Off").Click
+	Call CaptureImageUFTV2(Browser("T24 Sign in").Page("T24 Sign in"), "Logout", "Logout, Back to Login Screen", ReportStatus.Passed)
+	wait(1)
+	Browser("T24 Sign in").Close
+End Function
+
+Function cekMutasi(byval fitur, byVal nomorFT, byVal NoRekening, byVal UsernameT24, byVal PasswordT24)
+	Call react.AddTitle("T24 Mutasi Rekening - " + fitur)
+	Call OpenBrowser("Chrome.exe", T24_URL)
+	
+	Call loginT24(UsernameT24, PasswordT24)
+	Call Mutasi_Rekening(NoRekening, nomorFT)
+	Call logoutT24()
+End Function
+
+Function cekJurnal(byval fitur, nomorFT, byVal UsernameT24, byVal PasswordT24)
+	Call react.AddTitle("T24 Jurnal Rekening - " + fitur)
+	Call OpenBrowser("Chrome.exe", T24_URL)
+	Call loginT24(UsernameT24, PasswordT24)
+	Call Jurnal(nomorFT)
+	Call logoutT24()
+End Function
+
+Function Mutasi_Rekening(Rekening, Nomor_Transaksi)
+
+	Do
+	Loop Until Browser("T24 Sign in").WebElement("Sign Off").Exist(0)
+	Browser("T24 Sign in").Page("T24 Sign in").WebEdit("commandValue").Set "?111"
+	Call CaptureImageUFTV2(Browser("T24 Sign in").Page("T24 Sign in"), "Main Screen", "Input Command Value", ReportStatus.Passed)
+	Browser("T24 Sign in").InsightObject("CommandButton").Highlight
+	Browser("T24 Sign in").InsightObject("CommandButton").Click
+
+	wait 3
+	
+	Browser("Temenos T24").Maximize 'maximize browser
+	wait(1)
+	
+	Call CaptureImageUFTV2(Browser("Temenos T24").Page("Temenos T24"), "Menu Informasi Layar", "Pilih menu Informasi Layar", ReportStatus.Passed)
+	Browser("Temenos T24").Page("Temenos T24").WebElement("INFORMASI LAYAR").Click
+	wait(1)
+	
+	Call CaptureImageUFTV2(Browser("Temenos T24").Page("Temenos T24"), "Menu Inquiry Rekening", "Pilih menu Inquiry Rekening", ReportStatus.Passed)
+	Browser("Temenos T24").Page("Temenos T24").WebElement("Inquiry Rekening").Click
+	wait(1)
+	
+	Call CaptureImageUFTV2(Browser("Temenos T24").Page("Temenos T24"), "Menu Inquiry Rekening Koran Giro/Tabungan", "Pilih menu Inquiry Rekening Koran Giro/Tabungan", ReportStatus.Passed)
+	Browser("Temenos T24").Page("Temenos T24").Link("Inquiry Rekening Koran").Click
+
+'	Do
+'	Loop Until Browser("Rekening Koran").Page("Rekening Koran").WebElement("Find").Exist(0)
+	wait 2
+	Browser("Rekening Koran").Maximize 'maximize browser
+	
+	If Rekening = "" Then
+		Rekening = "7420605247"
+	End If
+	Browser("Rekening Koran").Page("Rekening Koran").WebEdit("NO REKENING").Set Rekening
+	Browser("Rekening Koran").Page("Rekening Koran").WebEdit("TANGGAL MUTASI").Set "!TODAY"
+	Call CaptureImageUFTV2(Browser("Rekening Koran").Page("Rekening Koran"), "Mutasi Rekening - Input", "Input Nomor Rekening dan Tanggal Transaksi", ReportStatus.Passed)
+	Browser("Rekening Koran").Page("Rekening Koran").WebElement("Find").Click
+	
+	Do
+	Loop Until Browser("Rekening Koran").Page("Rekening Koran").WebElement("enquiryDataScroller").Exist(0)
+	wait 3
+'	cek kondisi lastpage - done
+	If Browser("Rekening Koran").Page("Rekening Koran").Image("Last Page").Exist Then
+		Browser("Rekening Koran").Page("Rekening Koran").Image("Last Page").Click
+	End If
+	
+	Do
+	Loop Until Browser("Rekening Koran").Page("Rekening Koran").WebElement("SALDO AKHIR").Exist(0)
+	checknext = Browser("Rekening Koran").Page("Rekening Koran").WebTable("list_transaksi").GetCellData(1,3)
+	If checknext = "" Then
+		Browser("Rekening Koran").Page("Rekening Koran").Image("Previous Page").Click
+	End If
+	
+	listRow = Browser("Rekening Koran").Page("Rekening Koran").WebTable("list_transaksi").RowCount
+	For iCheck = 1 To listRow Step 1
+		check_FT = Browser("Rekening Koran").Page("Rekening Koran").WebTable("list_transaksi").GetCellData(iCheck,3)
+		If Nomor_Transaksi = check_FT Then
+			Browser("Rekening Koran").Page("Rekening Koran").WebTable("list_transaksi").ChildItem(iCheck, 8, "Image", 0).Highlight
+			Call CaptureImageUFTV2(Browser("Rekening Koran").Page("Rekening Koran"), "Inquiry Mutasi Rekening", "Mutasi Rekening", ReportStatus.Passed)
+			Browser("Rekening Koran").Page("Rekening Koran").WebTable("list_transaksi").ChildItem(iCheck, 8, "Image", 0).Click
+			Call OpenMutasi(Browser("Rekening Koran").Page("Rekening Koran"), "Inquiry Mutasi Rekening - Detail", ReportStatus.Passed)
+			Browser("Rekening Koran").Page("Rekening Koran").Link("Rekening Koran").Highlight
+			Browser("Rekening Koran").Page("Rekening Koran").Link("Rekening Koran").Click
+			Do
+			Loop Until Browser("Rekening Koran").Page("Rekening Koran").WebElement("enquiryDataScroller").Exist(0)
+			If checknext = "" Then
+				Browser("Rekening Koran").Page("Rekening Koran").Image("Last Page").Click
+				Do
+				Loop Until Browser("Rekening Koran").Page("Rekening Koran").WebElement("SALDO AKHIR").Exist(0)
+				Call CaptureImageUFTV2(Browser("Rekening Koran").Page("Rekening Koran"), "Mutasi Rekening - Detail", D_MutasiRek, ReportStatus.Passed)
+			End If
+			Exit for
+		End If
+	Next
+	
+	Browser("Rekening Koran").Close
+	Browser("Temenos T24").Close
+
+End Function
+
+Function OpenMutasi(byval page, imageTitle, varStatus)
+	
+	Call Add_ImageUFT(page, "Mutasi Rekening - Detil")
+	Browser("Rekening Koran").Page("Rekening Koran").Link("Dept Code").Highlight
+	wait 3
+	Call Add_ImageUFT(page, "Mutasi Rekening - Detil")
+	wait 1
+	Call Get_All_Images(imageTitle, varStatus)
+	
+End Function
+
+Function Jurnal(Nomor_Transaksi)
+
+	Do
+	Loop Until Browser("T24 Sign in").Page("T24 Sign in").WebElement("Sign Off").Exist(0)
+	Browser("T24 Sign in").Page("T24 Sign in").WebEdit("commandValue").Set "ENQ IDI.TXN.ENTRY.ALL"
+	Call CaptureImageUFTV2(Browser("T24 Sign in").Page("T24 Sign in"), "Main Screen", "Input Command Value", ReportStatus.Passed)
+	Browser("T24 Sign in").InsightObject("CommandButton").Highlight
+	Browser("T24 Sign in").InsightObject("CommandButton").Click
+
+	wait 3
+	Browser("IDI.TXN.ENTRY").Maximize 'maximize browser
+	
+	Browser("IDI.TXN.ENTRY").Page("IDI.TXN.ENTRY").WebEdit("FT").Set Nomor_Transaksi
+	Call CaptureImageUFTV2(Browser("IDI.TXN.ENTRY").Page("IDI.TXN.ENTRY"), "Input Nomor Transaksi", "Input Nomor Transaksi", ReportStatus.Passed)
+	Browser("IDI.TXN.ENTRY").Page("IDI.TXN.ENTRY").WebElement("Find").Click
+	wait(1)
+	Call CaptureImageUFTV2(Browser("IDI.TXN.ENTRY").Page("IDI.TXN.ENTRY"), "Inquiry transaksi berdasarkan Nomor Transaksi", "Inquiry transaksi berdasarkan Nomor Transaksi", ReportStatus.Passed)
+
+	cJurnal = Browser("IDI.TXN.ENTRY").Page("IDI.TXN.ENTRY").WebTable("Jurnal").RowCount
+	For iJurnal = 1 To cJurnal Step 1
+		Browser("IDI.TXN.ENTRY").Page("IDI.TXN.ENTRY").WebTable("Jurnal").ChildItem(iJurnal, 13, "Image", 0).Click
+		Do
+		Loop until Browser("IDI.TXN.ENTRY").Page("IDI.TXN.ENTRY").WebElement("IDI.TXN.ENTRY").Exist(0)
+		Call OpenJurnal(Browser("IDI.TXN.ENTRY").Page("IDI.TXN.ENTRY"), "Inquiry Detil - " &iJurnal, ReportStatus.Passed, iJurnal)
+		Browser("IDI.TXN.ENTRY").Page("IDI.TXN.ENTRY").WebElement("IDI.TXN.ENTRY").Click
+	Next
+	
+	Browser("IDI.TXN.ENTRY").Close
+	
+End Function
+
+Function OpenJurnal(byval page, imageTitle, varStatus, eJurnal)
+	
+	Call Add_ImageUFT(page, "Inquiry transaksi Detil" &" - "& eJurnal)
+	wait 1
+	Call Get_All_Images(imageTitle, varStatus)
+	
+End Function
+
+Function cekBurek(byval norek, byVal UsernameT24, byVal PasswordT24)
+	Call react.AddTitle("T24 Cek Rekening Baru")
+	Call OpenBrowser("Chrome.exe", T24_URL)
+	Call loginT24(UsernameT24, PasswordT24)
+	Do
+		wait 1
+	Loop Until Browser("T24 Sign in").WebElement("Sign Off").Exist
+	Browser("T24 Sign in").Page("T24 Sign in").WebEdit("commandValue").Set("ACC,ALL S "+ norek)
+	Call CaptureImageUFTV2(Browser("T24 Sign in").Page("T24 Sign in"), "Input Nomor Rekening", "Inputkan nomor rekening yang akan dicek", ReportStatus.Passed)
+	Browser("T24 Sign in").Page("T24 Sign in").Image("go").Click
+	Browser("COMPTE").Maximize
+	If Browser("COMPTE").Page("COMPTE").Link("Customer").Exist Then
+		Call CaptureImageUFTV2(Browser("COMPTE").Page("COMPTE"), "Cek Detail Rekening", "Tambah rekening berhasil", ReportStatus.Passed)
+	Else  
+		Call CaptureImageUFTV2(Browser(Browser("COMPTE").Page("COMPTE")), "Cek Detail Rekening", "Tambah rekening tidak berhasil", ReportStatus.Failed)
+	End If
+	Browser("COMPTE").Close
+	Browser("T24 Sign in").Close
+End Function
+

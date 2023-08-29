@@ -1,0 +1,106 @@
+﻿'repo homescreen'
+Call RepositoriesCollection.Add(Environment("TestDir") & "\..\..\..\Object Repository\Repository_Homescreen.tsr")
+
+'object repository bayar beli
+Call LoadFunctionLibrary(Environment("TestDir") & "\..\..\..\Function Library\Homescreen\ObjectRepository_Homescreen.qfl")
+
+
+Dim vFTMaintrans, vFTInfaq
+
+
+
+REM==============================================FUNCTION INPUT BAYAR BELI=================================================================
+REM====================================================START HERE==========================================================================
+
+'Download Mutasi E-Statement
+Function DownloadMutasiEStatement()
+	
+	If InsightObject_CardRekening.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Card Rekening", "", ReportStatus.Passed)
+		InsightObject_CardRekening.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Card Rekening")
+	End If
+	
+	If Obj_Estatement.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Button E-Statement", "", ReportStatus.Passed)
+		Obj_Estatement.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Button E-Statement")
+	End If
+	
+	If Obj_BulanStatement.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih bulan E-Statement", "", ReportStatus.Passed)
+		Obj_BulanStatement.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Bulan E-Statement")
+	End If
+	
+	If Obj_ViewShare.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih simpan ke file", "", ReportStatus.Passed)
+		Obj_ViewShare.Swipe("up")
+	Else 
+		Call objNotFound(objSuperApp,"Mobile View")
+	End If
+	
+	If Obj_Simpankefile.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih simpan ke file", "", ReportStatus.Passed)
+		Obj_Simpankefile.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Simpan ke File")
+	End If
+	
+	Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih Simpan", "", ReportStatus.Passed)
+	Btn_Simpan.Tap
+	wait 2
+	Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Berhasil menampilkan laporan rekening", "", ReportStatus.Passed)
+	
+End Function
+
+
+'Masuk ke Halaman Mutasi Melalui Halaman Dashboard
+	Call react.Addtitle("Masuk ke Halaman Mutasi Melalui Halaman Dashboard")
+	Call Login()
+	If lbl_easymudharabah.Exist Then
+		lbl_easymudharabah.Tap
+	End If
+	wait 3
+	Call Capture(lbl_easymudharabah,"Dev","Detail Tabungan","Berhasil menampilkan halaman detail tabungan")
+	
+	'Download E-Statement Berhasil, Permission Diijinkan
+	Call react.Addtitle("Download E-Statement Berhasil, Permission Diijinkan")
+	Call Login()
+	If lbl_easymudharabah.Exist Then
+		lbl_easymudharabah.Tap
+	End If
+	wait 3
+	Call Capture(lbl_easymudharabah,"Dev","Detail Tabungan","Berhasil menampilkan halaman detail tabungan, klik e-statement")
+	If inobj_estatement.Exist Then
+		inobj_estatement.Click
+	End If
+	Call LoopUntil(inobj_lblestatement)
+	Call Capture(inobj_lblestatement,"Dev","E-Statement","Berhasil menampilkan drawer e-statement, pilih bulan")
+	If inobj_lblfebruari2023.Exist Then
+		inobj_lblfebruari2023.Click
+	End If
+	Call LoopUntil(inobj_lblestatement)
+	btn_airdrop.Swipe "up",205,430
+	wait 1
+	Call Capture(btn_airdrop,"Dev","Native Share","Berhasil menampilkan native share, pilih simpan ke file")
+	wait 3
+	If inobj_simpankefile.Exist Then
+		inobj_simpankefile.Click
+	End If
+	wait 3
+	Call Capture(btn_simpan,"Dev","List Folder","Berhasil menampilkan list folder, pilih folder dan klik simpan")
+	If btn_simpan.Exist Then
+		btn_simpan.Tap
+		wait 1
+	If btn_simpankeduanya.Exist Then
+		btn_simpankeduanya.Tap
+		wait 0.8
+	End If
+	End If
+	Call Capture(inobj_lblestatement,"Dev","E-Statement","Berhasil menyimpan file")
+
+

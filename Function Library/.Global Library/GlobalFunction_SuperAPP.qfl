@@ -1,0 +1,1253 @@
+﻿''Deklarasi Variable
+Dim dtMenu, SubMenu, vNoFT, dtPIN, dtFT
+
+
+
+Sub LoginSuperApp(byVal Password)
+
+''Klik Logo Login Homepage
+	If button_LoginHomePage.Exist(5) Then
+		''Untuk Generate Timestamp
+		dtTime = Date() & " / " & Time()
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Prelogin", "Homepage SuperApp-Rebrand, Tap Login"& vbCrLf   & "Timestamp :" & dtTime, ReportStatus.Passed)
+		button_LoginHomePage.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Logo Login")
+	End If
+	
+	
+''Input Password
+	If field_PasswordLogin.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Input Password", "Berhasil Tap Login, User Input Password", ReportStatus.Passed)
+		field_PasswordLogin.Set Password
+	Else 
+		Call objNotFound(objSuperApp,"Field Password")
+	End If
+
+
+''Klik Button Login
+	If button_LoginField.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Button Login", "Berhasil Input Password, Tap Button Login", ReportStatus.Passed)
+		button_LoginField.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Button Login")
+	End If
+	
+	
+End Sub
+
+Sub Logout_ByProfile()
+	
+	'Klik Logo Profile
+	If logo_Profile.Exist(7) Then
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Logo Profile", "", ReportStatus.Passed)
+			logo_Profile.Tap
+		Else 
+			Call objNotFound(objSuperApp,"Logo Profile")
+	End If
+	
+	Device("SuperApp").Swipe("UP")
+	If button_Keluar_ByProfile.Exist(7) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Button Keluar", "", ReportStatus.Passed)
+		button_Keluar_ByProfile.Tap
+	Else 
+			Call objNotFound(objSuperApp,"Button Keluar")
+	End If
+	
+	If button_Konf_Keluar.Exist(7) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Button Konfirmasi Keluar", "", ReportStatus.Passed)
+		button_Konf_Keluar.Tap
+	Else 
+			Call objNotFound(objSuperApp,"Button Konfirmasi Keluar")
+	End If
+	
+End Sub
+
+Sub Logout_ByDashboard()
+	
+	If AI_Keluar_ByDashboard.Exist(7) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Button Keluar", "", ReportStatus.Passed)
+		AI_Keluar_ByDashboard.Tap
+	Else 
+			Call objNotFound(objSuperApp,"Button Keluar")
+	End If
+	
+	If button_Konf_Keluar.Exist(7) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Button Konfirmasi Keluar", "", ReportStatus.Passed)
+		button_Konf_Keluar.Tap
+	Else 
+			Call objNotFound(objSuperApp,"Button Konfirmasi Keluar")
+	End If
+	
+End Sub
+
+Sub ChooseMenuDashboard(byVal Menu)
+	
+	''Klik Logo Mega Menu
+	If icon_MegaMenu.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Klik Mega Menu", "", ReportStatus.Passed)
+		icon_MegaMenu.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Logo Mega Menu")
+	End If
+	
+	
+	Select Case Menu
+		Case "AsmaulHusna"
+			list_Islami.Swipe("up"),100,100		
+			wait 1
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Dashboard SuperApp-Rebrand", "Berhasil Masuk Page Dashboard SuperApp, Pilih Menu: "&Menu, ReportStatus.Passed)
+				list_Islami.Select "5"
+		
+		Case "BayarBeli"	
+			wait 1		
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Dashboard SuperApp-Rebrand", "Berhasil Masuk Page Dashboard SuperApp, Pilih Menu: "&Menu, ReportStatus.Passed)
+				list_Keuangan.Select "1"
+			
+		Case "DoaDzikir"
+			list_Islami.Swipe("up"),100,100		
+			wait 1
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Dashboard SuperApp-Rebrand", "Berhasil Masuk Page Dashboard SuperApp, Pilih Menu: "&Menu, ReportStatus.Passed)
+				list_Islami.Select "4"
+			
+		Case "HajiUmroh"
+			list_Islami.Swipe("up"),100,100		
+			wait 1
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Dashboard SuperApp-Rebrand", "Berhasil Masuk Page Dashboard SuperApp, Pilih Menu: "&Menu, ReportStatus.Passed)
+				list_Islami.Select "3"	
+			
+		Case "Hikmah"	
+			list_Islami.Swipe("up"),100,100		
+			wait 1
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Dashboard SuperApp-Rebrand", "Berhasil Masuk Page Dashboard SuperApp, Pilih Menu: "&Menu, ReportStatus.Passed)
+				list_Islami.Select "1"
+			
+		Case "Investasi"	
+			wait 1
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Dashboard SuperApp-Rebrand", "Berhasil Masuk Page Dashboard SuperApp, Pilih Menu: "&Menu, ReportStatus.Passed)
+				list_ProdukBYOND.Select "1"
+			
+		Case "JuzAmma"
+			list_Islami.Swipe("up"),100,100		
+			wait 1
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Dashboard SuperApp-Rebrand", "Berhasil Masuk Page Dashboard SuperApp, Pilih Menu: "&Menu, ReportStatus.Passed)
+				list_Islami.Select "6"
+				
+		Case "ManajemenKartu"	
+			wait 1		
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Dashboard SuperApp-Rebrand", "Berhasil Masuk Page Dashboard SuperApp, Pilih Menu: "&Menu, ReportStatus.Passed)
+				list_Keuangan.Select "6"
+			
+		Case "Masjid"
+			list_Islami.Swipe("up"),100,100		
+			wait 1
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Dashboard SuperApp-Rebrand", "Berhasil Masuk Page Dashboard SuperApp, Pilih Menu: "&Menu, ReportStatus.Passed)
+				list_Islami.Select "2"
+
+		Case "Pembiayaan"	
+			wait 1
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Dashboard SuperApp-Rebrand", "Berhasil Masuk Page Dashboard SuperApp, Pilih Menu: "&Menu, ReportStatus.Passed)
+				list_ProdukBYOND.Select "2"
+			
+		Case "QRIS"
+			wait 1		
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Dashboard SuperApp-Rebrand", "Berhasil Masuk Page Dashboard SuperApp, Pilih Menu: "&Menu, ReportStatus.Passed)
+				list_Keuangan.Select "2"
+			
+		Case "SholatKiblat"
+			list_Islami.Swipe("up"),100,100		
+			wait 1
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Dashboard SuperApp-Rebrand", "Berhasil Masuk Page Dashboard SuperApp, Pilih Menu: "&Menu, ReportStatus.Passed)
+				list_Islami.Select "0"
+			
+		Case "TabunganBaru"
+			wait 1
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Dashboard SuperApp-Rebrand", "Berhasil Masuk Page Dashboard SuperApp, Pilih Menu: "&Menu, ReportStatus.Passed)
+				list_ProdukBYOND.Select "0"
+			
+		Case "TarikTunai"
+			wait 1		
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Dashboard SuperApp-Rebrand", "Berhasil Masuk Page Dashboard SuperApp, Pilih Menu: "&Menu, ReportStatus.Passed)
+				list_Keuangan.Select "4"
+			
+		Case "TransaksiTerjadwal"
+			wait 1		
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Dashboard SuperApp-Rebrand", "Berhasil Masuk Page Dashboard SuperApp, Pilih Menu: "&Menu, ReportStatus.Passed)
+				list_Keuangan.Select "5"
+			
+		Case "Transfer"
+			wait 1		
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Dashboard SuperApp-Rebrand", "Berhasil Masuk Page Dashboard SuperApp, Pilih Menu: "&Menu, ReportStatus.Passed)
+				list_Keuangan.Select "0"
+			
+		Case "Ziswaf"
+			wait 1		
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Dashboard SuperApp-Rebrand", "Berhasil Masuk Page Dashboard SuperApp, Pilih Menu: "&Menu, ReportStatus.Passed)
+				list_Keuangan.Select "3"
+		
+	End Select
+	
+	dtMenu = Menu
+End Sub
+
+Sub ChooseSubMenu_BayarBeli(byVal SubMenu)
+	
+	''Search Submeu
+			If field_SearchMenuBayarBeli.Exist(5) Then
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Input Search SubMenu", "Berhasil Masuk Page Menu: "&dtMenu&", Selanjutnya Lakukan Search SubMenu", ReportStatus.Passed)
+				field_SearchMenuBayarBeli.Set SubMenu
+			Else 
+				Call objNotFound(objSuperApp,"Field Search Submenu")
+			End If
+	
+	Select Case SubMenu
+		Case "Akademik"
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)
+		Case "Angsuran"
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)
+		Case "Aqiqah"
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)
+		Case "Asuransi"
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)
+		Case "BPJS"
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)
+		Case "Distributor"
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)
+		Case "E-Money"
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)
+		Case "E-Wallet"
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)
+		Case "Hasanah Card"
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)
+		Case "Hiburan"
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)
+		Case "Internet/TV Kabel"
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)
+		Case "IPL/Properti"
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)
+		Case "Korlantas"
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)
+		Case "Lembaga"
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)
+		Case "Multipayment"
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)
+		Case "MPN"
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)			
+		Case "Pajak Bumi & Bangunan"
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)
+		Case "Pascabayar"
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)
+		Case "PDAM"
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)
+		Case "Pelunasan Haji"
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)
+		Case "PGN"
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)
+		Case "Pulsa & Paket Data"
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)	
+		Case "PLN"		
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)
+		Case "Tiket"		
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)
+		Case "Virtual Account"
+			wait 1
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)		
+	End Select
+	
+	list_BayarBeli.Select "0"
+	
+End Sub
+
+Sub ChooseSubMenu_Ziswaf(byVal SubMenu)
+	
+	''Dashboard menu ziswaf
+			If logo_Zakat.Exist(5) Then
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Page Ziswaf", "Berhasil Masuk Page Menu: "&dtMenu&", Selanjutnya Pilih SubMenu", ReportStatus.Passed)
+			Else 
+				Call objNotFound(objSuperApp,"Field Search Submenu")
+			End If
+		
+		Select Case SubMenu
+			Case "Zakat"
+				If logo_Zakat.Exist(5) Then
+					Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)
+					logo_Zakat.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Icon: "&SubMenu)
+				End If
+			
+			Case "Infaq"
+				If logo_Infaq.Exist(5) Then
+					Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)
+					logo_Infaq.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Icon: "&SubMenu)
+				End If
+				
+			Case "Wakaf"
+				If logo_Wakaf.Exist(5) Then
+					Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)
+					logo_Wakaf.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Icon: "&SubMenu)
+				End If
+				
+			Case "Donasi"
+				If logo_Donasi.Exist(5) Then
+					Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih SubMenu","Memilih SubMenu: "&SubMenu, ReportStatus.Passed)
+					logo_Donasi.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Icon: "&SubMenu)
+				End If
+		End Select
+	
+End Sub
+
+
+Sub InputPinTransaction(byVal PIN)
+	If button_Pin1.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Input Confirmation Pin", "", ReportStatus.Passed)
+		For Iterator = 1 To 6 Step 1
+			myPinList = Mid(PIN,Iterator,1)
+
+			Select Case myPinList
+			
+				Case "1"
+					button_Pin1.Tap
+				
+				Case "2"
+					button_Pin2.Tap
+					
+				Case "3"
+					button_Pin3.Tap
+					
+				Case "4"
+					button_Pin4.Tap
+				
+				Case "5"
+					button_Pin5.Tap
+					
+				Case "6"
+					button_Pin6.Tap
+					
+				Case "7"
+					button_Pin7.Tap
+				
+				Case "8"
+					button_Pin8.Tap
+					
+				Case "9"
+					button_Pin9.Tap
+					
+				Case "0"
+					button_Pin0.Tap
+			
+			
+		End Select
+		Next
+	
+	else
+		Call objNotFound(objSuperApp,"Confirmation Pin")
+	End If
+	
+	wait 5
+	
+End Sub
+
+Sub InputFalsePinTransaction(byVal PIN)
+	
+	dtFalsePIN	= StrReverse(PIN)
+
+	If button_Pin1.Exist(5) Then
+		
+		For Iterator = 1 To 6 Step 1
+			myPinList = Mid(dtFalsePIN,Iterator,1)
+			
+			Select Case myPinList
+			
+				Case "1"
+					button_Pin1.Tap
+				
+				Case "2"
+					button_Pin2.Tap
+					
+				Case "3"
+					button_Pin3.Tap
+					
+				Case "4"
+					button_Pin4.Tap
+				
+				Case "5"
+					button_Pin5.Tap
+					
+				Case "6"
+					button_Pin6.Tap
+					
+				Case "7"
+					button_Pin7.Tap
+				
+				Case "8"
+					button_Pin8.Tap
+					
+				Case "9"
+					button_Pin9.Tap
+					
+				Case "0"
+					button_Pin0.Tap
+			
+			
+		End Select
+		Next
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Input Confirmation Pin", "", ReportStatus.Passed)
+	else
+		Call objNotFound(objSuperApp,"Confirmation Pin")
+	End If
+	
+	wait 5
+	
+End Sub
+
+Sub InputPinTransactionNoSS(byVal PIN)
+	If button_Pin1.Exist(5) Then
+
+		For Iterator = 1 To 6 Step 1
+			myPinList = Mid(PIN,Iterator,1)
+
+			Select Case myPinList
+			
+				Case "1"
+					button_Pin1.Tap
+				
+				Case "2"
+					button_Pin2.Tap
+					
+				Case "3"
+					button_Pin3.Tap
+					
+				Case "4"
+					button_Pin4.Tap
+				
+				Case "5"
+					button_Pin5.Tap
+					
+				Case "6"
+					button_Pin6.Tap
+					
+				Case "7"
+					button_Pin7.Tap
+				
+				Case "8"
+					button_Pin8.Tap
+					
+				Case "9"
+					button_Pin9.Tap
+					
+				Case "0"
+					button_Pin0.Tap
+			
+			
+		End Select
+		Next
+	
+	else
+		Call objNotFound(objSuperApp,"Confirmation Pin")
+	End If
+	
+	wait 5
+	
+End Sub
+
+Sub ChangeSourceAccount(byVal SourceAccount, byVal SubMenu)
+	
+	If SubMenu = "Zakat" or SubMenu = "Infaq" Then
+		
+		'Tap Label Ubah Norek - 2 Btn Ubah
+			If AI_UbahNoRekCf_2Btn.Exist(5) Then
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih Ubah No Rekening", "", ReportStatus.Passed)
+				AI_UbahNoRekCf_2Btn.Click
+			Else 
+				Call objNotFound(objSuperApp,"Label Ubah No Rekening")
+			End If
+	
+	Else
+		
+			'Tap Label Ubah Norek - 1 Btn Ubah
+			If AI_UbahNoRekCf_1Btn.Exist(5) Then
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih Ubah No Rekening", "", ReportStatus.Passed)
+				AI_UbahNoRekCf_1Btn.Click
+			Else 
+				Call objNotFound(objSuperApp,"Label Ubah No Rekening")
+			End If
+		
+	End If
+	
+		
+	''Input Search Norek
+		If field_CariTabungan.Exist(5) Then
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Input No Rekening", "No Rekening: "&SourceAccount, ReportStatus.Passed)
+			field_CariTabungan.Set SourceAccount
+			
+			''Tap Label Norek
+			label_ChangeNorek.SetTOProperty "text", SourceAccount
+			If label_ChangeNorek.Exist(5) Then
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih No Rekening", "", ReportStatus.Passed)
+				label_ChangeNorek.Tap
+			Else 
+				Call objNotFound(objSuperApp,"Label No Rekening")
+			End If
+		Else 
+			''Tap Label Norek
+			label_ChangeNorek.SetTOProperty "text", SourceAccount
+			If label_ChangeNorek.Exist(5) Then
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih No Rekening", "", ReportStatus.Passed)
+				label_ChangeNorek.Tap
+			Else 
+				Call objNotFound(objSuperApp,"Label No Rekening")
+			End If
+		End If	
+			
+End Sub
+
+Sub InfaqTransaction(byVal Nominal) 'belum
+
+	If button_Lanjutkan_Infaq.Exist(3) Then
+		button_Lanjutkan_Infaq.Tap
+	Else
+		Call objNotFound(objSuperApp,"Label Ubah No Rekening")
+	End If
+
+	Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih Nominal Infaq", "", ReportStatus.Passed)
+
+	Select Case Nominal
+		Case "1"
+			list_NominalInfaq.Select "0"
+		Case "2"
+			list_NominalInfaq.Select "1"
+		Case "5"
+			list_NominalInfaq.Select "2"
+		Case "10"
+			list_NominalInfaq.Select "3"
+		Case "50"
+			list_NominalInfaq.Select "4"
+		Case "100"
+			list_NominalInfaq.Select "5"
+		Case "500"
+			list_NominalInfaq.Select "6"
+		Case "Nominal Lain"
+			list_NominalInfaq.Select "7"
+	End Select
+	
+	
+''Tap Konfirmasi
+	If label_Konfirmasi_Infaq.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Konfirmasi Infaq", "Berhasil Memilih Nominal: RP. "&Nominal&".000"&", Tap Konfirmasi Infaq", ReportStatus.Passed)
+				label_Konfirmasi_Infaq.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Button Nominal Infaq")
+	End If
+			
+''Share Resi dan Download
+	Call SuccessTransaction_Infaq()
+	
+End Sub
+
+Sub SuccessTransaction_Infaq()
+	
+''Tap Detail Transaksi
+	If button_DetailTransaksi.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Detail Transaksi", "Berhasil Melakukan Transaksi, Tap Detail Transaksi", ReportStatus.Passed)
+		button_DetailTransaksi.Tap
+		wait 3
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Detail Transaksi", "", ReportStatus.Passed)
+		button_DetailTransaksi.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Label Detail Transaksi")
+	End If
+		
+	
+''Tap Button Share
+	If button_ShareTransaksi.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Button Share", "", ReportStatus.Passed)
+		button_ShareTransaksi.Tap
+		wait 1
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Page Share", "Berhasil Masuk Page Share, Tap Back", ReportStatus.Passed)
+		AI_button_close.Click
+	Else 
+		Call objNotFound(objSuperApp,"Button Share")
+	End If
+	
+	'Tap Button Download
+	If button_DownloadTransaksi.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Button Download", "", ReportStatus.Passed)
+		button_DownloadTransaksi.Tap
+		wait 1
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Page Download", "Berhasil Masuk Page Download, Tap Back", ReportStatus.Passed)
+		wait 1
+		
+		'Call GetNoFT(label_NoTransaksiFT_Zakat)
+		vFTInfaq	   = GetNoFTInfaq()
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Page Detail Resi", "Berhasil Masuk Page Detail Resi. Berhasil mendapatkan Resi dengan Nomor Transaksi: "&vFTInfaq, ReportStatus.Passed)
+		wait 1
+		
+		label_NoTransaksiFT_Infaq.Swipe("up")
+	Else 
+		Call objNotFound(objSuperApp,"Button Download")
+	End If
+	
+	
+''Tap Button Bagikan Resi
+	If button_BagikanResi.Exist(5) Then
+		button_BagikanResi.Highlight
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Button Bagikan Resi", "", ReportStatus.Passed)
+		button_BagikanResi.Tap
+		wait 1
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Muncul Pop-Up Bagikan Resi", "Berhasil Tap Bagikan Resi, Tap Back", ReportStatus.Passed)
+		AI_button_close.Click
+		wait 1
+		AI_button_Back.Click
+	Else 
+		Call objNotFound(objSuperApp,"Button Bagikan Resi")
+	End If
+	
+End Sub
+
+
+
+
+
+REM======================================================START ==================================================================
+REM==========================================FUNCTION UNTUK CHANGE LIMIT ======================================================
+Sub ChangeLimitTransaction(byVal LimitType, byVal TransactionType, byVal NominalChange, byVal PIN)
+
+''Klik Logo Profile
+	If logo_Profile.Exist(7) Then
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Logo Profile", "", ReportStatus.Passed)
+			logo_Profile.Tap
+		Else 
+			Call objNotFound(objSuperApp,"Logo Profile")
+	End If
+	
+	
+''Tap Atur Limit	
+	Device("SuperApp").Swipe("UP")
+	If Button_AturLimit.Exist(7) Then
+			Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Atur Limit", "", ReportStatus.Passed)
+			Button_AturLimit.Highlight
+			Button_AturLimit.Tap
+		Else 
+			Call objNotFound(objSuperApp,"Button Atur Limit")
+	End If
+
+
+
+''Choose Limit Type	
+	If LimitType = "Harian" Then
+		''Tap Menu Limit Harian
+			If label_MenuLimitHarian.Exist(5) Then
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih Menu Limit Harian", "Berhasil Masuk Page Profile, Selanjutnya Memilih Menu Limit", ReportStatus.Passed)
+				label_MenuLimitHarian.Tap
+			Else 
+				Call objNotFound(objSuperApp,"Button Limit Harian")
+			End If
+	ElseIf LimitType = "PerTransaksi" Then
+		''Tap Menu Limit Per Transaksi
+			If label_MenuLimitPerTransaksi.Exist(5) Then
+				Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Pilih Menu Limit Per Transaksi", "Berhasil Masuk Page Profile, Selanjutnya Memilih Menu Limit", ReportStatus.Passed)
+				label_MenuLimitPerTransaksi.Tap
+			Else 
+				Call objNotFound(objSuperApp,"Button Limit Per Transaksi")
+			End If
+	
+	else
+		Call objNotFound(objSuperApp,"Button Limit")
+	End If
+	
+''Choose Transaction Type
+	If LimitType = "Harian" Then
+		Call TapEditTransLimit_Harian(TransactionType)
+	ElseIf LimitType = "PerTransaksi" Then
+		Call TapEditTransLimit_PerTrans(TransactionType)
+	End If
+
+
+''Input Nominal Edit Limit
+	If field_EditLimit.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Input Nominal Perubahan", "Nominal Perubahan Sebesar: RP. "&NominalChange, ReportStatus.Passed)
+		field_EditLimit.Set NominalChange
+	Else 
+		Call objNotFound(objSuperApp,"Field Edit Limit")
+	End If
+	
+	
+''Tap Button Simpan Edit Limit
+	If button_SimpanEditLimit.Exist(5) Then
+		Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Button Simpan Edit Limit", "", ReportStatus.Passed)
+		button_SimpanEditLimit.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Button Simpan Edit Limit")
+	End If
+	
+	Call InputPinTransaction(PIN)
+	BackDevice()
+	wait 1
+	BackDevice()
+	
+End Sub
+
+Sub TapEditTransLimit_Harian(byVal TransTypeLimitHarian)
+	Select Case TransTypeLimitHarian
+	
+		Case "Pembayaran"
+		
+		''Klik Icon Pencil Pembayaran
+			Device("SuperApp").Swipe("UP")
+			If logo_EditLimit_Pembayaran.Exist(7) Then
+					Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Edit Pembayaran Harian", "", ReportStatus.Passed)
+					logo_EditLimit_Pembayaran.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+			
+		Case "Pembelian"
+		
+		''Klik Icon Pencil Pembelian
+			Device("SuperApp").Swipe("UP")
+			If logo_EditLimit_Pembelian.Exist(7) Then
+					Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Edit Pembelian Harian", "", ReportStatus.Passed)
+					logo_EditLimit_Pembelian.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+		
+		Case "Transfer antar BSI"
+		
+		''Klik Icon Pencil Transfer antar BSI
+			If logo_EditLimit_TransferBSI.Exist(7) Then
+					Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Edit Transfer antar BSI Harian", "", ReportStatus.Passed)
+					logo_EditLimit_TransferBSI.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+			
+		Case "Transfer Online"
+		
+		''Klik Icon Pencil Transfer Online
+			If logo_EditLimit_TransferOnline.Exist(7) Then
+					Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Edit Transfer Online Harian", "", ReportStatus.Passed)
+					logo_EditLimit_TransferOnline.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+			
+		Case "Transfer SKN"
+		
+		''Klik Icon Pencil Transfer SKN
+			If logo_EditLimit_TransferSKN.Exist(7) Then
+					Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Edit Transfer SKN Harian", "", ReportStatus.Passed)
+					logo_EditLimit_TransferSKN.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+		
+		Case "Transfer BI Fast"
+		
+		''Klik Icon Pencil Transfer BI Fast
+			If logo_EditLimit_TransferBIFAST.Exist(7) Then
+					Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Edit Transfer BI Fast Harian", "", ReportStatus.Passed)
+					logo_EditLimit_TransferBIFAST.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+			
+		Case "Tarik tunai tanpa kartu"
+		
+		''Klik Icon Pencil Tarik tunai tanpa kartu
+			Device("SuperApp").Swipe("UP")
+			If logo_EditLimit_TarikTunai_TanpaKartu.Exist(7) Then
+					Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Edit Tarik tunai tanpa kartu Harian", "", ReportStatus.Passed)
+					logo_EditLimit_TarikTunai_TanpaKartu.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+		
+		Case "Top up E-Money"
+		
+		''Klik Icon Pencil Top up E-Money
+			Device("SuperApp").Swipe("UP")
+			If logo_EditLimit_TopUp_eMoney.Exist(7) Then
+					Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Edit Top up E-Money Harian", "", ReportStatus.Passed)
+					logo_EditLimit_TopUp_eMoney.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+			
+		Case "QRIS"
+		
+		''Klik Icon Pencil QRIS
+			Device("SuperApp").Swipe("UP")
+			If logo_EditLimit_QRIS.Exist(7) Then
+					Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Edit QRIS Harian", "", ReportStatus.Passed)
+					logo_EditLimit_QRIS.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+			
+	End Select
+End Sub
+
+Sub TapEditTransLimit_PerTrans(byVal TransTypeLimitPerTrans)
+	Select Case TransTypeLimitPerTrans
+	
+		Case "Pembayaran"
+		
+		''Klik Icon Pencil Pembayaran
+			Device("SuperApp").Swipe("UP")
+			If logo_EditLimit_Pembayaran.Exist(7) Then
+					Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Edit Pembayaran Per Transaksi", "", ReportStatus.Passed)
+					logo_EditLimit_Pembayaran.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+			
+		Case "Pembelian"
+		
+		''Klik Icon Pencil Pembelian
+			Device("SuperApp").Swipe("UP")
+			If logo_EditLimit_Pembelian.Exist(7) Then
+					Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Edit Pembelian Per Transaksi", "", ReportStatus.Passed)
+					logo_EditLimit_Pembelian.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+		
+		Case "Transfer antar BSI"
+		
+		''Klik Icon Pencil Transfer antar BSI
+			If logo_EditLimit_TransferBSI.Exist(7) Then
+					Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Edit Transfer antar BSI Per Transaksi", "", ReportStatus.Passed)
+					logo_EditLimit_TransferBSI.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+			
+		Case "Transfer Online"
+		
+		''Klik Icon Pencil Transfer Online
+			If logo_EditLimit_TransferOnline.Exist(7) Then
+					Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Edit Transfer Online Per Transaksi", "", ReportStatus.Passed)
+					logo_EditLimit_TransferOnline.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+			
+		Case "Transfer SKN"
+		
+		''Klik Icon Pencil Transfer SKN
+			If logo_EditLimit_TransferSKN.Exist(7) Then
+					Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Edit Transfer SKN Per Transaksi", "", ReportStatus.Passed)
+					logo_EditLimit_TransferSKN.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+		
+		Case "Transfer BI Fast"
+		
+		''Klik Icon Pencil Transfer BI Fast
+			If logo_EditLimit_TransferBIFAST.Exist(7) Then
+					Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Edit Transfer BI Fast Per Transaksi", "", ReportStatus.Passed)
+					logo_EditLimit_TransferBIFAST.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+			
+		Case "Tarik tunai tanpa kartu"
+		
+		''Klik Icon Pencil Tarik tunai tanpa kartu
+			Device("SuperApp").Swipe("UP")
+			If logo_EditLimit_TarikTunai_TanpaKartu.Exist(7) Then
+					Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Edit Tarik tunai tanpa kartu Per Transaksi", "", ReportStatus.Passed)
+					logo_EditLimit_TarikTunai_TanpaKartu.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+		
+		Case "Top up E-Money"
+		
+		''Klik Icon Pencil Top up E-Money
+			Device("SuperApp").Swipe("UP")
+			If logo_EditLimit_TopUp_eMoney.Exist(7) Then
+					Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Edit Top up E-Money Per Transaksi", "", ReportStatus.Passed)
+					logo_EditLimit_TopUp_eMoney.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+			
+		Case "QRIS"
+		
+		''Klik Icon Pencil QRIS
+			Device("SuperApp").Swipe("UP")
+			If logo_EditLimit_QRIS.Exist(7) Then
+					Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Tap Edit QRIS Per Transaksi", "", ReportStatus.Passed)
+					logo_EditLimit_QRIS.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+			
+	End Select
+End Sub
+REM======================================================END ===================================================================
+REM==========================================FUNCTION UNTUK CHANGE LIMIT ======================================================
+
+
+REM======================================================START ==================================================================
+REM==========================================FUNCTION UNTUK ROLLBACK LIMIT ======================================================
+Sub RollBackLimit(byVal LimitType, byVal TransactionType, byVal NominalChange, byVal PIN)
+	''Klik Logo Profile
+	If logo_Profile.Exist(7) Then
+			logo_Profile.Tap
+		Else 
+			Call objNotFound(objSuperApp,"Logo Profile")
+	End If
+	
+	
+	
+''Tap Atur Limit	
+	Device("SuperApp").Swipe("UP")
+	If Button_AturLimit.Exist(7) Then
+			Button_AturLimit.Highlight
+			Button_AturLimit.Tap
+		Else 
+			Call objNotFound(objSuperApp,"Button Atur Limit")
+	End If
+
+
+
+''Choose Limit Type	
+	If LimitType = "Harian" Then
+		''Tap Menu Limit Harian
+			If label_MenuLimitHarian.Exist(5) Then
+				label_MenuLimitHarian.Tap
+			Else 
+				Call objNotFound(objSuperApp,"Button Limit Harian")
+			End If
+	ElseIf LimitType = "PerTransaksi" Then
+		''Tap Menu Limit Per Transaksi
+			If label_MenuLimitPerTransaksi.Exist(5) Then
+				label_MenuLimitPerTransaksi.Tap
+			Else 
+				Call objNotFound(objSuperApp,"Button Limit Per Transaksi")
+			End If
+	
+	else
+		Call objNotFound(objSuperApp,"Button Limit")
+	End If
+	
+''Choose Transaction Type
+	If LimitType = "Harian" Then
+		Call RBTapEditTransLimit_Harian(TransactionType)
+	ElseIf LimitType = "PerTransaksi" Then
+		Call RBTapEditTransLimit_PerTrans(TransactionType)
+	End If
+
+
+''Input Nominal Edit Limit
+	If field_EditLimit.Exist(5) Then
+		field_EditLimit.Set NominalChange
+	Else 
+		Call objNotFound(objSuperApp,"Field Edit Limit")
+	End If
+	
+	
+''Tap Button Simpan Edit Limit
+	If button_SimpanEditLimit.Exist(5) Then
+		button_SimpanEditLimit.Tap
+	Else 
+		Call objNotFound(objSuperApp,"Button Simpan Edit Limit")
+	End If
+	
+	Call InputPinTransactionNoSS(PIN)
+	BackDevice()
+	wait 1
+	BackDevice()
+End Sub
+
+Sub RBTapEditTransLimit_Harian(byVal TransTypeLimitHarian)
+	Select Case TransTypeLimitHarian
+	
+		Case "Pembayaran"
+		
+		''Klik Icon Pencil Pembayaran
+			Device("SuperApp").Swipe("UP")
+			If logo_EditLimit_Pembayaran.Exist(7) Then
+					logo_EditLimit_Pembayaran.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+			
+		Case "Pembelian"
+		
+		''Klik Icon Pencil Pembelian
+			Device("SuperApp").Swipe("UP")
+			If logo_EditLimit_Pembelian.Exist(7) Then
+					logo_EditLimit_Pembelian.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+		
+		Case "Transfer antar BSI"
+		
+		''Klik Icon Pencil Transfer antar BSI
+			If logo_EditLimit_TransferBSI.Exist(7) Then
+					logo_EditLimit_TransferBSI.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+			
+		Case "Transfer Online"
+		
+		''Klik Icon Pencil Transfer Online
+			If logo_EditLimit_TransferOnline.Exist(7) Then
+					logo_EditLimit_TransferOnline.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+			
+		Case "Transfer SKN"
+		
+		''Klik Icon Pencil Transfer SKN
+			If logo_EditLimit_TransferSKN.Exist(7) Then
+					logo_EditLimit_TransferSKN.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+		
+		Case "Transfer BI Fast"
+		
+		''Klik Icon Pencil Transfer BI Fast
+			If logo_EditLimit_TransferBIFAST.Exist(7) Then
+					logo_EditLimit_TransferBIFAST.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+			
+		Case "Tarik tunai tanpa kartu"
+		
+		''Klik Icon Pencil Tarik tunai tanpa kartu
+			Device("SuperApp").Swipe("UP")
+			If logo_EditLimit_TarikTunai_TanpaKartu.Exist(7) Then
+					logo_EditLimit_TarikTunai_TanpaKartu.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+		
+		Case "Top up E-Money"
+		
+		''Klik Icon Pencil Top up E-Money
+			Device("SuperApp").Swipe("UP")
+			If logo_EditLimit_TopUp_eMoney.Exist(7) Then
+					logo_EditLimit_TopUp_eMoney.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+			
+		Case "QRIS"
+		
+		''Klik Icon Pencil QRIS
+			Device("SuperApp").Swipe("UP")
+			If logo_EditLimit_QRIS.Exist(7) Then
+					logo_EditLimit_QRIS.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+		
+	End Select
+End Sub
+
+Sub RBTapEditTransLimit_PerTrans(byVal TransTypeLimitPerTrans)
+	Select Case TransTypeLimitPerTrans
+	
+		Case "Pembayaran"
+		
+		''Klik Icon Pencil Pembayaran
+			Device("SuperApp").Swipe("UP")
+			If logo_EditLimit_Pembayaran.Exist(7) Then
+					logo_EditLimit_Pembayaran.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+			
+		Case "Pembelian"
+		
+		''Klik Icon Pencil Pembelian
+			Device("SuperApp").Swipe("UP")
+			If logo_EditLimit_Pembelian.Exist(7) Then
+					logo_EditLimit_Pembelian.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+		
+		Case "Transfer antar BSI"
+		
+		''Klik Icon Pencil Transfer antar BSI
+			If logo_EditLimit_TransferBSI.Exist(7) Then
+					logo_EditLimit_TransferBSI.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+			
+		Case "Transfer Online"
+		
+		''Klik Icon Pencil Transfer Online
+			If logo_EditLimit_TransferOnline.Exist(7) Then
+					logo_EditLimit_TransferOnline.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+			
+		Case "Transfer SKN"
+		
+		''Klik Icon Pencil Transfer SKN
+			If logo_EditLimit_TransferSKN.Exist(7) Then
+					logo_EditLimit_TransferSKN.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+		
+		Case "Transfer BI Fast"
+		
+		''Klik Icon Pencil Transfer BI Fast
+			If logo_EditLimit_TransferBIFAST.Exist(7) Then
+					logo_EditLimit_TransferBIFAST.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+			
+		Case "Tarik tunai tanpa kartu"
+		
+		''Klik Icon Pencil Tarik tunai tanpa kartu
+			Device("SuperApp").Swipe("UP")
+			If logo_EditLimit_TarikTunai_TanpaKartu.Exist(7) Then
+					logo_EditLimit_TarikTunai_TanpaKartu.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+		
+		Case "Top up E-Money"
+		
+		''Klik Icon Pencil Top up E-Money
+			Device("SuperApp").Swipe("UP")
+			If logo_EditLimit_TopUp_eMoney.Exist(7) Then
+					logo_EditLimit_TopUp_eMoney.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+			
+		Case "QRIS"
+		
+		''Klik Icon Pencil QRIS
+			Device("SuperApp").Swipe("UP")
+			If logo_EditLimit_QRIS.Exist(7) Then
+					logo_EditLimit_QRIS.Tap
+				Else 
+					Call objNotFound(objSuperApp,"Logo Edit Pencil")
+			End If
+		
+	End Select
+End Sub
+REM======================================================END ===================================================================
+REM==========================================FUNCTION UNTUK ROLLBACK LIMIT ======================================================
+
+
+
+Function RestartApp()
+''Function untuk Relaunch Aplikasi
+	Device("SuperApp").App("App").Launch
+End Function
+
+Function BackDevice()
+''Function untuk Back Page
+	AI_button_Back.Click
+End Function
+
+
+Function BackDeviceWithSS()
+''Function untuk Back Page
+	AI_button_Back.Click
+	Wait 2
+	Call CaptureImageUFTV2(Device("SuperApp").App("App"), "Kembali Ke Halaman Sebelumnya", "", ReportStatus.Passed)
+End Function
+
+
+
+''TRYING
+'Function GetNoFT()
+'	vIndexNoTrans 	= label_NomorTransaksiReceipt.GetROProperty("mcindex")
+'	vIndexNoFT		= vIndexNoTrans + 1
+'	label_NoTransaksiFT.SetTOProperty "mcindex",vIndexNoFT
+'	If label_NoTransaksiFT.Exist(5) Then
+'		vNoFT 	= label_NoTransaksiFT.GetROProperty("text")
+'		print "No FT Main Transaction: "&vNoFT
+'		GetNoFT  = vNoFT
+'	End If
+'	
+'End Function
+
+
+Function GetNoFT(dtFT)
+	vNoFT 	= dtFT.GetROProperty("text")
+	print vNoFT
+	GetNoFT  = vNoFT
+End Function
+
+Function GetNoFTInfaq()
+	vNoFT 	= label_NoTransaksiFT_Infaq.GetROProperty("text")
+	print vNoFT
+	GetNoFTInfaq  = vNoFT
+End Function
+
+
+Function objNotFound(byval objPath,byval dtObject)
+	'untuk error handling, dtObject diisi dengan object yg tidak ditemukan
+	
+		Call CaptureImageUFTV2(objPath,"Error","Object not found : " & dtObject, ReportStatus.Failed)
+		
+		Reporter.ReportEvent micFail, "Failed", "Failed"
+		
+		Call endTest()
+
+End Function
+
+Function endTest()
+	'Call RestartApp()
+	'untuk generated pdf
+	Call SaveReact_Merge()
+	'keluar dari test
+	ExitTest 
+	
+End Function
+
+

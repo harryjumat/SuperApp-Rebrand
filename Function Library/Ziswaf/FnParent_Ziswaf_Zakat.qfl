@@ -1,0 +1,324 @@
+﻿''Import Function Library
+Call LoadFunctionLibrary(Environment("TestDir") & "\..\..\..\Function Library\Ziswaf\FnLibrary_Ziswaf.qfl")
+
+Dim UsernameT24, PasswordT24, URLT24
+
+''Deklarasi Variable
+''Config SuperApp Account
+dtPassword					= DataTable.Value ("PASSWORD", "Config")
+dtPIN						= DataTable.Value ("PIN", "Config")
+dtNominalInfaq				= DataTable.Value ("NOMINAL_INFAQ", "Config")
+
+'Config T24
+UsernameT24				= DataTable.Value ("T24_USERNAME", "T24")
+PasswordT24				= DataTable.Value ("T24_PASSWORD", "T24")
+URLT24						= DataTable.Value ("T24_URL", "T24")
+
+dtTitle						= DataTable.Value ("TITLE", "SuperApp")
+
+dtScenarioName			= DataTable.Value ("SCENARIO_NAME", "SuperApp")
+dtSOFChanges				= DataTable.Value ("SOF", "SuperApp")
+
+dtNominalZakat			= DataTable.Value ("NOMINAL", "SuperApp")
+dtAmilZakat				= DataTable.Value ("AMIL_ZAKAT", "SuperApp")
+dtCatatan					= DataTable.Value ("CATATAN", "SuperApp")
+
+dtMenu					= "Ziswaf"
+dtSubMenu					= "Zakat"
+
+Sub ScenarioTestCase()
+	dt_TCID = DataTable.Value ("TC_ID", "SuperApp")
+	If dtScenarioName = "Zakat - BSI Maslahat Positive" Then
+		'positive case
+		Call react.Addtitle(dtTitle) 'dari excel fitur
+		Call LoginSuperApp(dtPassword) 'dari excel config
+		Call ChooseMenuDashboard(dtMenu) 
+		Call ChooseSubMenu_Ziswaf(dtSubMenu)
+		Call InputZakat(dtAmilZakat, dtNominalZakat, dtCatatan)
+		Call ChangeSourceAccount(dtSOFChanges, dtSubMenu)
+		Call LanjutkanTransaksi_BayarZakat()
+		Call ConfirmTransaction_Zakat()
+		Call InputPinTransaction(dtPIN)
+		Call SuccessTransaction_Zakat()
+		Call InfaqTransaction(dtNominalInfaq)
+		Call cekMutasi(dtSubMenu, vFTMaintrans, dtSOFChanges)
+		Call cekJurnal(dtSubMenu, vFTMaintrans)
+		Call cekMutasi("Infaq", vFTInfaq, dtSOFChanges, UsernameT24, PasswordT24)
+		Call cekJurnal("Infaq", vFTInfaq, UsernameT24, PasswordT24)
+		
+	ElseIf dtScenarioName = "Zakat - Lazis Nu Positive" Then	
+		'positive case
+		Call react.Addtitle(dtTitle) 'dari excel fitur
+		Call LoginSuperApp(dtPassword) 'dari excel config
+		Call ChooseMenuDashboard(dtMenu) 
+		Call ChooseSubMenu_Ziswaf(dtSubMenu)
+		Call InputZakat(dtAmilZakat, dtNominalZakat, dtCatatan)
+		Call ChangeSourceAccount(dtSOFChanges, dtSubMenu)
+		Call LanjutkanTransaksi_BayarZakat()
+		Call ConfirmTransaction_Zakat()
+		Call InputPinTransaction(dtPIN)
+		Call SuccessTransaction_Zakat()
+		Call InfaqTransaction(dtNominalInfaq)
+		Call cekMutasi(dtSubMenu, vFTMaintrans, dtSOFChanges)
+		Call cekJurnal(dtSubMenu, vFTMaintrans)
+		Call cekMutasi("Infaq", vFTInfaq, dtSOFChanges, UsernameT24, PasswordT24)
+		Call cekJurnal("Infaq", vFTInfaq, UsernameT24, PasswordT24)
+		
+	ElseIf dtScenarioName = "Zakat - Lazis Mu Positive" Then
+		'positive case
+		Call react.Addtitle(dtTitle) 'dari excel fitur
+		Call LoginSuperApp(dtPassword) 'dari excel config
+		Call ChooseMenuDashboard(dtMenu) 
+		Call ChooseSubMenu_Ziswaf(dtSubMenu)
+		Call InputZakat(dtAmilZakat, dtNominalZakat, dtCatatan)
+		Call ChangeSourceAccount(dtSOFChanges, dtSubMenu)
+		Call LanjutkanTransaksi_BayarZakat()
+		Call ConfirmTransaction_Zakat()
+		Call InputPinTransaction(dtPIN)
+		Call SuccessTransaction_Zakat()
+		Call InfaqTransaction(dtNominalInfaq)
+		Call cekMutasi(dtSubMenu, vFTMaintrans, dtSOFChanges)
+		Call cekJurnal(dtSubMenu, vFTMaintrans)
+		Call cekMutasi("Infaq", vFTInfaq, dtSOFChanges, UsernameT24, PasswordT24)
+		Call cekJurnal("Infaq", vFTInfaq, UsernameT24, PasswordT24)
+		
+	ElseIf dtScenarioName = "Zakat - Baznas Positive" Then
+		'positive case
+		Call react.Addtitle(dtTitle) 'dari excel fitur
+		Call LoginSuperApp(dtPassword) 'dari excel config
+		Call ChooseMenuDashboard(dtMenu) 
+		Call ChooseSubMenu_Ziswaf(dtSubMenu)
+		Call InputZakat(dtAmilZakat, dtNominalZakat, dtCatatan)
+		Call ChangeSourceAccount(dtSOFChanges, dtSubMenu)
+		Call LanjutkanTransaksi_BayarZakat()
+		Call ConfirmTransaction_Zakat()
+		Call InputPinTransaction(dtPIN)
+		Call SuccessTransaction_Zakat()
+		Call InfaqTransaction(dtNominalInfaq)
+		Call cekMutasi(dtSubMenu, vFTMaintrans, dtSOFChanges)
+		Call cekJurnal(dtSubMenu, vFTMaintrans)
+		Call cekMutasi("Infaq", vFTInfaq, dtSOFChanges, UsernameT24, PasswordT24)
+		Call cekJurnal("Infaq", vFTInfaq, UsernameT24, PasswordT24)
+		
+	ElseIf dtScenarioName = "Zakat - Rumah Zakat Positive" Then
+		'positive case
+		Call react.Addtitle(dtTitle) 'dari excel fitur
+		Call LoginSuperApp(dtPassword) 'dari excel config
+		Call ChooseMenuDashboard(dtMenu) 
+		Call ChooseSubMenu_Ziswaf(dtSubMenu)
+		Call InputZakat(dtAmilZakat, dtNominalZakat, dtCatatan)
+		Call ChangeSourceAccount(dtSOFChanges, dtSubMenu)
+		Call LanjutkanTransaksi_BayarZakat()
+		Call ConfirmTransaction_Zakat()
+		Call InputPinTransaction(dtPIN)
+		Call SuccessTransaction_Zakat()
+		Call InfaqTransaction(dtNominalInfaq)
+		Call cekMutasi(dtSubMenu, vFTMaintrans, dtSOFChanges)
+		Call cekJurnal(dtSubMenu, vFTMaintrans)
+		Call cekMutasi("Infaq", vFTInfaq, dtSOFChanges, UsernameT24, PasswordT24)
+		Call cekJurnal("Infaq", vFTInfaq, UsernameT24, PasswordT24)
+		
+	ElseIf dtScenarioName = "Zakat - Dompet Dhuafa Positive" Then
+		'positive case
+		Call react.Addtitle(dtTitle) 'dari excel fitur
+		Call LoginSuperApp(dtPassword) 'dari excel config
+		Call ChooseMenuDashboard(dtMenu) 
+		Call ChooseSubMenu_Ziswaf(dtSubMenu)
+		Call InputZakat(dtAmilZakat, dtNominalZakat, dtCatatan)
+		Call ChangeSourceAccount(dtSOFChanges, dtSubMenu)
+		Call LanjutkanTransaksi_BayarZakat()
+		Call ConfirmTransaction_Zakat()
+		Call InputPinTransaction(dtPIN)
+		Call SuccessTransaction_Zakat()
+		Call InfaqTransaction(dtNominalInfaq)
+		Call cekMutasi(dtSubMenu, vFTMaintrans, dtSOFChanges)
+		Call cekJurnal(dtSubMenu, vFTMaintrans)
+		Call cekMutasi("Infaq", vFTInfaq, dtSOFChanges, UsernameT24, PasswordT24)
+		Call cekJurnal("Infaq", vFTInfaq, UsernameT24, PasswordT24)
+		
+'	ElseIf dtScenarioName = "Pembayaran PBB - Negative" Then
+'		'negative case
+'		Call react.Addtitle(dtTitle)
+'		Call LoginSuperApp(dtPassword)
+'		
+'		If dt_TCID = "Case 4" Then
+'			Call RollBackLimit(dtLimitType1,dtTransTypeLimit,dtNormalNominal,dtPIN)
+'		ElseIf dt_TCID = "Case 5" Then
+'			Call RollBackLimit(dtLimitType2,dtTransTypeLimit,dtNormalNominal,dtPIN)
+'		End If
+'		
+'		If dt_TCID = "Case 3" or dt_TCID = "Case 4" Then
+'			Call ChangeLimitTransaction(dtLimitType1,dtTransTypeLimit,dtNominalChanges,dtPIN)
+'		End If
+'		
+'		Call ChooseMenuDashboard("BayarBeli")
+'		Call ChooseSubMenu("Pajak Bumi & Bangunan")
+'		Call InputPBB(dtNPWPD, dtTahun)
+'		
+'		If dt_TCID = "Case 3" or dt_TCID = "Case 4" or dt_TCID = "Case 6" Then
+'			Call ConfirmTransaction_BayarBeli_PBB()
+'		End If
+'		
+'		If dt_TCID = "Case 6" Then
+'			Call InputFalsePinTransaction(dtPIN)
+'			Call InputFalsePinTransaction(dtPIN)
+'			Call BackDevice()
+'			Call InputPinTransactionNoSS(dtPIN)
+'		Else
+'			Call ValidasiTransaksi_BayarBeli(dtValidasi)
+'		End If
+'		Call RestartApp()
+	Else
+		print "Test Case Not Found"
+	End If
+End Sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'
+'Sub Scenario_Positive(byVal ScenarioNumber)
+'	
+'	
+'	Select Case ScenarioNumber
+'	
+'		Case "1"
+'			Call react.Addtitle("Pembayaran PBB")
+'			Call LoginSuperApp(dtPassword)
+'			Call ChooseMenuDashboard(dtMenu)
+'			Call ChooseSubMenu(dtSubMenu)
+'			Call InputPBB(dtNPWPD, dtTahun)
+'			Call ChangeSourceAccount(dtSOFChanges)
+'			Call ConfirmTransaction_BayarBeli_PBB()
+'			Call InputPinTransaction(dtPIN)
+'			Call SuccessTransaction_BayarBeli_PBB()
+'			Call InfaqTransaction(dtNominalInfaq)
+'			Call cekMutasi(dtSubMenu, vFTMaintrans, dtSOFChanges)
+'			Call cekJurnal(dtSubMenu, vFTMaintrans)
+'			Call cekMutasi("Infaq", vFTInfaq, dtSOFChanges)
+'			Call cekJurnal("Infaq", vFTInfaq)
+'			
+'		
+'	End Select
+'	
+'End Sub
+'
+'
+'Sub Scenario_Negative(byVal ScenarioNumber)
+'	
+'	
+'	Select Case ScenarioNumber
+'	
+'		Case "1"
+'			Call react.Addtitle("Input Pembayaran PBB dengan Nomor yang Salah")
+'			Call LoginSuperApp(dtPassword)
+'			Call ChooseMenuDashboard(dtMenu)
+'			Call ChooseSubMenu(dtSubMenu)
+'			Call InputPBB(dtNPWPDSalah, dtTahun)
+'			Call ValidasiTransaksi_BayarBeli(dtValidateNoSalah)
+'			Call RestartApp()
+'			
+'		
+'		Case "2"
+'			Call react.Addtitle("Input Pembayaran PBB dengan Nomor yang Sudah Lunas")
+'			Call LoginSuperApp(dtPassword)
+'			Call ChooseMenuDashboard(dtMenu)
+'			Call ChooseSubMenu(dtSubMenu)
+'			Call InputPBB(dtNPWPDLunas, dtTahun)
+'			Call ValidasiTransaksi_BayarBeli(dtValidateNoLunas)
+'			Call RestartApp()
+'			
+'		Case "3"
+'			Call react.Addtitle("Transaksi Terkena 'Limit Transaksi' ")
+'			Call LoginSuperApp(dtPassword)
+'			Call ChangeLimitTransaction(dtLimitType1,dtTransTypeLimit,dtNominalChanges,dtPIN)
+'			Call ChooseMenuDashboard(dtMenu)
+'			Call ChooseSubMenu(dtSubMenu)
+'			Call InputPBB(dtNPWPD, dtTahun)
+'			Call ConfirmTransaction_BayarBeli_PBB()
+'			Call ValidasiTransaksi_BayarBeli(dtValidateLimitTrans)
+'			Call RestartApp()
+'			
+'			
+'		Case "4"
+'			Call react.Addtitle("Transaksi Terkena 'Limit Harian' ")
+'			Call LoginSuperApp(dtPassword)
+'			''Rollback Limit
+'			Call RollBackLimit(dtLimitType1,dtTransTypeLimit,dtNormalNominal,dtPIN)
+'			'msgbox "wait"
+'			Call ChangeLimitTransaction(dtLimitType2,dtTransTypeLimit,dtNominalChanges,dtPIN)
+'			Call ChooseMenuDashboard(dtMenu)
+'			Call ChooseSubMenu(dtSubMenu)
+'			Call InputPBB(dtNPWPD, dtTahun)
+'			Call ConfirmTransaction_BayarBeli_PBB()
+'			Call ValidasiTransaksi_BayarBeli(dtValidateLimitHarian)
+'			Call RestartApp()
+'			
+'			
+'		Case "5"
+'			Call react.Addtitle("Transaksi Terkena 'Saldo Tidak Cukup' ")
+'			Call LoginSuperApp(dtPassword)
+'			''Rollback Limit
+'			Call RollBackLimit(dtLimitType2,dtTransTypeLimit,dtNormalNominal,dtPIN)
+'			'msgbox "wait"
+'			Call ChooseMenuDashboard(dtMenu)
+'			Call ChooseSubMenu(dtSubMenu)
+'			Call InputPBB(dtNPWPD, dtTahun)
+'			Call ChangeSourceAccount(dtSOFSaldoKurang)
+'			Call ConfirmTransaction_BayarBeli_PBB()
+'			Call ValidasiTransaksi_BayarBeli(dtValidateSofKurang)
+'			Call RestartApp()
+'			
+'		Case "6"
+'			Call react.Addtitle("Transaksi Input Pin Salah")
+'			Call LoginSuperApp(dtPassword)
+'			Call ChooseMenuDashboard(dtMenu)
+'			Call ChooseSubMenu(dtSubMenu)
+'			Call InputPBB(dtNPWPD, dtTahun)
+'			Call ConfirmTransaction_BayarBeli_PBB()
+'			Call InputFalsePinTransaction(dtPIN)
+'			Call InputFalsePinTransaction(dtPIN)
+'			Call BackDevice()
+'			Call InputPinTransactionNoSS(dtPIN)
+'			Call RestartApp()
+'			
+'			
+''		Case "7"
+''			Call react.Addtitle("Test Rollback")
+''			Call LoginSuperApp(dtPassword)
+''			Call RollBackLimit(dtLimitType2,dtTransTypeLimit,dtNormalNominal,dtPIN)
+'		
+'		
+'	
+'		
+'	End Select
+'	
+'End Sub
+
+
+
+
+
+

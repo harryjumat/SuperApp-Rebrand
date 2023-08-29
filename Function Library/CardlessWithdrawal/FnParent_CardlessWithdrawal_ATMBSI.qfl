@@ -1,0 +1,76 @@
+﻿''Import Function Library
+Call LoadFunctionLibrary(Environment("TestDir") & "\..\..\..\Function Library\Cardless Withdrawal\FnLibrary_CardlessWithdrawal.qfl")
+
+Dim UsernameT24, PasswordT24, URLT24
+
+''Deklarasi Variable
+''Config SuperApp Account
+dtPassword					= DataTable.Value ("PASSWORD", "Config")
+dtPIN						= DataTable.Value ("PIN", "Config")
+dtNominalInfaq				= DataTable.Value ("NOMINAL_INFAQ", "Config")
+
+'Config T24
+UsernameT24				= DataTable.Value ("T24_USERNAME", "T24")
+PasswordT24				= DataTable.Value ("T24_PASSWORD", "T24")
+URLT24						= DataTable.Value ("T24_URL", "T24")
+
+
+dtScenarioName				= DataTable.Value ("SCENARIO_NAME", "SuperApp")
+dtTitle						= DataTable.Value ("TITLE", "SuperApp")
+dtLokasiPenarikan			= DataTable.Value ("LOKASI_PENARIKAN", "SuperApp")
+
+dtMenu					= "TarikTunai"
+
+Sub ScenarioTestCase()
+	dt_TCID = DataTable.Value ("TC_ID", "SuperApp")
+	print dt_TCID
+	If dtScenarioName = "Tarik Tunai Tanpa Kartu ATM BSI - Positive" Then
+	
+		'positive case
+		print dtLokasiPenarikan
+		Call react.Addtitle(dtTitle)
+		Call LoginSuperApp(dtPassword)
+		Call ChooseMenuDashboard(dtMenu) 
+		Call LokasiPenarikan(dtLokasiPenarikan)
+		Call InputPinTransaction(dtPIN)
+		Call PilihNominal()
+		Call PilihRekening()
+		Call KonfirmasiTransaksi()
+		Call InputPinTransaction(dtPIN)
+		Call SuccessTransaction_TarikTunai()
+		Call DownloadResi(dtLokasiPenarikan)
+'		Call InfaqTransaction()
+		Call InfaqTransaction(dtNominalInfaq)
+		Call Notifikasi()		
+		Call cekMutasi("Infaq", vFTInfaq, dtSOFChanges, UsernameT24, PasswordT24)
+		Call cekJurnal("Infaq", vFTInfaq, UsernameT24, PasswordT24)		
+		Call RestartApp()
+		
+	ElseIf dtScenarioName = "Tarik Tunai Tanpa Kartu Gerai Indomaret - Positive" Then
+	
+		'positive case
+		print dtLokasiPenarikan
+		Call react.Addtitle(dtTitle)
+		Call LoginSuperApp(dtPassword)
+		Call ChooseMenuDashboard(dtMenu) 
+		Call LokasiPenarikan(dtLokasiPenarikan)
+		Call InputPinTransaction(dtPIN)
+		Call PilihNominal()
+		Call PilihRekening()
+		Call KonfirmasiTransaksi()
+		Call InputPinTransaction(dtPIN)
+		Call SuccessTransaction_TarikTunai()
+		Call DownloadResi(dtLokasiPenarikan)
+'		Call InfaqTransaction()
+		Call InfaqTransaction(dtNominalInfaq)
+		Call Notifikasi()		
+		Call cekMutasi("Infaq", vFTInfaq, dtSOFChanges, UsernameT24, PasswordT24)
+		Call cekJurnal("Infaq", vFTInfaq, UsernameT24, PasswordT24)		
+		Call RestartApp()
+		
+	Else
+	
+		print "Test Case Not Found"
+		
+	End If
+End Sub
